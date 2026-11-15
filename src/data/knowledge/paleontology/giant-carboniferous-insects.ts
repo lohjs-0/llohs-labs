@@ -34,12 +34,15 @@ export const giantCarboniferousInsects: KnowledgePost = {
       en: "Reconstruction of a giant dragonfly-like insect flying over a Paleozoic forest.",
     },
 
+   
     caption: {
       pt: "Meganeuropsis foi um dos maiores insetos voadores conhecidos e viveu durante o Permiano.",
       en: "Meganeuropsis was among the largest known flying insects and lived during the Permian.",
     },
+  },
 
   sections: [
+
     {
       id: "introduction",
       heading: {
