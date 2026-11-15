@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import "../styles/CTI001Page.css";
 
-const ASSETS = "/research/cti-001";
+const ASSETS = `${import.meta.env.BASE_URL}research/cti-001`;
 
 type Lang = "pt" | "en";
 type Localized = { pt: string; en: string };
@@ -70,11 +70,50 @@ function Figure({
   caption: Localized;
   lang: Lang;
 }) {
+  const [imageError, setImageError] = useState(false);
+
+  useEffect(() => {
+    setImageError(false);
+  }, [src]);
+
   return (
     <figure className="cti-report-figure">
       <div className="cti-figure-frame">
-        <img src={src} alt={alt[lang]} loading="lazy" />
+        {imageError ? (
+          <div
+            role="status"
+            style={{
+              padding: "32px 16px",
+              textAlign: "center",
+              color: "#999",
+              fontSize: "13px",
+              overflowWrap: "anywhere",
+            }}
+          >
+            <p>
+              {lang === "pt"
+                ? "Não foi possível carregar esta figura."
+                : "Unable to load this figure."}
+            </p>
+            <small>{src}</small>
+          </div>
+        ) : (
+          <img
+            src={src}
+            alt={alt[lang]}
+            loading="lazy"
+            decoding="async"
+            onError={() => setImageError(true)}
+            style={{
+              display: "block",
+              width: "100%",
+              height: "auto",
+              objectFit: "contain",
+            }}
+          />
+        )}
       </div>
+
       <figcaption>
         <span>
           {lang === "pt" ? "FIGURA" : "FIGURE"} {number}
