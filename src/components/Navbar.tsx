@@ -8,6 +8,7 @@ const links = [
   { key: "blog", path: "/blog" },
   { key: "projects", path: "/projects" },
   { key: "research", path: "/research" },
+  { key: "labs", path: "/labs/steganography" },
   { key: "knowledge", path: "/knowledge" },
   { key: "notes", path: "/notes" },
   { key: "about", path: "/about" },
@@ -37,11 +38,13 @@ export default function Navbar() {
               ? i18n.resolvedLanguage === "en"
                 ? "knowledge"
                 : "conhecimento"
-              : key === "research"
-                ? t("nav.research", {
-                    defaultValue: "research",
-                  })
-                : t(`nav.${key}`)}
+              : key === "labs"
+                ? "labs"
+                : key === "research"
+                  ? t("nav.research", {
+                      defaultValue: "research",
+                    })
+                  : t(`nav.${key}`)}
           </NavLink>
         ))}
       </nav>
