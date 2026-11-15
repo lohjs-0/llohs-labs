@@ -440,59 +440,56 @@ export default function KnowledgeArticle() {
         </div>
       </div>
 
-      {/* IMAGE LIGHTBOX */}
+     
+        {/* IMAGE LIGHTBOX */}
 
-      {viewer && (
-        <div
-          className="knowledge-lightbox"
-          role="presentation"
-          onMouseDown={(event) => {
-            if (
-              event.target === event.currentTarget
-            ) {
-              setViewer(null);
-            }
-          }}
-        >
+        {viewer && (
           <div
-            className="knowledge-lightbox-dialog"
-            role="dialog"
-            aria-modal="true"
-            aria-label={
-              language === "pt"
-                ? "Visualização ampliada"
-                : "Expanded image view"
-            }
+            className="knowledge-lightbox"
+            role="presentation"
+            onMouseDown={(event) => {
+              if (event.target === event.currentTarget) {
+                setViewer(null);
+              }
+            }}
           >
-            <button
-              type="button"
-              className="knowledge-lightbox-close"
-              onClick={() => setViewer(null)}
+            <div
+              className="knowledge-lightbox-dialog"
+              role="dialog"
+              aria-modal="true"
               aria-label={
                 language === "pt"
-                  ? "Fechar imagem"
-                  : "Close image"
+                  ? "Visualização ampliada"
+                  : "Expanded image view"
               }
-              autoFocus
             >
-              ×
-            </button>
+              <button
+                type="button"
+                className="knowledge-lightbox-close"
+                onClick={() => setViewer(null)}
+                aria-label={
+                  language === "pt"
+                    ? "Fechar imagem"
+                    : "Close image"
+                }
+                autoFocus
+              >
+                ×
+              </button>
 
-            <img
-              src={viewer.src}
-              alt={viewer.alt}
-            />
+              <img
+                src={viewer.src}
+                alt={viewer.alt}
+              />
 
-            {viewer.caption && (
-              <div className="knowledge-lightbox-caption">
-                <p>{viewer.caption}</p>
-              </div>
-            )}
+              {viewer.caption && (
+                <div className="knowledge-lightbox-caption">
+                  <p>{viewer.caption}</p>
+                </div>
+              )}
+            </div>
           </div>
-            )}
-          </div>
-        </div>
-      )}
-    </article>
+        )}
+      </article>
   );
 }
