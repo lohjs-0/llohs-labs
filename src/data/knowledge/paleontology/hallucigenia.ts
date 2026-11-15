@@ -33,12 +33,15 @@ export const hallucigenia: KnowledgePost = {
       en: "Scientific reconstruction of Hallucigenia, showing dorsal spines and small legs.",
     },
 
+   
     caption: {
       pt: "Hallucigenia, um pequeno animal marinho que viveu durante o Cambriano.",
       en: "Hallucigenia, a small marine animal that lived during the Cambrian.",
     },
+  },
 
   sections: [
+
     {
       id: "introduction",
       heading: {
