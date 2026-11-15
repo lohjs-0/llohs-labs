@@ -412,28 +412,35 @@ export default function KnowledgeArticle() {
                 </span>
               </summary>
 
-              <nav
-                aria-label={
-                  language === "pt"
-                    ? "Nesta página"
-                    : "On this page"
-                }
-              >
-                {post.sections.map(
-                  (section, index) => (
-                    <a
-                      key={section.id ?? index}
-                      href={`#section-${index + 1}`}
-                    >
-                      {String(index + 1).padStart(
-                        2,
-                        "0"
-                      )}{" "}
-                      / {section.heading[language]}
-                    </a>
-                  )
-                )}
-              </nav>
+             
+<nav
+  aria-label={
+    language === "pt"
+      ? "Nesta página"
+      : "On this page"
+  }
+>
+  {post.sections.map((section, index) => (
+    <a
+      key={section.id ?? index}
+      href={`#section-${index + 1}`}
+      onClick={(event) => {
+        event.preventDefault();
+
+        document
+          .getElementById(`section-${index + 1}`)
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+      }}
+    >
+      {String(index + 1).padStart(2, "0")} /{" "}
+      {section.heading[language]}
+    </a>
+  ))}
+</nav>
+
             </details>
           </aside>
 
