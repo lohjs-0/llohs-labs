@@ -1,6 +1,6 @@
 
 ---
-title: arch linux — apparently i enjoy suffering
+title: arch linux
 description: about wanting to understand linux, customize absolutely everything, and turn curiosity into problems i have to solve myself.
 date: 2026-11-15
 tags: [linux, arch linux, operating systems, customization]
