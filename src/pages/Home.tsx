@@ -49,7 +49,7 @@ export default function Home() {
         <h1 className="home-name">llohs</h1>
 
         <p className="home-quote">
-          Understanding what lies beneath.
+          The things we love destroy us every time.
         </p>
 
         {/* =====================================
