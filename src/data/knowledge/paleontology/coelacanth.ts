@@ -33,12 +33,15 @@ export const coelacanth: KnowledgePost = {
       en: "Coelacanth swimming in deep water.",
     },
 
+   
     caption: {
       pt: "Os celacantos modernos pertencem ao gênero Latimeria.",
       en: "Modern coelacanths belong to the genus Latimeria.",
     },
+  },
 
   sections: [
+
     {
       id: "introduction",
       heading: {
