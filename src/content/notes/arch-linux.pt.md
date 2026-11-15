@@ -1,6 +1,6 @@
 
 ---
-title: arch linux — aparentemente eu gosto de sofrer
+title: arch linux
 description: sobre querer entender melhor o linux, personalizar absolutamente tudo e transformar curiosidade em problemas que eu mesma preciso resolver.
 date: 2026-11-15
 tags: [linux, arch linux, sistemas operacionais, personalização]
