@@ -3168,3 +3168,37 @@ td {
     margin-top: 12px;
   }
 }
+
+
+/* LLOHS LABS / MOBILE NAVBAR */
+
+@media (max-width: 768px) {
+  .navbar nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .navbar nav a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 15px;
+    border: 1px solid #303030;
+    border-radius: 8px;
+    background: #191919;
+    font-size: 13px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+
+  .navbar nav a:hover,
+  .navbar nav a.active {
+    background: #303030;
+    color: #fff;
+    border-color: #555;
+  }
+}
+
+
