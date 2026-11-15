@@ -18,6 +18,9 @@ import KnowledgeArticle from "./pages/KnowledgeArticle";
 
 import CTI001Page from "./pages/CTI001Page";
 
+// INTERACTIVE LABS
+import SteganographyLab from "./pages/SteganographyLab";
+
 import "./styles/global.css";
 
 export default function App() {
@@ -55,6 +58,12 @@ export default function App() {
             <Route
               path="/research/cti-001"
               element={<CTI001Page />}
+            />
+
+            {/* INTERACTIVE LABS */}
+            <Route
+              path="/labs/steganography"
+              element={<SteganographyLab />}
             />
 
             <Route path="/about" element={<About />} />
