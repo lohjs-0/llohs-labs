@@ -565,3 +565,24 @@
     flex-direction: column;
   }
 }
+
+
+/* =========================================
+   LLOHS LABS — UNIFORM BACKGROUND
+========================================= */
+
+.steg-page {
+  background: transparent;
+}
+
+.steg-container {
+  background: transparent;
+}
+
+.steg-header,
+.steg-layout,
+.steg-breadcrumb,
+.steg-footer {
+  background: transparent;
+}
+
