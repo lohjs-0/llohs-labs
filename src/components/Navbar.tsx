@@ -39,7 +39,7 @@ export default function Navbar() {
                 : "conhecimento"
               : key === "research"
                 ? t("nav.research", {
-                    defaultValue: "Research",
+                    defaultValue: "research",
                   })
                 : t(`nav.${key}`)}
           </NavLink>
