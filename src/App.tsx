@@ -21,57 +21,94 @@ import CTI001Page from "./pages/CTI001Page";
 
 import "./styles/global.css";
 
+// Configuração automática de rotas
+// GitHub Pages: /llohs-labs/
+// Localhost: /
+
+const basename = import.meta.env.PROD
+  ? "/llohs-labs"
+  : "/";
+
 export default function App() {
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <BrowserRouter basename={basename}>
       <div className="site-container">
         <Navbar />
 
         <main>
           <Routes>
-            {/* Home */}
-            <Route path="/" element={<Home />} />
+            {/* HOME */}
+            <Route
+              path="/"
+              element={<Home />}
+            />
 
-            {/* Blog */}
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<BlogPost />} />
+            {/* BLOG */}
+            <Route
+              path="/blog"
+              element={<Blog />}
+            />
 
-            {/* Projects */}
-            <Route path="/projects" element={<Projects />} />
+            <Route
+              path="/blog/:slug"
+              element={<BlogPost />}
+            />
+
+            {/* PROJECTS */}
+            <Route
+              path="/projects"
+              element={<Projects />}
+            />
+
             <Route
               path="/projects/:slug"
               element={<ProjectDetail />}
             />
 
-            {/* Notes */}
-            <Route path="/notes" element={<Notes />} />
+            {/* NOTES */}
+            <Route
+              path="/notes"
+              element={<Notes />}
+            />
+
             <Route
               path="/notes/:slug"
               element={<NoteDetail />}
             />
 
-            {/* Knowledge */}
+            {/* KNOWLEDGE */}
             <Route
               path="/knowledge"
               element={<Knowledge />}
             />
+
             <Route
               path="/knowledge/:slug"
               element={<KnowledgeArticle />}
             />
 
-            {/* Research / LLOHS LABS */}
+            {/* RESEARCH */}
             <Route
               path="/research"
               element={<Research />}
             />
+
             <Route
               path="/research/cti-001"
               element={<CTI001Page />}
             />
 
-            {/* About */}
-            <Route path="/about" element={<About />} />
+            {/* ABOUT */}
+            <Route
+              path="/about"
+              element={<About />}
+            />
+
+            {/* FALLBACK */}
+            <Route
+              path="*"
+              element={<Home />}
+            />
           </Routes>
         </main>
 
