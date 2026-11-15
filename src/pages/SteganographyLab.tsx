@@ -1,6 +1,6 @@
 
 import { useEffect, useState, type ChangeEvent } from "react";
-import "./SteganographyLab.css";
+import "../styles/SteganographyLab.css";
 
 type Mode = "embed" | "extract";
 
