@@ -41,10 +41,10 @@ export const bloodFalls: KnowledgePost = {
       en: "Blood Falls, at Taylor Glacier, displays reddish deposits associated with the discharge of iron-rich brine.",
     },
 
-    credit: "A definir conforme a fotografia escolhida",
+    credit: "O Antagonista",
 
     sourceUrl:
-      "https://en.wikipedia.org/wiki/Blood_Falls",
+      "https://oantagonista.com.br/ladooa/entretenimento/uma-cachoeira-vermelha-escorre-de-uma-geleira-na-antartida-porque-agua-salgada-presa-sob-o-gelo-carrega-ferro-que-muda-de-cor-ao-entrar-em-contato-com-o-ar/",
   },
 
   sections: [
