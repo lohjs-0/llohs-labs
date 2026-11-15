@@ -702,3 +702,38 @@
     top: 28px;
   }
 }
+
+
+/* TABLE OF CONTENTS NAVIGATION */
+
+.technical-article-toc-link {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+
+  color: #999;
+  font: inherit;
+  font-size: 11px;
+  line-height: 1.8;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.technical-article-toc-link:hover {
+  color: #e8e8e8;
+}
+
+.technical-article-toc-link:focus-visible {
+  outline: 1px solid #aaa;
+  outline-offset: 4px;
+}
+
+.technical-project-section {
+  scroll-margin-top: 35px;
+}
