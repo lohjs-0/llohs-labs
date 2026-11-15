@@ -34,12 +34,15 @@ export const sharksOlderThanTrees: KnowledgePost = {
       en: "Reconstruction of an ancient shark swimming in a prehistoric ocean.",
     },
 
+   
     caption: {
       pt: "A história evolutiva dos tubarões e de seus parentes remonta a mais de 400 milhões de anos.",
       en: "The evolutionary history of sharks and their relatives extends back more than 400 million years.",
     },
+  },
 
   sections: [
+
     {
       id: "introduction",
       heading: {
