@@ -1,14 +1,21 @@
 
+/* =========================================
+   LLOHS LABS — STEGANOGRAPHY LAB
+   Monochrome / Minimal / Technical
+========================================= */
+
 .steg-page {
-  --steg-bg: #0d0d0e;
-  --steg-panel: #141416;
-  --steg-border: #29292d;
-  --steg-text: #e9e7e4;
-  --steg-muted: #85848b;
-  --steg-accent: #dc3545;
+  --steg-bg: #0e0e0e;
+  --steg-panel: #141414;
+  --steg-surface: #191919;
+  --steg-border: #2c2c2c;
+  --steg-text: #e8e8e8;
+  --steg-muted: #858585;
+  --steg-accent: #c8c8c8;
 
   color: var(--steg-text);
-  padding: 52px 24px 90px;
+  background: var(--steg-bg);
+  padding: 48px 24px 90px;
   font-family: inherit;
 }
 
@@ -17,13 +24,15 @@
   margin: 0 auto;
 }
 
+/* BREADCRUMB */
+
 .steg-breadcrumb {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   color: var(--steg-muted);
   font-size: 11px;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.08em;
   margin-bottom: 65px;
 }
 
@@ -31,6 +40,8 @@
   color: var(--steg-text);
   font-weight: 500;
 }
+
+/* HEADER */
 
 .steg-header {
   max-width: 720px;
@@ -41,7 +52,7 @@
 .steg-eyebrow {
   color: var(--steg-muted);
   font-size: 11px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   font-weight: 500;
 }
 
@@ -56,28 +67,31 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--steg-accent);
-  box-shadow: 0 0 14px #dc354566;
+  background: #d0d0d0;
+  box-shadow: 0 0 10px #ffffff20;
 }
 
 .steg-header h1 {
   margin: 0 0 18px;
   font-size: clamp(36px, 5vw, 64px);
   font-weight: 600;
-  letter-spacing: -0.065em;
+  letter-spacing: -0.055em;
   line-height: 1.1;
+  color: #f0f0f0;
 }
 
 .steg-accent {
-  color: var(--steg-accent);
+  color: #8b8b8b;
 }
 
 .steg-header p {
-  color: #a4a2a8;
+  color: #a0a0a0;
   font-size: 14px;
   line-height: 1.9;
   max-width: 650px;
 }
+
+/* MAIN LAYOUT */
 
 .steg-layout {
   display: grid;
@@ -90,7 +104,7 @@
 .steg-info-card {
   background: var(--steg-panel);
   border: 1px solid var(--steg-border);
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
 .steg-panel {
@@ -110,7 +124,8 @@
   margin: 9px 0 0;
   font-size: 19px;
   font-weight: 550;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.03em;
+  color: #e8e8e8;
 }
 
 .steg-version {
@@ -118,27 +133,29 @@
   font-size: 11px;
 }
 
+/* ENCODE / DECODE */
+
 .steg-mode {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
   padding: 5px;
   border: 1px solid var(--steg-border);
-  border-radius: 6px;
+  border-radius: 5px;
   margin-bottom: 30px;
-  background: #0f0f11;
+  background: #101010;
 }
 
 .steg-mode button {
   background: transparent;
   border: 1px solid transparent;
   border-radius: 4px;
-  color: var(--steg-muted);
+  color: #818181;
   padding: 13px;
   cursor: pointer;
   font: inherit;
   font-size: 12px;
-  transition: 0.2s ease;
+  transition: background 0.2s, color 0.2s;
 }
 
 .steg-mode button span {
@@ -148,14 +165,16 @@
 }
 
 .steg-mode button.active {
-  background: #252125;
-  border-color: #463039;
-  color: #fff;
+  background: #252525;
+  border-color: #393939;
+  color: #f5f5f5;
 }
 
 .steg-mode button:hover {
-  color: #fff;
+  color: #f5f5f5;
 }
+
+/* FIELDS */
 
 .steg-field {
   margin-bottom: 26px;
@@ -172,22 +191,24 @@
 .steg-field-heading span {
   color: var(--steg-muted);
   font-size: 10px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
 }
+
+/* UPLOAD */
 
 .steg-upload {
   display: block;
-  border: 1px dashed #424047;
-  border-radius: 6px;
-  background: #101012;
+  border: 1px dashed #424242;
+  border-radius: 5px;
+  background: #101010;
   cursor: pointer;
   transition: 0.2s ease;
   overflow: hidden;
 }
 
 .steg-upload:hover {
-  border-color: var(--steg-accent);
-  background: #171316;
+  border-color: #888888;
+  background: #181818;
 }
 
 .steg-file-input {
@@ -215,9 +236,9 @@
   justify-content: center;
   width: 39px;
   height: 39px;
-  border: 1px solid #454047;
-  border-radius: 6px;
-  color: var(--steg-accent);
+  border: 1px solid #454545;
+  border-radius: 5px;
+  color: #d0d0d0;
   font-size: 25px;
   margin-bottom: 5px;
 }
@@ -225,6 +246,7 @@
 .steg-upload-empty strong {
   font-size: 13px;
   font-weight: 500;
+  color: #e0e0e0;
 }
 
 .steg-upload-empty > span:last-child {
@@ -256,6 +278,7 @@
 
 .steg-preview strong {
   font-size: 12px;
+  color: #e6e6e6;
   overflow-wrap: anywhere;
 }
 
@@ -264,6 +287,8 @@
   font-size: 11px;
 }
 
+/* MESSAGE INPUT */
+
 .steg-field textarea {
   display: block;
   width: 100%;
@@ -271,23 +296,26 @@
   resize: vertical;
   min-height: 145px;
   padding: 17px;
-  border: 1px solid #343239;
-  border-radius: 6px;
+  border: 1px solid #343434;
+  border-radius: 5px;
   outline: none;
-  background: #0f0f11;
-  color: var(--steg-text);
+  background: #101010;
+  color: #e8e8e8;
   font: inherit;
   font-size: 12px;
   line-height: 1.8;
+  transition: border-color 0.2s;
 }
 
 .steg-field textarea:focus {
-  border-color: var(--steg-accent);
+  border-color: #888888;
 }
 
 .steg-field textarea::placeholder {
-  color: #68666d;
+  color: #686868;
 }
+
+/* EXECUTE BUTTON */
 
 .steg-execute {
   width: 100%;
@@ -295,27 +323,29 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid var(--steg-accent);
-  border-radius: 5px;
-  background: var(--steg-accent);
-  color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 4px;
+  background: #dedede;
+  color: #111111;
   font: inherit;
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.06em;
   cursor: pointer;
   transition: 0.2s ease;
 }
 
 .steg-execute:hover:not(:disabled) {
-  background: #b82736;
-  border-color: #b82736;
+  background: #bdbdbd;
+  border-color: #bdbdbd;
 }
 
 .steg-execute:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: wait;
 }
+
+/* RESULTS */
 
 .steg-alert,
 .steg-result {
@@ -326,14 +356,14 @@
 }
 
 .steg-error {
-  border: 1px solid #70313a;
-  background: #2a171b;
-  color: #ff9ba6;
+  border: 1px solid #686868;
+  background: #222222;
+  color: #e4e4e4;
 }
 
 .steg-result {
-  border: 1px solid #355748;
-  background: #13201a;
+  border: 1px solid #454545;
+  background: #1b1b1b;
 }
 
 .steg-result-heading {
@@ -341,31 +371,37 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  color: #8bceab;
+  color: #bdbdbd;
   font-size: 10px;
   letter-spacing: 0.1em;
 }
 
 .steg-result-heading button {
-  border: 1px solid #355748;
+  border: 1px solid #505050;
   border-radius: 3px;
   padding: 6px 10px;
   background: transparent;
-  color: #b0dfc5;
+  color: #dedede;
   cursor: pointer;
   font: inherit;
   font-size: 10px;
 }
 
+.steg-result-heading button:hover {
+  background: #303030;
+}
+
 .steg-result pre {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
-  color: #d8e6dc;
+  color: #e0e0e0;
   font: inherit;
   font-size: 12px;
   line-height: 1.8;
   margin: 12px 0 0;
 }
+
+/* SIDEBAR */
 
 .steg-sidebar {
   display: flex;
@@ -381,20 +417,23 @@
   font-size: 17px;
   margin: 13px 0;
   font-weight: 550;
+  color: #e5e5e5;
 }
 
 .steg-info-card p,
 .steg-note p {
-  color: #97949c;
+  color: #969696;
   font-size: 12px;
   line-height: 1.9;
 }
 
+/* BINARY EXAMPLE */
+
 .steg-binary {
   margin-top: 23px;
   padding: 16px;
-  background: #0d0d0f;
-  border: 1px solid #29272c;
+  background: #101010;
+  border: 1px solid #292929;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -413,17 +452,19 @@
 }
 
 .steg-binary code {
-  color: #c7c4ca;
+  color: #c7c7c7;
   font-size: 12px;
 }
 
 .steg-binary code span {
-  color: #777;
+  color: #777777;
 }
 
 .steg-binary code strong {
-  color: var(--steg-accent);
+  color: #ffffff;
 }
+
+/* SYSTEM STATUS */
 
 .steg-status-row {
   display: flex;
@@ -447,18 +488,23 @@
 .steg-status-row strong {
   font-size: 10px;
   font-weight: 500;
+  color: #dedede;
   text-align: right;
 }
+
+/* NOTE */
 
 .steg-note {
   padding: 8px 4px;
 }
 
 .steg-note > span {
-  color: var(--steg-accent);
+  color: #c0c0c0;
   font-size: 10px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
 }
+
+/* FOOTER */
 
 .steg-footer {
   margin-top: 65px;
@@ -472,6 +518,8 @@
   font-size: 10px;
   letter-spacing: 0.07em;
 }
+
+/* RESPONSIVE */
 
 @media (max-width: 850px) {
   .steg-layout {
