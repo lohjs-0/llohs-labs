@@ -320,3 +320,69 @@
     min-height: 220px;
   }
 }
+
+
+/* WIDER LABS LAYOUT */
+
+.labs-page {
+  width: min(1240px, calc(100vw - 64px));
+  max-width: none;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  box-sizing: border-box;
+  padding: 36px 0 90px;
+  background: transparent;
+}
+
+.labs-container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.labs-header {
+  max-width: 850px;
+}
+
+.labs-header p {
+  max-width: 780px;
+}
+
+.labs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.labs-card {
+  min-height: 260px;
+  padding: 26px;
+}
+
+@media (max-width: 900px) {
+  .labs-page {
+    width: calc(100vw - 40px);
+  }
+
+  .labs-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .labs-page {
+    width: calc(100vw - 30px);
+    padding: 24px 0 60px;
+  }
+
+  .labs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .labs-card {
+    min-height: 220px;
+    padding: 22px;
+  }
+}
+
