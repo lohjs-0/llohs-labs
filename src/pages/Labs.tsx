@@ -6,83 +6,83 @@ import "../styles/Labs.css";
 const labs = [
   {
     id: "01",
-    name: "Steganography",
+    name: "steganography",
     description: {
-      pt: "Ocultação de mensagens em imagens PNG.",
-      en: "Hiding messages inside PNG images.",
+      pt: "ocultação de mensagens em imagens PNG.",
+      en: "hiding messages inside PNG images.",
     },
     path: "/labs/steganography",
   },
   {
     id: "02",
-    name: "Cryptography Playground",
+    name: "cryptography playground",
     description: {
-      pt: "Cifras, hashes e conceitos de criptografia.",
-      en: "Ciphers, hashes and cryptography concepts.",
+      pt: "cifras, hashes e conceitos de criptografia.",
+      en: "ciphers, hashes and cryptography concepts.",
     },
   },
   {
     id: "03",
-    name: "Binary Inspector",
+    name: "binary inspector",
     description: {
-      pt: "Inspeção de arquivos binários e hexadecimal.",
-      en: "Binary file inspection and hexadecimal.",
+      pt: "inspeção de arquivos binários e hexadecimal.",
+      en: "binary file inspection and hexadecimal.",
     },
   },
   {
     id: "04",
-    name: "PE Analyzer",
+    name: "PE analyzer",
     description: {
-      pt: "Estrutura de executáveis Windows.",
-      en: "Windows executable structure.",
+      pt: "estrutura de executáveis windows.",
+      en: "windows executable structure.",
     },
   },
   {
     id: "05",
-    name: "8-bit CPU Simulator",
+    name: "8-bit CPU simulator",
     description: {
-      pt: "Registradores e instruções de uma CPU de 8 bits.",
-      en: "Registers and instructions of an 8-bit CPU.",
+      pt: "registradores e instruções de uma CPU de 8 bits.",
+      en: "registers and instructions of an 8-bit CPU.",
     },
   },
   {
     id: "06",
-    name: "Logic Gate Simulator",
+    name: "logic gate simulator",
     description: {
-      pt: "Portas lógicas e circuitos digitais.",
-      en: "Logic gates and digital circuits.",
+      pt: "portas lógicas e circuitos digitais.",
+      en: "logic gates and digital circuits.",
     },
   },
   {
     id: "07",
-    name: "Memory Visualizer",
+    name: "memory visualizer",
     description: {
-      pt: "Bits, endereços e operações de memória.",
-      en: "Bits, addresses and memory operations.",
+      pt: "bits, endereços e operações de memória.",
+      en: "bits, addresses and memory operations.",
     },
   },
   {
     id: "08",
-    name: "Packet Inspector",
+    name: "packet inspector",
     description: {
-      pt: "Estrutura de pacotes e protocolos de rede.",
-      en: "Network packet and protocol structures.",
+      pt: "estrutura de pacotes e protocolos de rede.",
+      en: "network packet and protocol structures.",
     },
   },
   {
     id: "09",
-    name: "Compiler Explorer",
+    name: "compiler explorer",
     description: {
-      pt: "Tokens, parsing e árvores sintáticas.",
-      en: "Tokens, parsing and syntax trees.",
+      pt: "tokens, parsing e árvores sintáticas.",
+      en: "tokens, parsing and syntax trees.",
     },
   },
   {
     id: "10",
-    name: "Entropy Analyzer",
+    name: "entropy analyzer",
     description: {
-      pt: "Distribuição de bytes e entropia de arquivos.",
-      en: "Byte distribution and file entropy.",
+      pt: "distribuição de bytes e entropia de arquivos.",
+      en: "byte distribution and file entropy.",
     },
   },
 ];
@@ -100,8 +100,8 @@ export default function Labs() {
 
         <p className="labs-intro">
           {lang === "pt"
-            ? "Experimentos sobre computação, eletrônica e segurança."
-            : "Experiments in computing, electronics and security."}
+            ? "experimentos sobre computação, eletrônica e segurança."
+            : "experiments in computing, electronics and security."}
         </p>
 
         <div className="labs-list">
