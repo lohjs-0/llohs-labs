@@ -39,6 +39,7 @@ import { naturalNuclearReactor } from "./knowledge/earth-science/natural-nuclear
 import { snowballEarth } from "./knowledge/earth-science/snowball-earth";
 
 import { transistorsDigitalLogic } from "./knowledge/electronics/transistors-digital-logic";
+import { howRamStoresBits } from "./knowledge/electronics/how-ram-stores-bits";
 
 
 // EXPORT TYPES
@@ -58,10 +59,11 @@ export const knowledgePosts: KnowledgePost[] = [
   howCpusExecuteInstructions,
 
   
-  // ELECTRONICS
-  understandingI2c,
-  z80Computer,
-  transistorsDigitalLogic,
+ // ELECTRONICS
+understandingI2c,
+z80Computer,
+transistorsDigitalLogic,
+howRamStoresBits,
 
 
   // ASTRONOMY
