@@ -38,9 +38,6 @@ export const tullyMonster: KnowledgePost = {
       en: "Tullimonstrum gregarium, commonly known as the Tully monster.",
     },
 
-    credit: "Adicionar autor e licença da imagem",
-  },
-
   sections: [
     {
       id: "introduction",
