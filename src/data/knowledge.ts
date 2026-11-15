@@ -44,6 +44,9 @@ import { howRamStoresBits } from "./knowledge/electronics/how-ram-stores-bits";
 // PROGRAMMING
 import { howCompilersWork } from "./knowledge/programming/how-compilers-work";
 
+// CYBERSECURITY
+import { anatomyOfWindowsExecutable } from "./knowledge/cybersecurity/anatomy-of-a-windows-executable";
+
 
 // EXPORT TYPES
 export type {
@@ -60,6 +63,9 @@ export type {
 export const knowledgePosts: KnowledgePost[] = [
   // COMPUTER SCIENCE
   howCpusExecuteInstructions,
+
+  // CYBERSECURITY
+anatomyOfWindowsExecutable,
 
   
  // ELECTRONICS
