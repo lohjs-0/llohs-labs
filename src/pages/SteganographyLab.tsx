@@ -1,15 +1,13 @@
 
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
+import "./SteganographyLab.css";
 
 type Mode = "embed" | "extract";
 
 const MAGIC = new TextEncoder().encode("LLSB");
 const HEADER_SIZE = 8;
 
-async function readImage(file: File): Promise<{
-  canvas: HTMLCanvasElement;
-  ctx: CanvasRenderingContext2D;
-}> {
+async function readImage(file: File) {
   const url = URL.createObjectURL(file);
 
   try {
@@ -26,17 +24,18 @@ async function readImage(file: File): Promise<{
     });
 
     if (!ctx) {
-      throw new Error("Não foi possível acessar o Canvas.");
+      throw new Error("Canvas indisponível.");
     }
 
     ctx.drawImage(image, 0, 0);
+
     return { canvas, ctx };
   } finally {
     URL.revokeObjectURL(url);
   }
 }
 
-function createPayload(message: string): Uint8Array {
+function createPayload(message: string) {
   const text = new TextEncoder().encode(message);
 
   if (text.length > 0xffffffff) {
@@ -44,28 +43,22 @@ function createPayload(message: string): Uint8Array {
   }
 
   const payload = new Uint8Array(HEADER_SIZE + text.length);
-  payload.set(MAGIC, 0);
+  payload.set(MAGIC);
 
-  const view = new DataView(payload.buffer);
-  view.setUint32(4, text.length, false);
-
+  new DataView(payload.buffer).setUint32(4, text.length, false);
   payload.set(text, HEADER_SIZE);
+
   return payload;
 }
 
-function embedBits(
-  imageData: ImageData,
-  message: string
-): void {
+function embedBits(data: ImageData, message: string) {
   const payload = createPayload(message);
-  const pixels = imageData.data;
+  const pixels = data.data;
   const capacity = (pixels.length / 4) * 3;
   const required = payload.length * 8;
 
   if (required > capacity) {
-    throw new Error(
-      "A imagem é pequena demais para essa mensagem."
-    );
+    throw new Error("A imagem não possui capacidade suficiente.");
   }
 
   let bitIndex = 0;
@@ -82,8 +75,8 @@ function embedBits(
   }
 }
 
-function extractBits(imageData: ImageData): string {
-  const pixels = imageData.data;
+function extractBits(data: ImageData) {
+  const pixels = data.data;
   const capacity = (pixels.length / 4) * 3;
 
   if (capacity < HEADER_SIZE * 8) {
@@ -92,7 +85,7 @@ function extractBits(imageData: ImageData): string {
 
   let position = 0;
 
-  function readByte(): number {
+  function readByte() {
     let value = 0;
 
     for (let bit = 0; bit < 8; bit++) {
@@ -117,17 +110,14 @@ function extractBits(imageData: ImageData): string {
 
   for (let i = 0; i < MAGIC.length; i++) {
     if (header[i] !== MAGIC[i]) {
-      throw new Error(
-        "Nenhuma mensagem LSB-01 foi encontrada."
-      );
+      throw new Error("Nenhuma mensagem LSB-01 encontrada.");
     }
   }
 
-  const view = new DataView(header.buffer);
-  const length = view.getUint32(4, false);
+  const length = new DataView(header.buffer).getUint32(4, false);
 
   if ((HEADER_SIZE + length) * 8 > capacity) {
-    throw new Error("O tamanho da mensagem é inválido.");
+    throw new Error("Dados inválidos ou corrompidos.");
   }
 
   const message = new Uint8Array(length);
@@ -144,10 +134,24 @@ function extractBits(imageData: ImageData): string {
 export default function SteganographyLab() {
   const [mode, setMode] = useState<Mode>("embed");
   const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState("");
   const [message, setMessage] = useState("");
   const [result, setResult] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (!file) {
+      setPreview("");
+      return;
+    }
+
+    const url = URL.createObjectURL(file);
+    setPreview(url);
+
+    return () => URL.revokeObjectURL(url);
+  }, [file]);
 
   function handleFile(event: ChangeEvent<HTMLInputElement>) {
     const selected = event.target.files?.[0] ?? null;
@@ -155,6 +159,14 @@ export default function SteganographyLab() {
     setFile(selected);
     setResult("");
     setError("");
+    setCopied(false);
+  }
+
+  function changeMode(next: Mode) {
+    setMode(next);
+    setResult("");
+    setError("");
+    setCopied(false);
   }
 
   async function processImage() {
@@ -164,12 +176,12 @@ export default function SteganographyLab() {
     }
 
     if (file.type !== "image/png") {
-      setError("Este laboratório aceita apenas PNG.");
+      setError("Apenas imagens PNG são aceitas.");
       return;
     }
 
     if (mode === "embed" && !message.length) {
-      setError("Digite uma mensagem.");
+      setError("Digite uma mensagem para ocultar.");
       return;
     }
 
@@ -203,15 +215,16 @@ export default function SteganographyLab() {
 
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
+
         link.href = url;
         link.download = "llohs-lsb-01.png";
         link.click();
 
         setTimeout(() => URL.revokeObjectURL(url), 1000);
-        setResult("Mensagem incorporada! PNG gerado.");
+
+        setResult("Mensagem incorporada com sucesso. O PNG foi gerado.");
       } else {
-        const extracted = extractBits(data);
-        setResult(extracted);
+        setResult(extractBits(data));
       }
     } catch (err) {
       setError(
@@ -224,111 +237,236 @@ export default function SteganographyLab() {
     }
   }
 
+  async function copyResult() {
+    try {
+      await navigator.clipboard.writeText(result);
+      setCopied(true);
+    } catch {
+      setError("Não foi possível copiar a mensagem.");
+    }
+  }
+
+  const messageBytes = new TextEncoder().encode(message).length;
+  const capacity = file ? "Imagem carregada" : "Aguardando imagem";
+
   return (
-    <main
-      style={{
-        maxWidth: 760,
-        margin: "0 auto",
-        padding: "48px 20px",
-      }}
-    >
-      <p style={{ opacity: 0.65 }}>
-        LLOHS LABS / CYBERSECURITY / LSB-01
-      </p>
-
-      <h1>Steganography Lab</h1>
-
-      <p>
-        Esconda ou recupere mensagens em imagens PNG
-        utilizando o bit menos significativo (LSB).
-      </p>
-
-      <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
-        <button onClick={() => {
-          setMode("embed");
-          setResult("");
-          setError("");
-        }}>
-          Esconder mensagem
-        </button>
-
-        <button onClick={() => {
-          setMode("extract");
-          setResult("");
-          setError("");
-        }}>
-          Extrair mensagem
-        </button>
-      </div>
-
-      <div style={{ marginTop: 28 }}>
-        <label htmlFor="lsb-image">Imagem PNG</label>
-        <input
-          id="lsb-image"
-          type="file"
-          accept="image/png"
-          onChange={handleFile}
-          style={{ display: "block", marginTop: 8 }}
-        />
-      </div>
-
-      {mode === "embed" && (
-        <div style={{ marginTop: 24 }}>
-          <label htmlFor="lsb-message">
-            Mensagem a esconder
-          </label>
-
-          <textarea
-            id="lsb-message"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            rows={5}
-            style={{
-              display: "block",
-              width: "100%",
-              marginTop: 8,
-              padding: 12,
-              boxSizing: "border-box",
-            }}
-          />
+    <div className="steg-page">
+      <div className="steg-container">
+        <div className="steg-breadcrumb">
+          <span>LLOHS LABS</span>
+          <span>/</span>
+          <span>CYBERSECURITY</span>
+          <span>/</span>
+          <strong>LSB-01</strong>
         </div>
-      )}
 
-      <button
-        onClick={processImage}
-        disabled={loading}
-        style={{ marginTop: 24, padding: "12px 20px" }}
-      >
-        {loading
-          ? "Processando..."
-          : mode === "embed"
-            ? "Esconder e salvar PNG"
-            : "Extrair mensagem"}
-      </button>
+        <header className="steg-header">
+          <div className="steg-label">
+            <span className="steg-dot" />
+            INTERACTIVE EXPERIMENT / 001
+          </div>
 
-      {error && (
-        <p role="alert" style={{ color: "#dc3545" }}>
-          {error}
-        </p>
-      )}
+          <h1>
+            Steganography<span className="steg-accent">.</span>
+          </h1>
 
-      {result && (
-        <section style={{ marginTop: 28 }}>
-          <h2>Resultado</h2>
-          <pre style={{
-            whiteSpace: "pre-wrap",
-            overflowWrap: "anywhere",
-          }}>
-            {result}
-          </pre>
-        </section>
-      )}
+          <p>
+            Explore a ocultação de informações em imagens digitais
+            utilizando a técnica Least Significant Bit (LSB).
+            Incorpore uma mensagem em um arquivo PNG e tente
+            recuperá-la.
+          </p>
+        </header>
 
-      <p style={{ marginTop: 36, opacity: 0.7 }}>
-        Processamento local no navegador.
-        Nenhuma imagem é enviada a um servidor.
-        Este experimento não utiliza criptografia.
-      </p>
-    </main>
+        <div className="steg-layout">
+          <section className="steg-panel">
+            <div className="steg-panel-heading">
+              <div>
+                <span className="steg-eyebrow">WORKSPACE</span>
+                <h2>LSB encoder / decoder</h2>
+              </div>
+
+              <span className="steg-version">v1.0</span>
+            </div>
+
+            <div className="steg-mode">
+              <button
+                type="button"
+                className={mode === "embed" ? "active" : ""}
+                onClick={() => changeMode("embed")}
+              >
+                <span>01</span> Encode
+              </button>
+
+              <button
+                type="button"
+                className={mode === "extract" ? "active" : ""}
+                onClick={() => changeMode("extract")}
+              >
+                <span>02</span> Decode
+              </button>
+            </div>
+
+            <div className="steg-field">
+              <div className="steg-field-heading">
+                <label htmlFor="steg-file">INPUT IMAGE</label>
+                <span>PNG ONLY</span>
+              </div>
+
+              <label className="steg-upload" htmlFor="steg-file">
+                {preview ? (
+                  <div className="steg-preview">
+                    <img src={preview} alt="Imagem selecionada" />
+                    <div>
+                      <strong>{file?.name}</strong>
+                      <span>Clique para substituir a imagem</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="steg-upload-empty">
+                    <span className="steg-upload-icon">+</span>
+                    <strong>Selecionar imagem</strong>
+                    <span>Escolha um arquivo PNG para começar</span>
+                  </div>
+                )}
+              </label>
+
+              <input
+                id="steg-file"
+                className="steg-file-input"
+                type="file"
+                accept="image/png"
+                onChange={handleFile}
+              />
+            </div>
+
+            {mode === "embed" && (
+              <div className="steg-field">
+                <div className="steg-field-heading">
+                  <label htmlFor="steg-message">
+                    SECRET MESSAGE
+                  </label>
+                  <span>{messageBytes} BYTES</span>
+                </div>
+
+                <textarea
+                  id="steg-message"
+                  value={message}
+                  onChange={(event) =>
+                    setMessage(event.target.value)
+                  }
+                  placeholder="Digite a mensagem que será escondida nos pixels..."
+                  rows={5}
+                />
+              </div>
+            )}
+
+            {error && (
+              <div className="steg-alert steg-error" role="alert">
+                {error}
+              </div>
+            )}
+
+            {result && (
+              <div className="steg-result">
+                <div className="steg-result-heading">
+                  <span>
+                    {mode === "embed"
+                      ? "ENCODING COMPLETE"
+                      : "EXTRACTED MESSAGE"}
+                  </span>
+
+                  {mode === "extract" && (
+                    <button type="button" onClick={copyResult}>
+                      {copied ? "COPIADO" : "COPIAR"}
+                    </button>
+                  )}
+                </div>
+
+                <pre>{result}</pre>
+              </div>
+            )}
+
+            <button
+              type="button"
+              className="steg-execute"
+              onClick={processImage}
+              disabled={loading}
+            >
+              <span>
+                {loading
+                  ? "PROCESSING..."
+                  : mode === "embed"
+                    ? "ENCODE & DOWNLOAD"
+                    : "EXTRACT MESSAGE"}
+              </span>
+              <span aria-hidden="true">↗</span>
+            </button>
+          </section>
+
+          <aside className="steg-sidebar">
+            <div className="steg-info-card">
+              <span className="steg-eyebrow">ABOUT THIS LAB</span>
+              <h3>Least Significant Bit</h3>
+              <p>
+                Cada canal RGB possui um bit menos significativo.
+                Alterar esse bit modifica o valor da cor em no
+                máximo uma unidade.
+              </p>
+
+              <div className="steg-binary">
+                <div>
+                  <span>ORIGINAL</span>
+                  <code>1001011<span>0</span></code>
+                </div>
+
+                <div>
+                  <span>MODIFIED</span>
+                  <code>1001011<strong>1</strong></code>
+                </div>
+              </div>
+            </div>
+
+            <div className="steg-info-card">
+              <span className="steg-eyebrow">SYSTEM STATUS</span>
+
+              <div className="steg-status-row">
+                <span>Processing</span>
+                <strong>CLIENT-SIDE</strong>
+              </div>
+
+              <div className="steg-status-row">
+                <span>File format</span>
+                <strong>PNG</strong>
+              </div>
+
+              <div className="steg-status-row">
+                <span>Encryption</span>
+                <strong>NONE</strong>
+              </div>
+
+              <div className="steg-status-row">
+                <span>Input</span>
+                <strong>{capacity}</strong>
+              </div>
+            </div>
+
+            <div className="steg-note">
+              <span>NOTE / 001</span>
+              <p>
+                Este laboratório é educacional. A técnica LSB
+                simples não oferece criptografia nem resistência
+                garantida à esteganálise.
+              </p>
+            </div>
+          </aside>
+        </div>
+
+        <footer className="steg-footer">
+          <span>LLOHS LABS — DIGITAL FORENSICS & SECURITY</span>
+          <span>EXPERIMENT 001 / STEGANOGRAPHY</span>
+        </footer>
+      </div>
+    </div>
   );
 }
