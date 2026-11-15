@@ -1277,3 +1277,93 @@
   font-weight: 700;
   letter-spacing: -0.045em;
 }
+
+/* =========================================
+   CTI-001 — FIGURAS E GRÁFICOS RESPONSIVOS
+   ========================================= */
+
+.cti-report-figure {
+  width: 100%;
+  max-width: 100%;
+  margin: 48px 0;
+  overflow: hidden;
+}
+
+.cti-figure-frame {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.cti-figure-frame img {
+  display: block;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  object-fit: contain;
+}
+
+/* Legendas abaixo dos gráficos */
+
+.cti-report-figure figcaption {
+  max-width: 100%;
+  margin-top: 14px;
+  font-size: 12px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.cti-report-figure figcaption span {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: lowercase;
+}
+
+.cti-report-figure figcaption p {
+  margin: 8px 0;
+  font-size: 12px;
+  line-height: 1.7;
+  text-transform: none;
+}
+
+.cti-report-figure figcaption small {
+  display: block;
+  font-size: 9px;
+  line-height: 1.6;
+  letter-spacing: 0.4px;
+  text-transform: lowercase;
+}
+
+/* Evita que o conteúdo ultrapasse a tela */
+
+.cti-report-layout,
+.cti-report-content,
+.cti-content-section {
+  min-width: 0;
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .cti-report-figure {
+    margin: 28px 0;
+  }
+
+  .cti-figure-frame {
+    padding: 0;
+  }
+
+  .cti-report-figure figcaption span {
+    font-size: 9px;
+  }
+
+  .cti-report-figure figcaption p {
+    font-size: 11px;
+  }
+
+  .cti-report-figure figcaption small {
+    font-size: 8px;
+  }
+}
