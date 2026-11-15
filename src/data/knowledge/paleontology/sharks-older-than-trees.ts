@@ -39,9 +39,6 @@ export const sharksOlderThanTrees: KnowledgePost = {
       en: "The evolutionary history of sharks and their relatives extends back more than 400 million years.",
     },
 
-    credit: "Adicionar autor e licença da imagem",
-  },
-
   sections: [
     {
       id: "introduction",
