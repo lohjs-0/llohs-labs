@@ -3,284 +3,146 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import "../styles/Labs.css";
 
-type LabStatus = "available" | "planned";
-
-type Lab = {
-  id: string;
-  title: string;
-  category: string;
-  description: {
-    pt: string;
-    en: string;
-  };
-  status: LabStatus;
-  path?: string;
-};
-
-const labs: Lab[] = [
+const labs = [
   {
-    id: "LSB-01",
-    title: "Steganography",
-    category: "CYBERSECURITY",
+    id: "01",
+    name: "Steganography",
     description: {
-      pt: "Oculte e recupere mensagens em imagens PNG utilizando o bit menos significativo.",
-      en: "Hide and recover messages in PNG images using the least significant bit.",
+      pt: "Ocultação de mensagens em imagens PNG.",
+      en: "Hiding messages inside PNG images.",
     },
-    status: "available",
     path: "/labs/steganography",
   },
   {
-    id: "CRY-02",
-    title: "Cryptography Playground",
-    category: "CYBERSECURITY",
+    id: "02",
+    name: "Cryptography Playground",
     description: {
-      pt: "Explore cifras, funções hash e conceitos fundamentais de criptografia.",
-      en: "Explore ciphers, hash functions, and fundamental cryptography concepts.",
+      pt: "Cifras, hashes e conceitos de criptografia.",
+      en: "Ciphers, hashes and cryptography concepts.",
     },
-    status: "planned",
   },
   {
-    id: "BIN-03",
-    title: "Binary Inspector",
-    category: "REVERSE ENGINEERING",
+    id: "03",
+    name: "Binary Inspector",
     description: {
-      pt: "Inspecione arquivos binários, visualize bytes e explore representações hexadecimais.",
-      en: "Inspect binary files, visualize bytes, and explore hexadecimal representations.",
+      pt: "Inspeção de arquivos binários e hexadecimal.",
+      en: "Binary file inspection and hexadecimal.",
     },
-    status: "planned",
   },
   {
-    id: "PE-04",
-    title: "PE Analyzer",
-    category: "DIGITAL FORENSICS",
+    id: "04",
+    name: "PE Analyzer",
     description: {
-      pt: "Investigue cabeçalhos, seções e metadados de executáveis Windows.",
-      en: "Investigate headers, sections, and metadata of Windows executables.",
+      pt: "Estrutura de executáveis Windows.",
+      en: "Windows executable structure.",
     },
-    status: "planned",
   },
   {
-    id: "CPU-05",
-    title: "8-bit CPU Simulator",
-    category: "COMPUTER ARCHITECTURE",
+    id: "05",
+    name: "8-bit CPU Simulator",
     description: {
-      pt: "Explore registradores, instruções e ciclos de execução de uma CPU didática de 8 bits.",
-      en: "Explore registers, instructions, and execution cycles of an educational 8-bit CPU.",
+      pt: "Registradores e instruções de uma CPU de 8 bits.",
+      en: "Registers and instructions of an 8-bit CPU.",
     },
-    status: "planned",
   },
   {
-    id: "LOG-06",
-    title: "Logic Gate Simulator",
-    category: "ELECTRONICS",
+    id: "06",
+    name: "Logic Gate Simulator",
     description: {
-      pt: "Experimente portas lógicas e construa circuitos digitais simples.",
-      en: "Experiment with logic gates and build simple digital circuits.",
+      pt: "Portas lógicas e circuitos digitais.",
+      en: "Logic gates and digital circuits.",
     },
-    status: "planned",
   },
   {
-    id: "MEM-07",
-    title: "Memory Visualizer",
-    category: "COMPUTER ARCHITECTURE",
+    id: "07",
+    name: "Memory Visualizer",
     description: {
-      pt: "Visualize bits, endereços, células de memória e operações de leitura e escrita.",
-      en: "Visualize bits, addresses, memory cells, and read/write operations.",
+      pt: "Bits, endereços e operações de memória.",
+      en: "Bits, addresses and memory operations.",
     },
-    status: "planned",
   },
   {
-    id: "NET-08",
-    title: "Packet Inspector",
-    category: "NETWORKING",
+    id: "08",
+    name: "Packet Inspector",
     description: {
-      pt: "Explore a estrutura de pacotes e protocolos utilizando exemplos didáticos.",
-      en: "Explore packet structures and protocols using educational examples.",
+      pt: "Estrutura de pacotes e protocolos de rede.",
+      en: "Network packet and protocol structures.",
     },
-    status: "planned",
   },
   {
-    id: "AST-09",
-    title: "Compiler Explorer",
-    category: "PROGRAMMING",
+    id: "09",
+    name: "Compiler Explorer",
     description: {
-      pt: "Entenda tokens, análise sintática e árvores de sintaxe abstrata.",
-      en: "Understand tokens, parsing, and abstract syntax trees.",
+      pt: "Tokens, parsing e árvores sintáticas.",
+      en: "Tokens, parsing and syntax trees.",
     },
-    status: "planned",
   },
   {
-    id: "ENT-10",
-    title: "Entropy Analyzer",
-    category: "DIGITAL FORENSICS",
+    id: "10",
+    name: "Entropy Analyzer",
     description: {
-      pt: "Analise a distribuição de bytes e calcule a entropia de arquivos.",
-      en: "Analyze byte distributions and calculate file entropy.",
+      pt: "Distribuição de bytes e entropia de arquivos.",
+      en: "Byte distribution and file entropy.",
     },
-    status: "planned",
   },
 ];
 
 export default function Labs() {
   const { i18n } = useTranslation();
-  const language = i18n.resolvedLanguage === "en" ? "en" : "pt";
-
-  const available = labs.filter(
-    (lab) => lab.status === "available"
-  ).length;
+  const lang = i18n.resolvedLanguage === "en" ? "en" : "pt";
 
   return (
     <div className="labs-page">
       <div className="labs-container">
-        <div className="labs-path">
-          <span>LLOHS LABS</span>
-          <span>/</span>
-          <strong>EXPERIMENTS</strong>
-        </div>
+        <p className="labs-path">LLOHS LABS / LABS</p>
 
-        <header className="labs-header">
-          <div className="labs-kicker">
-            <span className="labs-kicker-dot" />
-            INTERACTIVE RESEARCH ENVIRONMENT
-          </div>
+        <h1>Labs</h1>
 
-          <h1>
-            Interactive Labs<span>.</span>
-          </h1>
+        <p className="labs-intro">
+          {lang === "pt"
+            ? "Experimentos sobre computação, eletrônica e segurança."
+            : "Experiments in computing, electronics and security."}
+        </p>
 
-          <p>
-            {language === "pt"
-              ? "Um espaço dedicado à experimentação prática em computação, eletrônica, segurança e sistemas. Explore conceitos técnicos diretamente no navegador."
-              : "A space dedicated to practical experimentation in computing, electronics, security, and systems. Explore technical concepts directly in your browser."}
-          </p>
-        </header>
-
-        <section className="labs-overview">
-          <div>
-            <span>EXPERIMENTS</span>
-            <strong>{String(labs.length).padStart(2, "0")}</strong>
-          </div>
-
-          <div>
-            <span>AVAILABLE</span>
-            <strong>{String(available).padStart(2, "0")}</strong>
-          </div>
-
-          <div>
-            <span>IN DEVELOPMENT</span>
-            <strong>
-              {String(labs.length - available).padStart(2, "0")}
-            </strong>
-          </div>
-
-          <div>
-            <span>ENVIRONMENT</span>
-            <strong className="labs-environment">BROWSER</strong>
-          </div>
-        </section>
-
-        <div className="labs-section-heading">
-          <div>
-            <span>INDEX / 001—010</span>
-            <h2>
-              {language === "pt"
-                ? "Catálogo de experimentos"
-                : "Experiment catalog"}
-            </h2>
-          </div>
-
-          <span>
-            {String(labs.length).padStart(2, "0")} ENTRIES
-          </span>
-        </div>
-
-        <div className="labs-grid">
+        <div className="labs-list">
           {labs.map((lab) => {
-            const isAvailable = lab.status === "available";
-
             const content = (
               <>
-                <div className="labs-card-top">
-                  <span className="labs-card-id">{lab.id}</span>
+                <span className="labs-number">{lab.id}</span>
 
-                  <span
-                    className={
-                      isAvailable
-                        ? "labs-status available"
-                        : "labs-status planned"
-                    }
-                  >
-                    <span className="labs-status-dot" />
-                    {isAvailable
-                      ? language === "pt"
-                        ? "Disponível"
-                        : "Available"
-                      : language === "pt"
-                        ? "Planejado"
-                        : "Planned"}
-                  </span>
+                <div className="labs-info">
+                  <h2>{lab.name}</h2>
+                  <p>{lab.description[lang]}</p>
                 </div>
 
-                <div className="labs-card-content">
-                  <span className="labs-card-category">
-                    {lab.category}
-                  </span>
-
-                  <h3>{lab.title}</h3>
-
-                  <p>{lab.description[language]}</p>
-                </div>
-
-                <div className="labs-card-bottom">
-                  <span>
-                    {isAvailable
-                      ? language === "pt"
-                        ? "ABRIR EXPERIMENTO"
-                        : "OPEN EXPERIMENT"
-                      : language === "pt"
-                        ? "EM BREVE"
-                        : "COMING SOON"}
-                  </span>
-
-                  <span aria-hidden="true">
-                    {isAvailable ? "↗" : "—"}
-                  </span>
-                </div>
+                <span className="labs-state">
+                  {lab.path
+                    ? "↗"
+                    : lang === "pt"
+                      ? "em breve"
+                      : "soon"}
+                </span>
               </>
             );
 
-            return isAvailable && lab.path ? (
+            return lab.path ? (
               <Link
                 key={lab.id}
                 to={lab.path}
-                className="labs-card labs-card-link"
+                className="labs-item labs-item-link"
               >
                 {content}
               </Link>
             ) : (
-              <article
+              <div
                 key={lab.id}
-                className="labs-card labs-card-disabled"
+                className="labs-item labs-item-pending"
               >
                 {content}
-              </article>
+              </div>
             );
           })}
         </div>
-
-        <div className="labs-bottom-note">
-          <span>LABORATORY NOTES / 001</span>
-          <p>
-            {language === "pt"
-              ? "Os experimentos são desenvolvidos para fins educacionais. Novos módulos serão disponibilizados progressivamente."
-              : "Experiments are developed for educational purposes. New modules will be released progressively."}
-          </p>
-        </div>
-
-        <footer className="labs-footer">
-          <span>LLOHS LABS / INTERACTIVE EXPERIMENTS</span>
-          <span>RESEARCH · SYSTEMS · SECURITY</span>
-        </footer>
       </div>
     </div>
   );
