@@ -1,5 +1,5 @@
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 
@@ -16,98 +16,52 @@ import Research from "./pages/Research";
 import Knowledge from "./pages/Knowledge";
 import KnowledgeArticle from "./pages/KnowledgeArticle";
 
-// LLOHS LABS / Research
 import CTI001Page from "./pages/CTI001Page";
 
 import "./styles/global.css";
 
-// Configuração automática de rotas
-// GitHub Pages: /llohs-labs/
-// Localhost: /
-
-const basename = import.meta.env.PROD
-  ? "/llohs-labs"
-  : "/";
-
 export default function App() {
   return (
-    <BrowserRouter basename={basename}>
+    <HashRouter>
       <div className="site-container">
         <Navbar />
 
         <main>
           <Routes>
-            {/* HOME */}
-            <Route
-              path="/"
-              element={<Home />}
-            />
+            <Route path="/" element={<Home />} />
 
-            {/* BLOG */}
-            <Route
-              path="/blog"
-              element={<Blog />}
-            />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
 
-            <Route
-              path="/blog/:slug"
-              element={<BlogPost />}
-            />
-
-            {/* PROJECTS */}
-            <Route
-              path="/projects"
-              element={<Projects />}
-            />
-
+            <Route path="/projects" element={<Projects />} />
             <Route
               path="/projects/:slug"
               element={<ProjectDetail />}
             />
 
-            {/* NOTES */}
-            <Route
-              path="/notes"
-              element={<Notes />}
-            />
-
+            <Route path="/notes" element={<Notes />} />
             <Route
               path="/notes/:slug"
               element={<NoteDetail />}
             />
 
-            {/* KNOWLEDGE */}
-            <Route
-              path="/knowledge"
-              element={<Knowledge />}
-            />
-
+            <Route path="/knowledge" element={<Knowledge />} />
             <Route
               path="/knowledge/:slug"
               element={<KnowledgeArticle />}
             />
 
-            {/* RESEARCH */}
-            <Route
-              path="/research"
-              element={<Research />}
-            />
-
+            <Route path="/research" element={<Research />} />
             <Route
               path="/research/cti-001"
               element={<CTI001Page />}
             />
 
-            {/* ABOUT */}
-            <Route
-              path="/about"
-              element={<About />}
-            />
+            <Route path="/about" element={<About />} />
 
-            {/* FALLBACK */}
             <Route
               path="*"
-              element={<Home />}
+              element={<Navigate to="/" replace />}
             />
           </Routes>
         </main>
@@ -116,6 +70,6 @@ export default function App() {
           © {new Date().getFullYear()} llohs
         </footer>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
