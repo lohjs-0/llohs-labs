@@ -23,7 +23,7 @@ import "./styles/global.css";
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className="site-container">
         <Navbar />
 
@@ -51,14 +51,20 @@ export default function App() {
             />
 
             {/* Knowledge */}
-            <Route path="/knowledge" element={<Knowledge />} />
+            <Route
+              path="/knowledge"
+              element={<Knowledge />}
+            />
             <Route
               path="/knowledge/:slug"
               element={<KnowledgeArticle />}
             />
 
             {/* Research / LLOHS LABS */}
-            <Route path="/research" element={<Research />} />
+            <Route
+              path="/research"
+              element={<Research />}
+            />
             <Route
               path="/research/cti-001"
               element={<CTI001Page />}
