@@ -42,10 +42,10 @@ export const naturalNuclearReactor: KnowledgePost = {
       en: "The uranium deposits at Oklo preserve evidence of natural nuclear fission reactions that occurred approximately 1.7 billion years ago.",
     },
 
-    credit: "A definir conforme a imagem escolhida",
+    credit: "Magnus Mundi",
 
     sourceUrl:
-      "https://en.wikipedia.org/wiki/Natural_nuclear_fission_reactor",
+      "https://www.magnusmundi.com/oklo-reator-nuclear-natural-no-gabao/",
   },
 
   sections: [
