@@ -43,10 +43,10 @@ export const understandingI2c: KnowledgePost = {
       en: "I²C allows multiple devices to connect through two shared signal lines: SDA and SCL.",
     },
 
-    credit: "A definir conforme a imagem escolhida",
+    credit: "F.M.H. Group",
 
     sourceUrl:
-      "https://www.nxp.com/docs/en/user-guide/UM10204.pdf",
+      "https://fmh-studios.de/theorie/informationstechnik/i2c-bus/",
   },
 
   sections: [
