@@ -32,7 +32,7 @@ function resolveImagePath(src: string): string {
 
   if (!path) return "";
 
-  // URLs externas e imagens incorporadas.
+  // Mantém URLs externas e imagens incorporadas.
   if (
     /^(https?:)?\/\//i.test(path) ||
     /^(data|blob):/i.test(path)
@@ -47,11 +47,10 @@ function resolveImagePath(src: string): string {
     return path;
   }
 
-  // Remove a barra inicial.
+  // Remove barras iniciais.
   const normalized = path.replace(/^\/+/, "");
 
-  // Arquivos da pasta public são servidos
-  // diretamente a partir da raiz do site.
+  // A pasta public é servida na raiz do site.
   const withoutPublic = normalized.replace(
     /^public\//,
     ""
@@ -416,38 +415,50 @@ export default function KnowledgeArticle() {
             </Link>
           </div>
 
-          {/* TABLE OF CONTENTS */}
+          {/* COLLAPSIBLE TABLE OF CONTENTS */}
 
           <aside className="knowledge-article-sidebar">
-            <nav
-              aria-label={
-                language === "pt"
-                  ? "Nesta página"
-                  : "On this page"
-              }
-            >
-              <span className="knowledge-toc-title">
-                {language === "pt"
-                  ? "NESTA PÁGINA"
-                  : "ON THIS PAGE"}
-              </span>
+            <details className="knowledge-article-toc">
+              <summary className="knowledge-article-toc-toggle">
+                <span>
+                  {language === "pt"
+                    ? "NESTA PÁGINA"
+                    : "ON THIS PAGE"}
+                </span>
 
-              {post.sections.map(
-                (section, index) => (
-                  <a
-                    key={section.id ?? index}
-                    href={`#section-${index + 1}`}
-                  >
-                    {String(index + 1).padStart(
-                      2,
-                      "0"
-                    )}{" "}
-                    / {section.heading[language]}
-                  </a>
-                )
-              )}
-            </nav>
+                <span
+                  className="knowledge-article-toc-chevron"
+                  aria-hidden="true"
+                >
+                  +
+                </span>
+              </summary>
+
+              <nav
+                aria-label={
+                  language === "pt"
+                    ? "Nesta página"
+                    : "On this page"
+                }
+              >
+                {post.sections.map(
+                  (section, index) => (
+                    <a
+                      key={section.id ?? index}
+                      href={`#section-${index + 1}`}
+                    >
+                      {String(index + 1).padStart(
+                        2,
+                        "0"
+                      )}{" "}
+                      / {section.heading[language]}
+                    </a>
+                  )
+                )}
+              </nav>
+            </details>
           </aside>
+
         </div>
       </div>
 
