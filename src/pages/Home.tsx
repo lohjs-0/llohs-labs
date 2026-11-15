@@ -34,9 +34,9 @@ export default function Home() {
       <header className="home-hero">
         <div className="home-avatar">
           <img
-            src={`${import.meta.env.BASE_URL}images/profile.jpg`}
-            alt="LLOHS profile"
-          />
+            
+src={`${import.meta.env.BASE_URL}images/file_0000000028a8820eac59aa5288be3048.png`}
+>
         </div>
 
         <h1 className="home-name">llohs</h1>
