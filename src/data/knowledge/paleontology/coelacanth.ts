@@ -38,9 +38,6 @@ export const coelacanth: KnowledgePost = {
       en: "Modern coelacanths belong to the genus Latimeria.",
     },
 
-    credit: "Adicionar autor e licença da imagem",
-  },
-
   sections: [
     {
       id: "introduction",
