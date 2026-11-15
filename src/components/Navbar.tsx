@@ -35,8 +35,8 @@ export default function Navbar() {
           >
             {key === "knowledge"
               ? i18n.resolvedLanguage === "en"
-                ? "Knowledge"
-                : "Conhecimento"
+                ? "knowledge"
+                : "conhecimento"
               : key === "research"
                 ? t("nav.research", {
                     defaultValue: "Research",
