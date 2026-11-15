@@ -96,7 +96,7 @@ export default function Labs() {
       <div className="labs-container">
         <p className="labs-path">LLOHS LABS / LABS</p>
 
-        <h1>Labs</h1>
+        <h1>labs</h1>
 
         <p className="labs-intro">
           {lang === "pt"
