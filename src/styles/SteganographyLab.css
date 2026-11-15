@@ -586,3 +586,42 @@
   background: transparent;
 }
 
+
+/* FULL WIDTH LAB LAYOUT */
+
+.steg-page {
+  width: min(1120px, calc(100vw - 48px));
+  max-width: none;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  box-sizing: border-box;
+  padding: 24px 0 70px;
+  background: transparent;
+}
+
+.steg-container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.steg-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 24px;
+}
+
+@media (max-width: 850px) {
+  .steg-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .steg-page {
+    width: calc(100vw - 30px);
+    padding: 20px 0 50px;
+  }
+}
+
