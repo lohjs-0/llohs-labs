@@ -20,7 +20,6 @@ type ImageViewer = {
   src: string;
   alt: string;
   caption?: string;
-  credit?: string;
 };
 
 /* =========================================
@@ -96,7 +95,6 @@ function ArticleImage({
               src: imageSrc,
               alt,
               caption,
-              credit: image.credit,
             })
           }
           aria-label={
@@ -132,29 +130,9 @@ function ArticleImage({
         </div>
       )}
 
-      {(caption || image.credit) && (
+      {caption && (
         <figcaption className="knowledge-image-caption">
-          {caption && <span>{caption}</span>}
-
-          {image.credit && (
-            <small>
-              {language === "pt"
-                ? "Crédito: "
-                : "Credit: "}
-
-              {image.sourceUrl ? (
-                <a
-                  href={image.sourceUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {image.credit}
-                </a>
-              ) : (
-                image.credit
-              )}
-            </small>
-          )}
+          <span>{caption}</span>
         </figcaption>
       )}
     </figure>
@@ -505,22 +483,12 @@ export default function KnowledgeArticle() {
               alt={viewer.alt}
             />
 
-            {(viewer.caption ||
-              viewer.credit) && (
+            {viewer.caption && (
               <div className="knowledge-lightbox-caption">
-                {viewer.caption && (
-                  <p>{viewer.caption}</p>
-                )}
-
-                {viewer.credit && (
-                  <small>
-                    {language === "pt"
-                      ? "Crédito: "
-                      : "Credit: "}
-                    {viewer.credit}
-                  </small>
-                )}
+                <p>{viewer.caption}</p>
               </div>
+            )}
+          </div>
             )}
           </div>
         </div>
