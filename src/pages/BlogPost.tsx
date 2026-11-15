@@ -15,7 +15,7 @@ import "../styles/technical-article.css";
 
 /* =========================================
    TRANSLATIONS
-   ========================================= */
+========================================= */
 
 const translations = {
   pt: {
@@ -36,7 +36,7 @@ const translations = {
 
 /* =========================================
    TYPES
-   ========================================= */
+========================================= */
 
 type Heading = {
   id: string;
@@ -46,7 +46,7 @@ type Heading = {
 
 /* =========================================
    HELPERS
-   ========================================= */
+========================================= */
 
 const slugify = (text: string) =>
   text
@@ -57,8 +57,64 @@ const slugify = (text: string) =>
     .trim()
     .replace(/\s+/g, "-") || "section";
 
+/* =========================================
+   IMAGE PATH RESOLVER
+
+   Supports:
+   - Local Vite development
+   - GitHub Pages
+   - Absolute external URLs
+   - Data and blob URLs
+   - Paths already containing BASE_URL
+========================================= */
+
+function resolveImagePath(src?: string): string {
+  if (!src) return "";
+
+  const path = src.trim();
+
+  if (!path) return "";
+
+  // External URLs and embedded resources
+  if (
+    /^(https?:)?\/\//i.test(path) ||
+    /^(data|blob):/i.test(path)
+  ) {
+    return path;
+  }
+
+  // Keep anchors unchanged
+  if (path.startsWith("#")) {
+    return path;
+  }
+
+  const base = import.meta.env.BASE_URL || "/";
+
+  // Prevent duplicated GitHub Pages prefix
+  if (path.startsWith(base)) {
+    return path;
+  }
+
+  const normalized = path.replace(/^\/+/, "");
+
+  // Support paths written as public/images/...
+  const withoutPublic = normalized.replace(
+    /^public\//,
+    ""
+  );
+
+  return `${base}${withoutPublic}`;
+}
+
+/* =========================================
+   REACT NODE TO TEXT
+========================================= */
+
 function nodeText(node: ReactNode): string {
-  if (typeof node === "string" || typeof node === "number") {
+  if (
+    typeof node === "string" ||
+    typeof node === "number"
+  ) {
     return String(node);
   }
 
@@ -66,12 +122,18 @@ function nodeText(node: ReactNode): string {
     return node.map(nodeText).join("");
   }
 
-  if (isValidElement<{ children?: ReactNode }>(node)) {
+  if (
+    isValidElement<{ children?: ReactNode }>(node)
+  ) {
     return nodeText(node.props.children);
   }
 
   return "";
 }
+
+/* =========================================
+   EXTRACT HEADINGS
+========================================= */
 
 function extractHeadings(markdown: string): Heading[] {
   const headings: Heading[] = [];
@@ -104,7 +166,10 @@ function extractHeadings(markdown: string): Heading[] {
     seen.set(base, next);
 
     headings.push({
-      id: next === 1 ? base : `${base}-${next}`,
+      id:
+        next === 1
+          ? base
+          : `${base}-${next}`,
       title,
       level: match[1].length,
     });
@@ -115,14 +180,16 @@ function extractHeadings(markdown: string): Heading[] {
 
 /* =========================================
    BLOG POST
-   ========================================= */
+========================================= */
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
   const { i18n } = useTranslation();
 
   const language: Language =
-    i18n.resolvedLanguage === "en" ? "en" : "pt";
+    i18n.resolvedLanguage === "en"
+      ? "en"
+      : "pt";
 
   const t = translations[language];
 
@@ -132,6 +199,10 @@ export default function BlogPost() {
 
   const markdown = post?.content ?? "";
 
+  /* =========================================
+     TABLE OF CONTENTS
+  ========================================= */
+
   const headings = useMemo(
     () => extractHeadings(markdown),
     [markdown]
@@ -139,14 +210,20 @@ export default function BlogPost() {
 
   /* =========================================
      MARKDOWN COMPONENTS
-     ========================================= */
+  ========================================= */
 
   const components = useMemo<Components>(() => {
     const seen = new Map<string, number>();
 
-    const headingId = (children: ReactNode) => {
-      const base = slugify(nodeText(children));
-      const next = (seen.get(base) ?? 0) + 1;
+    const headingId = (
+      children: ReactNode
+    ) => {
+      const base = slugify(
+        nodeText(children)
+      );
+
+      const next =
+        (seen.get(base) ?? 0) + 1;
 
       seen.set(base, next);
 
@@ -155,11 +232,13 @@ export default function BlogPost() {
         : `${base}-${next}`;
     };
 
+    // Count Markdown images in source order.
+    let renderedImageIndex = 0;
+
     return {
       /* -------------------------------------
          PARAGRAPHS
-         Avoid invalid <figure> inside <p>
-         ------------------------------------- */
+      ------------------------------------- */
 
       p: ({ children, node }) => {
         const isImageParagraph =
@@ -176,7 +255,7 @@ export default function BlogPost() {
 
       /* -------------------------------------
          HEADINGS
-         ------------------------------------- */
+      ------------------------------------- */
 
       h2: ({ children }) => (
         <h2 id={headingId(children)}>
@@ -191,31 +270,41 @@ export default function BlogPost() {
       ),
 
       /* -------------------------------------
-         IMAGES WITH INTERACTIVE CAPTIONS
-         ------------------------------------- */
+         IMAGES
+      ------------------------------------- */
 
       img: ({ src, alt, node }) => {
-        const images = Array.from(
-          node?.position
-            ? [node.position.start.offset]
-            : []
-        );
-
-        // Use the Markdown source position to
-        // determine the figure number.
-        const currentOffset = images[0];
+        const currentOffset =
+          node?.position?.start.offset;
 
         const imageMatches = [
-          ...markdown.matchAll(/!\[[^\]]*\]\([^)]+\)/g),
+          ...markdown.matchAll(
+            /!\[[^\]]*\]\([^)]+\)/g
+          ),
         ];
 
-        const imageIndex = imageMatches.findIndex(
-          (match) => match.index === currentOffset
-        );
+        let imageIndex =
+          currentOffset === undefined
+            ? -1
+            : imageMatches.findIndex(
+                (match) =>
+                  match.index === currentOffset
+              );
+
+        // Fallback for Markdown parsers that
+        // do not provide matching offsets.
+        if (imageIndex < 0) {
+          imageIndex = renderedImageIndex;
+        }
+
+        renderedImageIndex++;
 
         const figureNumber = String(
-          imageIndex >= 0 ? imageIndex + 1 : 1
+          imageIndex + 1
         ).padStart(2, "0");
+
+        const imageSrc =
+          resolveImagePath(src);
 
         return (
           <figure
@@ -223,7 +312,7 @@ export default function BlogPost() {
             tabIndex={0}
           >
             <img
-              src={src}
+              src={imageSrc}
               alt={alt ?? ""}
               loading="lazy"
               decoding="async"
@@ -232,7 +321,8 @@ export default function BlogPost() {
             {alt && (
               <figcaption className="technical-article-image-caption">
                 <span className="technical-article-image-index">
-                  {t.imageLabel} {figureNumber}
+                  {t.imageLabel}{" "}
+                  {figureNumber}
                 </span>
 
                 <span className="technical-article-image-description">
@@ -248,12 +338,15 @@ export default function BlogPost() {
 
   /* =========================================
      NOT FOUND
-     ========================================= */
+  ========================================= */
 
   if (!post) {
     return (
       <section className="blog-post-page">
-        <Link to="/blog" className="back-link">
+        <Link
+          to="/blog"
+          className="back-link"
+        >
           {t.back}
         </Link>
 
@@ -264,22 +357,26 @@ export default function BlogPost() {
 
   /* =========================================
      POST METADATA
-     ========================================= */
+  ========================================= */
 
   const parsed = new Date(
     `${post.date}T12:00:00`
   );
 
-  const date = Number.isNaN(parsed.getTime())
+  const date = Number.isNaN(
+    parsed.getTime()
+  )
     ? post.date
     : parsed.toLocaleDateString(
-      language === "pt" ? "pt-BR" : "en-US",
-      {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      }
-    );
+        language === "pt"
+          ? "pt-BR"
+          : "en-US",
+        {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        }
+      );
 
   const readingTime = Math.max(
     1,
@@ -292,8 +389,16 @@ export default function BlogPost() {
   );
 
   /* =========================================
+     COVER IMAGE
+  ========================================= */
+
+  const coverUrl = post.cover
+    ? resolveImagePath(post.cover)
+    : undefined;
+
+  /* =========================================
      RENDER
-     ========================================= */
+  ========================================= */
 
   return (
     <article className="blog-post-page technical-article-page">
@@ -319,15 +424,16 @@ export default function BlogPost() {
       {/* BACKGROUND */}
 
       <div
-        className={`technical-article-background${post.cover ? " has-cover" : ""
-          }`}
+        className={`technical-article-background${
+          coverUrl ? " has-cover" : ""
+        }`}
         style={
-          post.cover
+          coverUrl
             ? {
-              backgroundImage: `url(${JSON.stringify(
-                post.cover
-              )})`,
-            }
+                backgroundImage: `url(${JSON.stringify(
+                  coverUrl
+                )})`,
+              }
             : undefined
         }
         aria-hidden="true"
@@ -402,12 +508,12 @@ export default function BlogPost() {
 
           {/* TABLE OF CONTENTS */}
 
-
           {headings.length > 0 && (
             <aside className="technical-article-sidebar">
               <details className="technical-article-toc">
                 <summary className="technical-article-toc-toggle">
                   <span>{t.contents}</span>
+
                   <span
                     className="technical-article-toc-chevron"
                     aria-hidden="true"
