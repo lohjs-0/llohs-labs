@@ -8,7 +8,7 @@ const links = [
   { key: "blog", path: "/blog" },
   { key: "projects", path: "/projects" },
   { key: "research", path: "/research" },
-  { key: "labs", path: "/labs/steganography" },
+  { key: "labs", path: "/labs" },
   { key: "knowledge", path: "/knowledge" },
   { key: "notes", path: "/notes" },
   { key: "about", path: "/about" },
