@@ -38,9 +38,6 @@ export const hallucigenia: KnowledgePost = {
       en: "Hallucigenia, a small marine animal that lived during the Cambrian.",
     },
 
-    credit: "Adicionar autor e licença da imagem",
-  },
-
   sections: [
     {
       id: "introduction",
