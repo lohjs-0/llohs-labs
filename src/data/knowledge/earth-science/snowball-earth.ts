@@ -43,10 +43,10 @@ export const snowballEarth: KnowledgePost = {
       en: "Hypothetical representation of Earth during the Cryogenian. The precise extent of ice coverage remains a subject of scientific investigation.",
     },
 
-    credit: "A definir conforme a imagem escolhida",
+    credit: "Olhar Digital",
 
     sourceUrl:
-      "https://en.wikipedia.org/wiki/Snowball_Earth",
+      "https://olhardigital.com.br/2024/11/13/ciencia-e-espaco/novas-evidencias-confirmam-que-a-terra-ja-foi-uma-bola-de-neve/",
   },
 
   sections: [
