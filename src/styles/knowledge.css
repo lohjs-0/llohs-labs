@@ -711,3 +711,84 @@
     max-height: 70vh;
   }
 }
+
+
+
+/* =========================================
+   KNOWLEDGE — COLLAPSIBLE CONTENTS
+========================================= */
+
+.knowledge-article-toc {
+  width: 100%;
+  border: 1px solid #303030;
+  border-radius: 8px;
+  background: #151515;
+  overflow: hidden;
+}
+
+.knowledge-article-toc-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 24px;
+  cursor: pointer;
+  list-style: none;
+  color: #aaa;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+.knowledge-article-toc-toggle::-webkit-details-marker {
+  display: none;
+}
+
+.knowledge-article-toc-chevron {
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+  color: #aaa;
+}
+
+.knowledge-article-toc[open]
+  .knowledge-article-toc-chevron {
+  font-size: 0;
+}
+
+.knowledge-article-toc[open]
+  .knowledge-article-toc-chevron::after {
+  content: "×";
+  font-size: 22px;
+}
+
+.knowledge-article-toc nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 8px 24px 24px;
+}
+
+.knowledge-article-toc nav a {
+  color: #999;
+  font-size: 13px;
+  line-height: 1.7;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  overflow-wrap: anywhere;
+}
+
+.knowledge-article-toc nav a:hover {
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .knowledge-article-toc-toggle {
+    padding: 18px 20px;
+  }
+
+  .knowledge-article-toc nav {
+    padding: 6px 20px 20px;
+  }
+}
+
