@@ -41,9 +41,6 @@ export const opabinia: KnowledgePost = {
             en: "Opabinia regalis lived approximately 508 million years ago.",
         },
 
-        credit: "Autor da imagem — licença",
-    },
-
 
     sections: [
         {
