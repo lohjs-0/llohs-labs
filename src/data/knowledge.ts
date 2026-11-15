@@ -41,6 +41,9 @@ import { snowballEarth } from "./knowledge/earth-science/snowball-earth";
 import { transistorsDigitalLogic } from "./knowledge/electronics/transistors-digital-logic";
 import { howRamStoresBits } from "./knowledge/electronics/how-ram-stores-bits";
 
+// PROGRAMMING
+import { howCompilersWork } from "./knowledge/programming/how-compilers-work";
+
 
 // EXPORT TYPES
 export type {
@@ -85,6 +88,9 @@ howRamStoresBits,
   whaleEvolution,
   giantCarboniferousInsects,
   coelacanth,
+
+  // PROGRAMMING
+howCompilersWork,
 
   // BIOLOGY
   antarcticIcefish,
