@@ -39,9 +39,6 @@ export const dinosaurFeathers: KnowledgePost = {
       en: "Several non-avian dinosaurs possessed feathers or similar structures.",
     },
 
-    credit: "Adicionar autor e licença da imagem",
-  },
-
   sections: [
     {
       id: "introduction",
