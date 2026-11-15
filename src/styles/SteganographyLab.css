@@ -1,0 +1,519 @@
+
+.steg-page {
+  --steg-bg: #0d0d0e;
+  --steg-panel: #141416;
+  --steg-border: #29292d;
+  --steg-text: #e9e7e4;
+  --steg-muted: #85848b;
+  --steg-accent: #dc3545;
+
+  color: var(--steg-text);
+  padding: 52px 24px 90px;
+  font-family: inherit;
+}
+
+.steg-container {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+}
+
+.steg-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  color: var(--steg-muted);
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  margin-bottom: 65px;
+}
+
+.steg-breadcrumb strong {
+  color: var(--steg-text);
+  font-weight: 500;
+}
+
+.steg-header {
+  max-width: 720px;
+  margin-bottom: 45px;
+}
+
+.steg-label,
+.steg-eyebrow {
+  color: var(--steg-muted);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  font-weight: 500;
+}
+
+.steg-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.steg-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--steg-accent);
+  box-shadow: 0 0 14px #dc354566;
+}
+
+.steg-header h1 {
+  margin: 0 0 18px;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 600;
+  letter-spacing: -0.065em;
+  line-height: 1.1;
+}
+
+.steg-accent {
+  color: var(--steg-accent);
+}
+
+.steg-header p {
+  color: #a4a2a8;
+  font-size: 14px;
+  line-height: 1.9;
+  max-width: 650px;
+}
+
+.steg-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 20px;
+  align-items: start;
+}
+
+.steg-panel,
+.steg-info-card {
+  background: var(--steg-panel);
+  border: 1px solid var(--steg-border);
+  border-radius: 8px;
+}
+
+.steg-panel {
+  padding: 28px;
+  min-width: 0;
+}
+
+.steg-panel-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.steg-panel-heading h2 {
+  margin: 9px 0 0;
+  font-size: 19px;
+  font-weight: 550;
+  letter-spacing: -0.035em;
+}
+
+.steg-version {
+  color: var(--steg-muted);
+  font-size: 11px;
+}
+
+.steg-mode {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 5px;
+  border: 1px solid var(--steg-border);
+  border-radius: 6px;
+  margin-bottom: 30px;
+  background: #0f0f11;
+}
+
+.steg-mode button {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: var(--steg-muted);
+  padding: 13px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  transition: 0.2s ease;
+}
+
+.steg-mode button span {
+  font-size: 10px;
+  margin-right: 10px;
+  opacity: 0.6;
+}
+
+.steg-mode button.active {
+  background: #252125;
+  border-color: #463039;
+  color: #fff;
+}
+
+.steg-mode button:hover {
+  color: #fff;
+}
+
+.steg-field {
+  margin-bottom: 26px;
+}
+
+.steg-field-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.steg-field-heading label,
+.steg-field-heading span {
+  color: var(--steg-muted);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+
+.steg-upload {
+  display: block;
+  border: 1px dashed #424047;
+  border-radius: 6px;
+  background: #101012;
+  cursor: pointer;
+  transition: 0.2s ease;
+  overflow: hidden;
+}
+
+.steg-upload:hover {
+  border-color: var(--steg-accent);
+  background: #171316;
+}
+
+.steg-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.steg-upload-empty {
+  min-height: 175px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 22px;
+  text-align: center;
+}
+
+.steg-upload-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 39px;
+  height: 39px;
+  border: 1px solid #454047;
+  border-radius: 6px;
+  color: var(--steg-accent);
+  font-size: 25px;
+  margin-bottom: 5px;
+}
+
+.steg-upload-empty strong {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.steg-upload-empty > span:last-child {
+  font-size: 11px;
+  color: var(--steg-muted);
+}
+
+.steg-preview {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px;
+}
+
+.steg-preview img {
+  width: 95px;
+  height: 85px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--steg-border);
+}
+
+.steg-preview div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.steg-preview strong {
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.steg-preview span {
+  color: var(--steg-muted);
+  font-size: 11px;
+}
+
+.steg-field textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  min-height: 145px;
+  padding: 17px;
+  border: 1px solid #343239;
+  border-radius: 6px;
+  outline: none;
+  background: #0f0f11;
+  color: var(--steg-text);
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.steg-field textarea:focus {
+  border-color: var(--steg-accent);
+}
+
+.steg-field textarea::placeholder {
+  color: #68666d;
+}
+
+.steg-execute {
+  width: 100%;
+  padding: 17px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--steg-accent);
+  border-radius: 5px;
+  background: var(--steg-accent);
+  color: #fff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.steg-execute:hover:not(:disabled) {
+  background: #b82736;
+  border-color: #b82736;
+}
+
+.steg-execute:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.steg-alert,
+.steg-result {
+  margin-bottom: 22px;
+  padding: 16px;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+.steg-error {
+  border: 1px solid #70313a;
+  background: #2a171b;
+  color: #ff9ba6;
+}
+
+.steg-result {
+  border: 1px solid #355748;
+  background: #13201a;
+}
+
+.steg-result-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #8bceab;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.steg-result-heading button {
+  border: 1px solid #355748;
+  border-radius: 3px;
+  padding: 6px 10px;
+  background: transparent;
+  color: #b0dfc5;
+  cursor: pointer;
+  font: inherit;
+  font-size: 10px;
+}
+
+.steg-result pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: #d8e6dc;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.8;
+  margin: 12px 0 0;
+}
+
+.steg-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.steg-info-card {
+  padding: 24px;
+}
+
+.steg-info-card h3 {
+  font-size: 17px;
+  margin: 13px 0;
+  font-weight: 550;
+}
+
+.steg-info-card p,
+.steg-note p {
+  color: #97949c;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.steg-binary {
+  margin-top: 23px;
+  padding: 16px;
+  background: #0d0d0f;
+  border: 1px solid #29272c;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.steg-binary > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.steg-binary div > span {
+  color: var(--steg-muted);
+  font-size: 10px;
+}
+
+.steg-binary code {
+  color: #c7c4ca;
+  font-size: 12px;
+}
+
+.steg-binary code span {
+  color: #777;
+}
+
+.steg-binary code strong {
+  color: var(--steg-accent);
+}
+
+.steg-status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--steg-border);
+  padding: 15px 0;
+  font-size: 11px;
+}
+
+.steg-status-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.steg-status-row > span {
+  color: var(--steg-muted);
+}
+
+.steg-status-row strong {
+  font-size: 10px;
+  font-weight: 500;
+  text-align: right;
+}
+
+.steg-note {
+  padding: 8px 4px;
+}
+
+.steg-note > span {
+  color: var(--steg-accent);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+
+.steg-footer {
+  margin-top: 65px;
+  padding-top: 24px;
+  border-top: 1px solid var(--steg-border);
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  color: var(--steg-muted);
+  font-size: 10px;
+  letter-spacing: 0.07em;
+}
+
+@media (max-width: 850px) {
+  .steg-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .steg-sidebar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .steg-note {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .steg-page {
+    padding: 28px 15px 65px;
+  }
+
+  .steg-breadcrumb {
+    margin-bottom: 45px;
+  }
+
+  .steg-panel {
+    padding: 19px;
+  }
+
+  .steg-sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .steg-note {
+    grid-column: auto;
+  }
+
+  .steg-header h1 {
+    font-size: 38px;
+  }
+
+  .steg-footer {
+    flex-direction: column;
+  }
+}
