@@ -20,7 +20,7 @@ const content = {
 
       "sou bastante nerd, e não exclusivamente no sentido tecnológico. gosto de astronomia, quadrinhos, livros, mangás, cinema, ficção científica, fantasia, terror e universos fictícios com histórias tão complexas que às vezes parecem exigir uma graduação para serem compreendidos.",
 
-      "gosto de personagens moralmente complicados, teorias improváveis, histórias que deixam perguntas depois do final e assuntos que me fazem cair em uma sequência interminável de pesquisas.",
+      "gosto de personagens moralmente complicados, teorias improváveis, histórias que deixam perguntas depois do final e assuntos que me fazem cair em uma sequência interminável de pesquisas ou chorando pela morte de personagens que me apeguei..",
 
       "também gosto de música, animais e daqueles pequenos momentos em que posso simplesmente existir sem precisar estar produzindo alguma coisa.",
 
