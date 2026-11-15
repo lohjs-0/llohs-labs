@@ -3290,3 +3290,74 @@ td {
   }
 }
 
+/* =========================================
+   MINIMAL NAVBAR — LLOHS LABS
+========================================= */
+
+.navbar-container {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.navbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 22px;
+  padding: 16px 0;
+  background: transparent;
+}
+
+.navbar .nav-link {
+  display: inline-block;
+  min-height: 0;
+  padding: 6px 0;
+  margin: 0;
+
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+
+  color: #929292;
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+
+  transition: color 0.2s ease;
+}
+
+.navbar .nav-link:hover {
+  color: #ffffff;
+  background: transparent;
+}
+
+.navbar .nav-link.active {
+  color: #ffffff;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  font-weight: 500;
+}
+
+.navbar-language {
+  margin-top: 8px;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .navbar {
+    justify-content: center;
+    gap: 10px 18px;
+    padding: 12px 8px;
+  }
+
+  .navbar .nav-link {
+    padding: 5px 0;
+    font-size: 13px;
+    min-height: 0;
+  }
+}
