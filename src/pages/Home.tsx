@@ -31,6 +31,7 @@ export default function Home() {
 
   return (
     <div className="home">
+
       {/* =====================================
           HERO / PROFILE
       ===================================== */}
@@ -38,7 +39,7 @@ export default function Home() {
       <header className="home-hero">
         <div className="home-avatar">
           <img
-            src={`${import.meta.env.BASE_URL}images/53bc88684e1dcc6044c3e2864b9720f6.jpg`}
+            src={`${import.meta.env.BASE_URL}images/file_0000000028a8820eac59aa5288be3048.png`}
             alt="LLOHS profile"
             loading="eager"
             decoding="async"
@@ -56,6 +57,7 @@ export default function Home() {
         ===================================== */}
 
         <div className="home-socials">
+
           {/* GITHUB */}
 
           <a
@@ -73,7 +75,7 @@ export default function Home() {
           {/* LINKEDIN */}
 
           <a
-href="https://www.linkedin.com/in/lohane-massao"
+            href="https://www.linkedin.com/in/lohane-massao"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
@@ -87,17 +89,33 @@ href="https://www.linkedin.com/in/lohane-massao"
           {/* EMAIL */}
 
           <a
-href="mailto:lohane.mdev@gmail.com"
+            href="mailto:lohane.mdev@gmail.com"
             aria-label="Email"
             title="Email"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm1.6 2L12 12.4 19.4 7H4.6ZM20 9l-7.4 5.4a1 1 0 0 1-1.2 0L4 9v8h16V9Z" />
+            </svg>
+          </a>
+
+          {/* INSTAGRAM */}
+
+          <a
+            href="https://www.instagram.com/llohh_kkjs"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+            title="Instagram"
           >
             <svg
               viewBox="0 0 24 24"
               aria-hidden="true"
+              fill="currentColor"
             >
-              <path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm1.6 2L12 12.4 19.4 7H4.6ZM20 9l-7.4 5.4a1 1 0 0 1-1.2 0L4 9v8h16V9Z" />
+              <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm5.5-3a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
             </svg>
           </a>
+
         </div>
       </header>
 
