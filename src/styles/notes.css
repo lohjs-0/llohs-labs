@@ -1,0 +1,169 @@
+
+/* =========================================
+   LLOHS / NOTES
+   ========================================= */
+
+.notes-page {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 64px 24px 100px;
+  box-sizing: border-box;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+/* HEADER */
+
+.notes-page .notes-header {
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+.notes-page .notes-header h1 {
+  margin: 0 0 12px;
+  color: #eaeaea;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.notes-page .notes-header p {
+  max-width: 650px;
+  margin: 0;
+  color: #888;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+/* NOTES LIST */
+
+.notes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  margin-top: 48px;
+}
+
+.note-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.note-item-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  width: 100%;
+}
+
+.note-item-title {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+.note-item-title a {
+  color: #8fb4df;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.note-item-title a:hover {
+  color: #c3dcfa;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.note-item-date {
+  color: #777;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.note-item-description {
+  max-width: 720px;
+  margin: 0;
+  color: #aaa;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  line-height: 1.85;
+}
+
+/* TAGS */
+
+.note-item-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.note-item-tags span {
+  color: #777;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.note-item-tags span:not(:last-child)::after {
+  content: "·";
+  margin-left: 4px;
+}
+
+/* EMPTY STATE */
+
+.notes-empty {
+  margin: 0;
+  color: #777;
+  font-size: 12px;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+  .notes-page {
+    padding: 44px 20px 80px;
+  }
+
+  .notes-page .notes-header h1 {
+    font-size: 19px;
+  }
+
+  .notes-page .notes-header p {
+    font-size: 12px;
+  }
+
+  .notes-list {
+    margin-top: 38px;
+    gap: 30px;
+  }
+
+  .note-item-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+  }
+
+  .note-item-title {
+    font-size: 13px;
+  }
+
+  .note-item-description {
+    font-size: 12px;
+  }
+}

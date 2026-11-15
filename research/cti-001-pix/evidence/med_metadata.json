@@ -1,0 +1,8 @@
+{
+  "id": "7eb5efdd-d4dd-47da-a74a-d93ce68ea185",
+  "name": "Estatísticas de suspeitas de fraudes no Pix (MED)",
+  "description": "Este recurso reúne informações periódicas sobre transações Pix contestadas pelos usuários pagadores via Mecanismo Especial de Devolução (MED) previsto no Art. 41-B, inciso I, do Regulamento Anexo à Resolução BCB n° 1, de 12 de agosto de 2020, abrangendo tanto os volumes quanto os valores envolvidos em situações de suspeita de fraude. Dados serão publicados 30 dias após o término do mês.\r\n\r\nEste recurso permite a construção da URL, com a manipulação de seus parâmetros, assim como a visualização dos dados da API.\r\n\r\n###Endereço padrão:\r\n\r\nhttps ://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/odata/EstatisticasFraudesPix?$format=json&__[Outros Parâmetros]__\r\n\r\n\r\nOs parâmetros disponíveis podem ser visualizados na [documentação](https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/documentacao)\r\n\r\n###Formatos de Retorno:\r\n\r\nPor padrão os dados podem ser retornados em 4 formatos:\r\n\r\n- json (Padrão)\r\n- xml\r\n- text/csv\r\n- text/html\r\n",
+  "format": "JSON",
+  "url": "https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/aplicacao#!/recursos/EstatisticasFraudesPix",
+  "last_modified": null
+}

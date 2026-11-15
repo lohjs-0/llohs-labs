@@ -1,0 +1,704 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap");
+
+/* =========================================
+   LLOHS — TECHNICAL ARTICLE
+   ========================================= */
+
+.site-container:has(.technical-article-page) {
+    max-width: none;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.technical-article-page {
+    position: relative;
+    isolation: isolate;
+    min-height: 100vh;
+    overflow: clip;
+    color: #c6c6c6;
+}
+
+.technical-article-top {
+    position: relative;
+    z-index: 3;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+}
+
+.technical-article-brand {
+    color: #f0f0f0;
+    font-family: Consolas, monospace;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.technical-article-back {
+    color: #888;
+    font-size: 12px;
+}
+
+.technical-article-back:hover {
+    color: #c9c9c9;
+}
+
+/* =========================================
+   FULL-PAGE BACKGROUND
+   ========================================= */
+
+.technical-article-background {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 920px;
+
+    background:
+        radial-gradient(ellipse at 65% 30%,
+            rgba(66, 91, 125, 0.22),
+            transparent 60%),
+        repeating-linear-gradient(145deg,
+            transparent 0,
+            transparent 26px,
+            rgba(255, 255, 255, 0.012) 27px,
+            transparent 28px),
+        #111111;
+
+    background-size: cover;
+    background-position: center top;
+    pointer-events: none;
+}
+
+.technical-article-background.has-cover {
+    background-size: cover;
+    background-position: center top;
+}
+
+.technical-article-background::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(90deg,
+            rgba(12, 12, 12, 0.45),
+            rgba(12, 12, 12, 0.32)),
+        linear-gradient(180deg,
+            rgba(17, 17, 17, 0.12) 0%,
+            rgba(17, 17, 17, 0.38) 45%,
+            #111111 100%);
+}
+
+/* =========================================
+   ARTICLE CONTAINER
+   ========================================= */
+
+.technical-article-container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* =========================================
+   ARTICLE HEADER
+   ========================================= */
+
+.technical-article-header {
+    padding-top: 210px;
+    padding-bottom: 52px;
+    max-width: 750px;
+}
+
+.technical-article-kicker {
+    display: block;
+    margin-bottom: 18px;
+    color: #8eaed2;
+    font-family: Consolas, monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+}
+
+.technical-article-header h1 {
+    margin: 0 0 14px;
+    max-width: 720px;
+    color: #f0f0f0;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: clamp(28px, 3.8vw, 42px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.035em;
+    overflow-wrap: anywhere;
+}
+
+.technical-article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    color: #a1a1a1;
+    font-family: Consolas, monospace;
+    font-size: 12px;
+}
+
+.technical-article-description {
+    margin: 26px 0 0;
+    max-width: 630px;
+    color: #bdbdbd;
+    font-family: Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+/* =========================================
+   ARTICLE LAYOUT
+   ========================================= */
+
+.technical-article-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 240px;
+    gap: 48px;
+    align-items: start;
+}
+
+.technical-article-content {
+    min-width: 0;
+    color: #c5c5c5;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 13px;
+    line-height: 2;
+}
+
+.technical-article-content p {
+    margin: 0 0 24px;
+}
+
+.technical-article-content h2,
+.technical-article-content h3 {
+    scroll-margin-top: 30px;
+    font-family: Consolas, monospace;
+}
+
+.technical-article-content h2 {
+    font-size: 19px;
+    margin: 46px 0 18px;
+}
+
+.technical-article-content h3 {
+    font-size: 16px;
+    margin: 32px 0 14px;
+}
+
+.technical-article-content a {
+    color: #8fb4df;
+}
+
+.technical-article-content pre {
+    max-width: 100%;
+    overflow-x: auto;
+    background: #181818;
+    border: 1px solid #303030;
+    border-radius: 4px;
+    padding: 18px;
+}
+
+.technical-article-content blockquote {
+    border-left: 2px solid #729ac9;
+    padding-left: 18px;
+    color: #aaa;
+}
+
+/* =========================================
+   ARTICLE IMAGES
+   ========================================= */
+
+.technical-article-figure {
+    margin: 32px 0 42px;
+}
+
+.technical-article-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid #303030;
+    border-radius: 4px;
+}
+
+.technical-article-figure figcaption {
+    margin-top: 10px;
+    color: #888;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+/* =========================================
+   TABLE OF CONTENTS
+   ========================================= */
+
+.technical-article-sidebar {
+    border-left: 1px solid #353535;
+    padding-left: 18px;
+}
+
+.technical-article-sidebar nav {
+    position: sticky;
+    top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+.technical-article-toc-title {
+    margin-bottom: 12px;
+    color: #999;
+    font-family: Consolas, monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+}
+
+.technical-article-sidebar a {
+    color: #aaa;
+    font-family: Consolas, monospace;
+    font-size: 12px;
+    line-height: 1.55;
+    text-decoration: underline;
+    text-decoration-color: #666;
+    text-underline-offset: 3px;
+}
+
+.technical-article-sidebar a:hover {
+    color: #e0e0e0;
+}
+
+.technical-article-toc-sub {
+    padding-left: 12px;
+    color: #888 !important;
+}
+
+/* =========================================
+   TAGS AND FOOTER
+   ========================================= */
+
+.technical-article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 45px;
+}
+
+.technical-article-tags span {
+    color: #999;
+    font-family: Consolas, monospace;
+    font-size: 11px;
+}
+
+.technical-article-footer {
+    margin-top: 70px;
+    padding-top: 20px;
+    border-top: 1px solid #292929;
+}
+
+.technical-article-footer a {
+    color: #729ac9;
+    font-size: 12px;
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 850px) {
+    .technical-article-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 36px;
+    }
+
+    .technical-article-sidebar {
+        grid-row: 1;
+        border-left: 0;
+        border-bottom: 1px solid #303030;
+        padding: 0 0 22px;
+    }
+
+    .technical-article-sidebar nav {
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px 18px;
+    }
+
+    .technical-article-toc-title {
+        flex-basis: 100%;
+    }
+
+    .technical-article-header {
+        padding-top: 150px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .technical-article-top,
+    .technical-article-container {
+        padding-left: 22px;
+        padding-right: 22px;
+    }
+
+    .technical-article-background {
+        height: 700px;
+    }
+
+    .technical-article-header {
+        padding-top: 120px;
+        padding-bottom: 38px;
+    }
+
+    .technical-article-header h1 {
+        font-size: 27px;
+    }
+
+    .technical-article-content {
+        font-size: 12px;
+        line-height: 1.9;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+
+/* =========================================
+   LLOHS — TECHNICAL ARTICLE TYPOGRAPHY
+   ========================================= */
+
+.technical-article-page {
+    font-family: "IBM Plex Mono", monospace;
+}
+
+.technical-article-page h1,
+.technical-article-page h2,
+.technical-article-page h3,
+.technical-article-page h4,
+.technical-article-page p,
+.technical-article-page a,
+.technical-article-page span,
+.technical-article-page strong,
+.technical-article-page small,
+.technical-article-page li,
+.technical-article-page code,
+.technical-article-page pre,
+.technical-article-page blockquote,
+.technical-article-page figcaption,
+.technical-article-page .technical-article-brand,
+.technical-article-page .technical-article-kicker,
+.technical-article-page .technical-article-meta,
+.technical-article-page .technical-article-description,
+.technical-article-page .technical-article-content,
+.technical-article-page .technical-article-toc-title,
+.technical-article-page .technical-article-sidebar a,
+.technical-article-page .technical-article-tags span {
+    font-family: "IBM Plex Mono", monospace;
+}
+
+
+
+/* =========================================
+   LLOHS — INTERACTIVE IMAGE CAPTIONS
+   ========================================= */
+
+.technical-article-figure {
+  position: relative;
+  margin: 32px 0 42px;
+  overflow: hidden;
+  border: 1px solid #303030;
+  border-radius: 4px;
+  outline-offset: 5px;
+}
+
+.technical-article-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+}
+
+.technical-article-figure figcaption {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  margin: 0;
+  padding: 48px 20px 18px;
+
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.96),
+    rgba(0, 0, 0, 0.72) 55%,
+    transparent
+  );
+
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+
+  pointer-events: none;
+}
+
+.technical-article-image-index {
+  color: #8eaed2;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.technical-article-image-description {
+  color: #e4e4e4;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.technical-article-figure:hover figcaption,
+.technical-article-figure:focus-visible figcaption,
+.technical-article-figure:focus-within figcaption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (hover: none) {
+  .technical-article-figure figcaption {
+    position: static;
+    padding: 14px 16px;
+    background: #181818;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .technical-article-figure figcaption {
+    transition: none;
+  }
+}
+
+
+/* =========================================
+   LLOHS — MOBILE ARTICLE REDESIGN
+   ========================================= */
+
+@media (max-width: 850px) {
+  .technical-article-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .technical-article-sidebar {
+    order: -1;
+    width: 100%;
+    padding: 0;
+    border: 0;
+  }
+
+  .technical-article-content {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .technical-article-top,
+  .technical-article-container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .technical-article-top {
+    gap: 12px;
+  }
+
+  .technical-article-header {
+    padding-top: 72px;
+    padding-bottom: 28px;
+  }
+
+  .technical-article-header h1 {
+    font-size: clamp(22px, 6vw, 28px);
+    line-height: 1.3;
+    letter-spacing: -0.035em;
+    overflow-wrap: anywhere;
+  }
+
+  .technical-article-kicker {
+    margin-bottom: 12px;
+  }
+
+  .technical-article-meta {
+    font-size: 11px;
+  }
+
+  .technical-article-description {
+    margin-top: 16px;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  .technical-article-layout {
+    gap: 24px;
+  }
+
+  .technical-article-content {
+    font-size: 12px;
+    line-height: 1.85;
+    overflow-wrap: anywhere;
+  }
+
+  .technical-article-content h1 {
+    font-size: 23px;
+    line-height: 1.4;
+    margin: 22px 0;
+    overflow-wrap: anywhere;
+  }
+
+  .technical-article-content h2 {
+    font-size: 17px;
+    line-height: 1.5;
+    margin: 34px 0 14px;
+  }
+
+  .technical-article-content h3 {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 26px 0 12px;
+  }
+
+  .technical-article-content p {
+    margin-bottom: 18px;
+  }
+
+  .technical-article-content pre {
+    padding: 14px;
+    font-size: 11px;
+  }
+
+  .technical-article-figure {
+    margin: 24px 0 30px;
+  }
+
+  .technical-article-figure figcaption {
+    font-size: 10px;
+  }
+
+  .technical-article-sidebar {
+    border-bottom: 0;
+  }
+
+  .technical-article-sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+  }
+
+  .technical-article-toc-title {
+    margin: 0;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+
+  .technical-article-tags {
+    margin-top: 32px;
+  }
+
+  .technical-article-footer {
+    margin-top: 44px;
+  }
+}
+
+
+/* =========================================
+   COLLAPSIBLE TABLE OF CONTENTS
+   ========================================= */
+
+.technical-article-toc-toggle {
+  display: none;
+}
+
+@media (max-width: 850px) {
+  .technical-article-toc {
+    border: 1px solid #303030;
+    border-radius: 5px;
+    background: rgba(20, 20, 20, 0.85);
+  }
+
+  .technical-article-toc-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px;
+    color: #a8a8a8;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .technical-article-toc-toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .technical-article-toc-chevron {
+    color: #8eaed2;
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .technical-article-toc[open]
+    .technical-article-toc-chevron {
+    transform: rotate(45deg);
+  }
+
+  .technical-article-toc nav {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 4px 16px 18px;
+  }
+
+  .technical-article-toc nav a {
+    display: block;
+    font-size: 11px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (min-width: 851px) {
+  .technical-article-toc:not([open]) nav {
+    display: flex;
+  }
+
+  .technical-article-toc nav {
+    position: sticky;
+    top: 28px;
+  }
+}

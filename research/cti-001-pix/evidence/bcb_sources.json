@@ -1,0 +1,98 @@
+{
+  "project": "CTI-001",
+  "source": "Banco Central do Brasil",
+  "dataset_id": "pix",
+  "dataset_title": "Estatísticas do Pix",
+  "collected_at_utc": "2026-11-14T23:36:33.186885+00:00",
+  "dataset_url": "https://dadosabertos.bcb.gov.br/dataset/pix",
+  "resources": [
+    {
+      "id": "402d52fe-b37e-4483-80e4-eec3493f9b1d",
+      "name": "Site do BC - Estatísticas do Pix",
+      "description": "Acesso à página de consulta de Estatísticas do Pix no site do Banco Central do Brasil",
+      "format": "HTML",
+      "url": "https://www.bcb.gov.br/estabilidadefinanceira/estatisticaspix",
+      "last_modified": null
+    },
+    {
+      "id": "dfebca59-7d31-4a0f-ae0c-48167f53e8c2",
+      "name": "Documentação",
+      "description": "Arquivo de documentação do conjunto de dados.",
+      "format": "HTML",
+      "url": "https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/documentacao",
+      "last_modified": null
+    },
+    {
+      "id": "4729e00c-0043-4c3e-ae56-fc5f04682f19",
+      "name": "API - Documentação Swagger",
+      "description": "Documentação da API utilizando a interface Swagger.\r\n\r\nDuas versões da interface estão disponíveis:\r\n\r\n* https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/swagger-ui2#/\r\n* https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/swagger-ui3#/",
+      "format": "API",
+      "url": "https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/swagger-ui3#/",
+      "last_modified": null
+    },
+    {
+      "id": "346d0fb2-3c75-405e-83db-1099507fe42f",
+      "name": "API - Navegador de Dados",
+      "description": "Interface de navegação nos dados e construção da URL de chamada para todos os recursos da API. \r\n\r\n\r\n###Endereço padrão:\r\n\r\nhttps ://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/odata/__[codigo_recurso]__?$format=json&__[Outros Parâmetros]__\r\n\r\n\r\nOs parâmetros disponíveis podem ser visualizados na [documentação](https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/documentacao)\r\n\r\nOs códigos dos recursos disponibilizados são: \r\n\r\n_ChavesPix_\r\n\r\n_TransacoesPixPorMunicipio_\r\n\r\n_EstatisticasTransacoesPix_\r\n\r\n_EstatisticasFraudesPix_\r\n\r\n\r\n###Formatos de Retorno:\r\n\r\nPor padrão os dados podem ser retornados em 4 formatos:\r\n\r\n- json (Padrão)\r\n- xml\r\n- text/csv\r\n- text/html\r\n",
+      "format": "API",
+      "url": "https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/aplicacao#!/",
+      "last_modified": null
+    },
+    {
+      "id": "ad02192b-67c7-47bf-b8c3-c90e2a54c5eb",
+      "name": "API - Endpoint OData",
+      "description": "Acesso à API utilizando padrão OData. \r\n\r\nOpen Data Protocol (OData) é um protocolo para acessar informações via Web construído sobre o protocolo AtomPub e JSON. Uma requisição OData usa o modelo REST para executar as suas solicitações.",
+      "format": "OData",
+      "url": "https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/odata/",
+      "last_modified": null
+    },
+    {
+      "id": "030e7438-4778-4096-975c-2f0616f3626d",
+      "name": "Usuários Cadastrados no DICT",
+      "description": "Estoque do último dia do mês de usuários cadastrados no DICT, por natureza do usuário.\r\n\r\nEste recurso permite a construção da URL, com a manipulação de seus parâmetros, assim como a visualização dos dados da API.\r\n\r\n###Endereço padrão:\r\n\r\nhttps ://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/odata/PixUsuariosCadastradosDICT?$format=json&__[Outros Parâmetros]__\r\n\r\n\r\nOs parâmetros disponíveis podem ser visualizados na [documentação](https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/documentacao)\r\n\r\n###Formatos de Retorno:\r\n\r\nPor padrão os dados podem ser retornados em 4 formatos:\r\n\r\n- json (Padrão)\r\n- xml\r\n- text/csv\r\n- text/html",
+      "format": "JSON",
+      "url": "https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/aplicacao#!/recursos/PixUsuariosCadastradosDICT",
+      "last_modified": null
+    },
+    {
+      "id": "ad139af6-f600-4af8-b167-9fdac3a929f5",
+      "name": "Estoque de Chaves Pix por Participante",
+      "description": "Estoque de Chaves Pix no último dia do mês, por Participante Pix, por segmento, aberto por Pessoas Físicas (PF), Jurídicas (PF) e por tipo de chave.\r\n\r\nEste recurso permite a construção da URL, com a manipulação de seus parâmetros, assim como a visualização dos dados da API.\r\n\r\n###Endereço padrão:\r\n\r\nhttps ://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/odata/ChavesPix?$format=json&__[Outros Parâmetros]__\r\n\r\n\r\nOs parâmetros disponíveis podem ser visualizados na [documentação](https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/documentacao)\r\n\r\n###Formatos de Retorno:\r\n\r\nPor padrão os dados podem ser retornados em 4 formatos:\r\n\r\n- json (Padrão)\r\n- xml\r\n- text/csv\r\n- text/html\r\n",
+      "format": "JSON",
+      "url": "https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/aplicacao#!/recursos/ChavesPix",
+      "last_modified": null
+    },
+    {
+      "id": "268e3bf6-b096-4006-83cd-813697012ece",
+      "name": "Transações Pix por Município",
+      "description": "Transações Pix liquidadas por município e por pessoas físicas (PF) e jurídicas (PJ), considerando a perspectiva do pagador e do recebedor.\r\n\r\nEste recurso permite a construção da URL, com a manipulação de seus parâmetros, assim como a visualização dos dados da API.\r\n\r\n###Endereço padrão:\r\n\r\nhttps ://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/odata/TransacoesPixPorMunicipio?$format=json&__[Outros Parâmetros]__\r\n\r\n\r\nOs parâmetros disponíveis podem ser visualizados na [documentação](https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/documentacao)\r\n\r\n###Formatos de Retorno:\r\n\r\nPor padrão os dados podem ser retornados em 4 formatos:\r\n\r\n- json (Padrão)\r\n- xml\r\n- text/csv\r\n- text/html\r\n",
+      "format": "JSON",
+      "url": "https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/aplicacao#!/recursos/TransacoesPixPorMunicipio",
+      "last_modified": null
+    },
+    {
+      "id": "7eb5efdd-d4dd-47da-a74a-d93ce68ea185",
+      "name": "Estatísticas de suspeitas de fraudes no Pix (MED)",
+      "description": "Este recurso reúne informações periódicas sobre transações Pix contestadas pelos usuários pagadores via Mecanismo Especial de Devolução (MED) previsto no Art. 41-B, inciso I, do Regulamento Anexo à Resolução BCB n° 1, de 12 de agosto de 2020, abrangendo tanto os volumes quanto os valores envolvidos em situações de suspeita de fraude. Dados serão publicados 30 dias após o término do mês.\r\n\r\nEste recurso permite a construção da URL, com a manipulação de seus parâmetros, assim como a visualização dos dados da API.\r\n\r\n###Endereço padrão:\r\n\r\nhttps ://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/odata/EstatisticasFraudesPix?$format=json&__[Outros Parâmetros]__\r\n\r\n\r\nOs parâmetros disponíveis podem ser visualizados na [documentação](https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/documentacao)\r\n\r\n###Formatos de Retorno:\r\n\r\nPor padrão os dados podem ser retornados em 4 formatos:\r\n\r\n- json (Padrão)\r\n- xml\r\n- text/csv\r\n- text/html\r\n",
+      "format": "JSON",
+      "url": "https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/aplicacao#!/recursos/EstatisticasFraudesPix",
+      "last_modified": null
+    },
+    {
+      "id": "d5430811-0ef7-4404-bc87-d76aa5cfebcd",
+      "name": "Estatisticas de transações Pix",
+      "description": "Quantidade e volume financeiro de transações Pix liquidadas mensalmente. Não inclui Pix liquidados nos livros do participante, isto é, transações não enviadas para liquidação no SPI.\r\n\r\nEste recurso permite a construção da URL, com a manipulação de seus parâmetros, assim como a visualização dos dados da API.\r\n\r\n###Endereço padrão:\r\n\r\nhttps ://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/odata/EstatisticasTransacoesPix?$format=json&__[Outros Parâmetros]__\r\n\r\n\r\nOs parâmetros disponíveis podem ser visualizados na [documentação](https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/documentacao)\r\n\r\n###Formatos de Retorno:\r\n\r\nPor padrão os dados podem ser retornados em 4 formatos:\r\n\r\n- json (Padrão)\r\n- xml\r\n- text/csv\r\n- text/html\r\n",
+      "format": "JSON",
+      "url": "https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/aplicacao#!/recursos/EstatisticasTransacoesPix",
+      "last_modified": null
+    },
+    {
+      "id": "103c017a-504a-45a7-9265-71c355d866c1",
+      "name": "Transações Pix por Perfil do Recebedor",
+      "description": "Quantidade e volume financeiro de transações Pix liquidadas, na visão do recebedor, por tipo de pessoa, seção CNAE, porte, forma de iniciação, natureza e finalidade.",
+      "format": "JSON",
+      "url": "https://was-p.bcnet.bcb.gov.br/olinda-ide/servico/Pix_DadosAbertos/versao/v1/aplicacao#!/recursos/CnaePorteRecebedor",
+      "last_modified": null
+    }
+  ]
+}
