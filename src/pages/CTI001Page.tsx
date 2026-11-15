@@ -255,22 +255,34 @@ export default function CTI001Page() {
                 <span>{tr("10 SEÇÕES", "10 SECTIONS")}</span>
               </div>
 
-              <nav aria-label={tr("Sumário", "Table of contents")}>
-                {sections.map((section) => (
-                  <a
-                    key={section.id}
-                    href={`#${section.id}`}
-                    className={
-                      activeSection === section.id
-                        ? "cti-nav-active"
-                        : ""
-                    }
-                  >
-                    <span>{section.number}</span>
-                    {section.label[lang]}
-                  </a>
-                ))}
-              </nav>
+              
+<nav aria-label={tr("Sumário", "Table of contents")}>
+  {sections.map((section) => (
+    <a
+      key={section.id}
+      href="#/research/cti-001"
+      onClick={(event) => {
+        event.preventDefault();
+
+        document
+          .getElementById(section.id)
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+      }}
+      className={
+        activeSection === section.id
+          ? "cti-nav-active"
+          : ""
+      }
+    >
+      <span>{section.number}</span>
+      {section.label[lang]}
+    </a>
+  ))}
+</nav>
+
 
               <div className="cti-sidebar-bottom">
                 <span>{tr("STATUS DO DOCUMENTO", "DOCUMENT STATUS")}</span>
