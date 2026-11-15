@@ -86,16 +86,13 @@ function Figure({
               padding: "32px 16px",
               textAlign: "center",
               color: "#999",
-              fontSize: "13px",
               overflowWrap: "anywhere",
             }}
           >
-            <p>
-              {lang === "pt"
-                ? "Não foi possível carregar esta figura."
-                : "Unable to load this figure."}
-            </p>
-            <small>{src}</small>
+            {lang === "pt"
+              ? "não foi possível carregar esta figura."
+              : "unable to load this figure."}
+            <p>{src}</p>
           </div>
         ) : (
           <img
@@ -114,15 +111,17 @@ function Figure({
         )}
       </div>
 
-      <figcaption>
-        <span>
-          {lang === "pt" ? "FIGURA" : "FIGURE"} {number}
+      <figcaption style={{ textTransform: "none" }}>
+        <span style={{ textTransform: "lowercase" }}>
+          {lang === "pt" ? "figura" : "figure"} {number}
         </span>
-        <p>{caption[lang]}</p>
-        <small>
+        <p style={{ textTransform: "lowercase" }}>
+          {caption[lang]}
+        </p>
+        <small style={{ textTransform: "lowercase" }}>
           {lang === "pt"
-            ? "FONTE: BANCO CENTRAL DO BRASIL / ANÁLISE LLOHS LABS"
-            : "SOURCE: BANCO CENTRAL DO BRASIL / LLOHS LABS ANALYSIS"}
+            ? "fonte: banco central do brasil / análise llohs labs"
+            : "source: banco central do brasil / llohs labs analysis"}
         </small>
       </figcaption>
     </figure>
