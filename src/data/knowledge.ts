@@ -6,6 +6,7 @@ import { howCpusExecuteInstructions } from "./knowledge/computing/how-cpus-execu
 
 // ELECTRONICS
 import { understandingI2c } from "./knowledge/electronics/understanding-i2c";
+import { z80Computer } from "./knowledge/electronics/z80-computer";
 
 // ASTRONOMY
 import { whatHappensInsideAStar } from "./knowledge/astronomy/what-happens-inside-a-star";
@@ -50,10 +51,15 @@ export type {
 
 // ALL ARTICLES
 export const knowledgePosts: KnowledgePost[] = [
+  // COMPUTER SCIENCE
   howCpusExecuteInstructions,
-  understandingI2c,
-  whatHappensInsideAStar,
 
+  // ELECTRONICS
+  understandingI2c,
+  z80Computer,
+
+  // ASTRONOMY
+  whatHappensInsideAStar,
   iapetus,
   venusDayLongerThanYear,
   pulsars,
@@ -62,6 +68,7 @@ export const knowledgePosts: KnowledgePost[] = [
   moonMovingAway,
   magnetars,
 
+  // PALEONTOLOGY
   opabinia,
   tullyMonster,
   sharksOlderThanTrees,
@@ -71,10 +78,12 @@ export const knowledgePosts: KnowledgePost[] = [
   giantCarboniferousInsects,
   coelacanth,
 
+  // BIOLOGY
   antarcticIcefish,
   octopusThreeHearts,
   axolotlRegeneration,
 
+  // EARTH SCIENCE
   bloodFalls,
   naturalNuclearReactor,
   snowballEarth,
