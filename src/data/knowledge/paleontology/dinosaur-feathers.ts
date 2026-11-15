@@ -34,12 +34,15 @@ export const dinosaurFeathers: KnowledgePost = {
       en: "Scientific reconstruction of a feathered theropod dinosaur.",
     },
 
+    
     caption: {
       pt: "Diversos dinossauros não avianos apresentavam penas ou estruturas semelhantes.",
       en: "Several non-avian dinosaurs possessed feathers or similar structures.",
     },
+  },
 
   sections: [
+
     {
       id: "introduction",
       heading: {
