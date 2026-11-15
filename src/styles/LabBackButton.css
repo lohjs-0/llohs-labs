@@ -1,0 +1,34 @@
+
+.lab-back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  margin-bottom: 28px;
+
+  color: #929292;
+  font-size: 12px;
+  font-weight: 400;
+  text-decoration: none;
+
+  transition: color 0.2s ease;
+}
+
+.lab-back-button:hover {
+  color: #ffffff;
+}
+
+.lab-back-arrow {
+  font-size: 17px;
+  transition: transform 0.2s ease;
+}
+
+.lab-back-button:hover .lab-back-arrow {
+  transform: translateX(-4px);
+}
+
+.lab-back-button:focus-visible {
+  outline: 1px solid #bdbdbd;
+  outline-offset: 5px;
+  border-radius: 2px;
+}
