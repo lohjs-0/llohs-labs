@@ -43,10 +43,10 @@ export const howCpusExecuteInstructions: KnowledgePost = {
       en: "Modern processors integrate billions of transistors organized into circuits responsible for executing instructions.",
     },
 
-    credit: "A definir conforme a imagem escolhida",
+    credit: "techtudo",
 
     sourceUrl:
-      "https://commons.wikimedia.org/wiki/Category:Microprocessor_dies",
+      "https://www.techtudo.com.br/noticias/2022/10/para-que-serve-o-processador-veja-o-que-e-e-como-funciona-o-microchip.ghtml",
   },
 
   sections: [
