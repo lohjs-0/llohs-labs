@@ -12,12 +12,57 @@ import type { KnowledgeImage } from "../data/knowledge.types";
 
 import "../styles/knowledge.css";
 
+/* =========================================
+   TYPES
+========================================= */
+
 type ImageViewer = {
   src: string;
   alt: string;
   caption?: string;
   credit?: string;
 };
+
+/* =========================================
+   IMAGE PATH RESOLVER
+========================================= */
+
+function resolveImagePath(src: string): string {
+  const path = src.trim();
+
+  if (!path) return "";
+
+  // URLs externas e imagens incorporadas.
+  if (
+    /^(https?:)?\/\//i.test(path) ||
+    /^(data|blob):/i.test(path)
+  ) {
+    return path;
+  }
+
+  const base = import.meta.env.BASE_URL || "/";
+
+  // Evita duplicar o prefixo do GitHub Pages.
+  if (path.startsWith(base)) {
+    return path;
+  }
+
+  // Remove a barra inicial.
+  const normalized = path.replace(/^\/+/, "");
+
+  // Arquivos da pasta public são servidos
+  // diretamente a partir da raiz do site.
+  const withoutPublic = normalized.replace(
+    /^public\//,
+    ""
+  );
+
+  return `${base}${withoutPublic}`;
+}
+
+/* =========================================
+   ARTICLE IMAGE
+========================================= */
 
 function ArticleImage({
   image,
@@ -32,49 +77,61 @@ function ArticleImage({
 }) {
   const [failed, setFailed] = useState(false);
 
+  const imageSrc = resolveImagePath(image.src);
+
   useEffect(() => {
     setFailed(false);
-  }, [image.src]);
-
-  if (failed) return null;
+  }, [imageSrc]);
 
   const alt = image.alt[language];
   const caption = image.caption?.[language];
 
   return (
     <figure className="knowledge-article-figure">
-      <button
-        type="button"
-        className="knowledge-article-image-button"
-        onClick={() =>
-          onOpen({
-            src: image.src,
-            alt,
-            caption,
-            credit: image.credit,
-          })
-        }
-        aria-label={
-          language === "pt"
-            ? `Ampliar imagem: ${alt}`
-            : `Enlarge image: ${alt}`
-        }
-      >
-        <img
-          src={image.src}
-          alt={alt}
-          loading={priority ? "eager" : "lazy"}
-          decoding="async"
-          onError={() => setFailed(true)}
-        />
-
-        <span
-          className="knowledge-image-zoom"
-          aria-hidden="true"
+      {!failed ? (
+        <button
+          type="button"
+          className="knowledge-article-image-button"
+          onClick={() =>
+            onOpen({
+              src: imageSrc,
+              alt,
+              caption,
+              credit: image.credit,
+            })
+          }
+          aria-label={
+            language === "pt"
+              ? `Ampliar imagem: ${alt}`
+              : `Enlarge image: ${alt}`
+          }
         >
-          ⤢
-        </span>
-      </button>
+          <img
+            src={imageSrc}
+            alt={alt}
+            loading={priority ? "eager" : "lazy"}
+            decoding="async"
+            onError={() => setFailed(true)}
+          />
+
+          <span
+            className="knowledge-image-zoom"
+            aria-hidden="true"
+          >
+            ⤢
+          </span>
+        </button>
+      ) : (
+        <div className="knowledge-image-error">
+          <span>
+            {language === "pt"
+              ? "Imagem indisponível"
+              : "Image unavailable"}
+          </span>
+
+          <small>{alt}</small>
+        </div>
+      )}
 
       {(caption || image.credit) && (
         <figcaption className="knowledge-image-caption">
@@ -85,6 +142,7 @@ function ArticleImage({
               {language === "pt"
                 ? "Crédito: "
                 : "Credit: "}
+
               {image.sourceUrl ? (
                 <a
                   href={image.sourceUrl}
@@ -104,6 +162,10 @@ function ArticleImage({
   );
 }
 
+/* =========================================
+   KNOWLEDGE ARTICLE
+========================================= */
+
 export default function KnowledgeArticle() {
   const { slug } = useParams<{ slug: string }>();
   const { i18n } = useTranslation();
@@ -117,6 +179,10 @@ export default function KnowledgeArticle() {
   const post = knowledgePosts.find(
     (item) => item.slug === slug
   );
+
+  /* =========================================
+     LIGHTBOX EFFECTS
+  ========================================= */
 
   useEffect(() => {
     setViewer(null);
@@ -141,6 +207,10 @@ export default function KnowledgeArticle() {
     };
   }, [viewer]);
 
+  /* =========================================
+     DATE FORMAT
+  ========================================= */
+
   const formatDate = (date: string) =>
     new Intl.DateTimeFormat(
       language === "pt" ? "pt-BR" : "en-US",
@@ -151,6 +221,10 @@ export default function KnowledgeArticle() {
         timeZone: "UTC",
       }
     ).format(new Date(`${date}T12:00:00Z`));
+
+  /* =========================================
+     NOT FOUND
+  ========================================= */
 
   if (!post) {
     return (
@@ -171,8 +245,15 @@ export default function KnowledgeArticle() {
     );
   }
 
+  /* =========================================
+     RENDER
+  ========================================= */
+
   return (
     <article className="knowledge-article-page">
+
+      {/* TOP NAVIGATION */}
+
       <div className="knowledge-article-top">
         <Link to="/" className="knowledge-brand">
           llohs
@@ -190,6 +271,9 @@ export default function KnowledgeArticle() {
       </div>
 
       <div className="knowledge-article-container">
+
+        {/* HEADER */}
+
         <header className="knowledge-article-header">
           <span className="knowledge-eyebrow">
             KNOWLEDGE /{" "}
@@ -216,6 +300,8 @@ export default function KnowledgeArticle() {
           </div>
         </header>
 
+        {/* COVER IMAGE */}
+
         {post.cover && (
           <div className="knowledge-article-cover">
             <ArticleImage
@@ -227,7 +313,12 @@ export default function KnowledgeArticle() {
           </div>
         )}
 
+        {/* ARTICLE LAYOUT */}
+
         <div className="knowledge-article-layout">
+
+          {/* MAIN CONTENT */}
+
           <div className="knowledge-article-content">
             {post.sections.map((section, index) => (
               <section
@@ -251,6 +342,8 @@ export default function KnowledgeArticle() {
                   )
                 )}
 
+                {/* SECTION IMAGE */}
+
                 {section.image && (
                   <ArticleImage
                     image={section.image}
@@ -260,6 +353,8 @@ export default function KnowledgeArticle() {
                 )}
               </section>
             ))}
+
+            {/* REFERENCES */}
 
             {post.references &&
               post.references.length > 0 && (
@@ -302,6 +397,8 @@ export default function KnowledgeArticle() {
                 </section>
               )}
 
+            {/* TAGS */}
+
             <div className="knowledge-article-tags">
               {post.tags.map((tag) => (
                 <span key={tag}>{tag}</span>
@@ -318,6 +415,8 @@ export default function KnowledgeArticle() {
                 : "back to archive"}
             </Link>
           </div>
+
+          {/* TABLE OF CONTENTS */}
 
           <aside className="knowledge-article-sidebar">
             <nav
@@ -351,6 +450,8 @@ export default function KnowledgeArticle() {
           </aside>
         </div>
       </div>
+
+      {/* IMAGE LIGHTBOX */}
 
       {viewer && (
         <div
