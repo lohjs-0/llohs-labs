@@ -38,7 +38,7 @@ export default function Home() {
       <header className="home-hero">
         <div className="home-avatar">
           <img
-            src={`${import.meta.env.BASE_URL}images/file_0000000028a8820eac59aa5288be3048.png`}
+            src={`${import.meta.env.BASE_URL}images/53bc88684e1dcc6044c3e2864b9720f6.jpg`}
             alt="LLOHS profile"
             loading="eager"
             decoding="async"
