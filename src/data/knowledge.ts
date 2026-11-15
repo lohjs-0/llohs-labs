@@ -38,6 +38,9 @@ import { bloodFalls } from "./knowledge/earth-science/blood-falls";
 import { naturalNuclearReactor } from "./knowledge/earth-science/natural-nuclear-reactor";
 import { snowballEarth } from "./knowledge/earth-science/snowball-earth";
 
+import { transistorsDigitalLogic } from "./knowledge/electronics/transistors-digital-logic";
+
+
 // EXPORT TYPES
 export type {
   KnowledgeLanguage,
@@ -54,9 +57,12 @@ export const knowledgePosts: KnowledgePost[] = [
   // COMPUTER SCIENCE
   howCpusExecuteInstructions,
 
+  
   // ELECTRONICS
   understandingI2c,
   z80Computer,
+  transistorsDigitalLogic,
+
 
   // ASTRONOMY
   whatHappensInsideAStar,
