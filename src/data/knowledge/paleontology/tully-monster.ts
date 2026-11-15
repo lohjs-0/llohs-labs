@@ -25,18 +25,21 @@ export const tullyMonster: KnowledgePost = {
     "evolution",
   ],
 
-  cover: {
-    src: "/images/knowledge/tully-monster-cover.jpg",
+ 
+cover: {
+  src: "/images/knowledge/tully-monster-cover.jpg",
 
-    alt: {
-      pt: "Reconstrução paleontológica de Tullimonstrum gregarium.",
-      en: "Paleoart reconstruction of Tullimonstrum gregarium.",
-    },
+  alt: {
+    pt: "Reconstrução paleontológica de Tullimonstrum gregarium.",
+    en: "Paleoart reconstruction of Tullimonstrum gregarium.",
+  },
 
-    caption: {
-      pt: "Tullimonstrum gregarium, conhecido como monstro de Tully.",
-      en: "Tullimonstrum gregarium, commonly known as the Tully monster.",
-    },
+  caption: {
+    pt: "Tullimonstrum gregarium, conhecido como monstro de Tully.",
+    en: "Tullimonstrum gregarium, commonly known as the Tully monster.",
+  },
+},
+
 
   sections: [
     {
