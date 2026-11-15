@@ -36,13 +36,15 @@ export const opabinia: KnowledgePost = {
             en: "Reconstruction of Opabinia regalis, a Cambrian animal with five eyes and a proboscis.",
         },
 
+       
         caption: {
             pt: "Opabinia regalis viveu há aproximadamente 508 milhões de anos.",
             en: "Opabinia regalis lived approximately 508 million years ago.",
         },
-
+    },
 
     sections: [
+
         {
             id: "introduction",
 
