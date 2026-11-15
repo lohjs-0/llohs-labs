@@ -73,7 +73,7 @@ export default function Home() {
           {/* LINKEDIN */}
 
           <a
-            href="https://www.linkedin.com/"
+href="https://www.linkedin.com/in/lohane-massao"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
@@ -87,7 +87,7 @@ export default function Home() {
           {/* EMAIL */}
 
           <a
-            href="mailto:seu-email@exemplo.com"
+href="mailto:lohane.mdev@gmail.com"
             aria-label="Email"
             title="Email"
           >
