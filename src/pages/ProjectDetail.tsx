@@ -930,12 +930,21 @@ export default function ProjectDetail() {
               </span>
 
               {allSections.map((section) => (
-                <a
+                <button
                   key={section.id}
-                  href={`#${section.id}`}
+                  type="button"
+                  className="technical-article-toc-link"
+                  onClick={() => {
+                    document
+                      .getElementById(section.id)
+                      ?.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                      });
+                  }}
                 >
                   {section.title}
-                </a>
+                </button>
               ))}
             </nav>
           </aside>
