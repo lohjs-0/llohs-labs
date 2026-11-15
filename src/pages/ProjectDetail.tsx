@@ -1,18 +1,82 @@
 
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+
 import {
   projects,
   type Language,
   type Project,
 } from "../data/projects";
+
 import "../styles/technical-article.css";
+
+/* =========================================
+   TYPES
+========================================= */
 
 type Section = {
   id: string;
   title: string;
   paragraphs: string[];
 };
+
+/* =========================================
+   IMAGE PATH RESOLVER
+   GitHub Pages / Vite
+========================================= */
+
+function resolveImagePath(src: string): string {
+  if (!src) return "";
+
+  const path = src.trim();
+
+  // Preserve external URLs and special sources.
+  if (
+    /^(https?:)?\/\//i.test(path) ||
+    /^(data:|blob:)/i.test(path)
+  ) {
+    return path;
+  }
+
+  const base = import.meta.env.BASE_URL;
+
+  // Preserve anchors and other non-file references.
+  if (path.startsWith("#")) {
+    return path;
+  }
+
+  // Separate query parameters and fragments.
+  const match = path.match(/^([^?#]*)(.*)$/);
+
+  if (!match) return path;
+
+  let pathname = match[1];
+  const suffix = match[2];
+
+  pathname = pathname
+    .replace(/^\/+/, "")
+    .replace(/^\.\/+/, "")
+    .replace(/^public\//, "");
+
+  const normalizedBase = base
+    .replace(/^\/+/, "")
+    .replace(/\/+$/, "");
+
+  if (
+    normalizedBase &&
+    pathname.startsWith(`${normalizedBase}/`)
+  ) {
+    pathname = pathname.slice(
+      normalizedBase.length + 1
+    );
+  }
+
+  return `${base}${pathname}${suffix}`;
+}
+
+/* =========================================
+   TRANSLATIONS
+========================================= */
 
 const copy = {
   pt: {
@@ -35,6 +99,7 @@ const copy = {
       experimental: "experimental",
     },
   },
+
   en: {
     back: "← back to projects",
     missing: "project not found.",
@@ -56,6 +121,10 @@ const copy = {
     },
   },
 };
+
+/* =========================================
+   NIGHTJAR
+========================================= */
 
 const nightjar: Record<Language, Section[]> = {
   pt: [
@@ -112,6 +181,7 @@ const nightjar: Record<Language, Section[]> = {
       ],
     },
   ],
+
   en: [
     {
       id: "overview",
@@ -167,6 +237,10 @@ const nightjar: Record<Language, Section[]> = {
     },
   ],
 };
+
+/* =========================================
+   CERBERUS
+========================================= */
 
 const cerberus: Record<Language, Section[]> = {
   pt: [
@@ -235,6 +309,7 @@ const cerberus: Record<Language, Section[]> = {
       ],
     },
   ],
+
   en: [
     {
       id: "overview",
@@ -302,6 +377,10 @@ const cerberus: Record<Language, Section[]> = {
     },
   ],
 };
+
+/* =========================================
+   PIPOCA
+========================================= */
 
 const pipoca: Record<Language, Section[]> = {
   pt: [
@@ -378,6 +457,7 @@ const pipoca: Record<Language, Section[]> = {
       ],
     },
   ],
+
   en: [
     {
       id: "overview",
@@ -454,6 +534,10 @@ const pipoca: Record<Language, Section[]> = {
   ],
 };
 
+/* =========================================
+   PROJECT IMAGES
+========================================= */
+
 function Images({
   project,
   language,
@@ -469,10 +553,12 @@ function Images({
           key={image.src}
         >
           <img
-            src={image.src}
+            src={resolveImagePath(image.src)}
             alt={image.alt[language]}
             loading="lazy"
+            decoding="async"
           />
+
           {image.caption && (
             <figcaption>
               {image.caption[language]}
@@ -483,6 +569,10 @@ function Images({
     </>
   );
 }
+
+/* =========================================
+   PROJECT DETAIL
+========================================= */
 
 export default function ProjectDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -500,21 +590,27 @@ export default function ProjectDetail() {
   if (!project) {
     return (
       <section className="project-detail-page">
-        <Link to="/projects" className="back-link">
+        <Link
+          to="/projects"
+          className="back-link"
+        >
           {t.back}
         </Link>
+
         <p>{t.missing}</p>
       </section>
     );
   }
 
-  const isNightjar = project.slug === "nightjar";
+  const isNightjar =
+    project.slug === "nightjar";
 
   const isCerberus =
     project.slug === "cerberus-scanner" ||
     project.slug === "cerberus-osint";
 
-  const isPipoca = project.slug === "pipoca";
+  const isPipoca =
+    project.slug === "pipoca";
 
   const sections: Section[] = isNightjar
     ? nightjar[language]
@@ -551,6 +647,7 @@ export default function ProjectDetail() {
     isNightjar || isCerberus || isPipoca
       ? [
           ...sections,
+
           ...(isPipoca && project.images?.length
             ? [
                 {
@@ -564,6 +661,7 @@ export default function ProjectDetail() {
                 },
               ]
             : []),
+
           {
             id: "technologies",
             title: isNightjar
@@ -612,6 +710,9 @@ export default function ProjectDetail() {
 
   return (
     <article className="project-detail-page technical-article-page">
+
+      {/* TOP NAVIGATION */}
+
       <div className="technical-article-top">
         <Link
           to="/"
@@ -628,6 +729,8 @@ export default function ProjectDetail() {
         </Link>
       </div>
 
+      {/* BACKGROUND */}
+
       <div
         className={`technical-article-background${
           project.cover ? " has-cover" : ""
@@ -636,7 +739,7 @@ export default function ProjectDetail() {
           project.cover
             ? {
                 backgroundImage: `url(${JSON.stringify(
-                  project.cover
+                  resolveImagePath(project.cover)
                 )})`,
               }
             : undefined
@@ -644,7 +747,12 @@ export default function ProjectDetail() {
         aria-hidden="true"
       />
 
+      {/* MAIN CONTAINER */}
+
       <div className="technical-article-container">
+
+        {/* HEADER */}
+
         <header className="technical-article-header">
           <span className="technical-article-kicker">
             {kicker}
@@ -653,8 +761,12 @@ export default function ProjectDetail() {
           <h1>{title}</h1>
 
           <div className="technical-article-meta">
-            <span>{t.status[project.status]}</span>
+            <span>
+              {t.status[project.status]}
+            </span>
+
             <span>·</span>
+
             <span>
               {project.technologies
                 .slice(0, 3)
@@ -667,7 +779,12 @@ export default function ProjectDetail() {
           </p>
         </header>
 
+        {/* ARTICLE LAYOUT */}
+
         <div className="technical-article-layout">
+
+          {/* CONTENT */}
+
           <div className="technical-article-content">
             {allSections.map((section) => (
               <section
@@ -679,9 +796,13 @@ export default function ProjectDetail() {
 
                 {section.paragraphs.map(
                   (paragraph, index) => (
-                    <p key={index}>{paragraph}</p>
+                    <p key={index}>
+                      {paragraph}
+                    </p>
                   )
                 )}
+
+                {/* NIGHTJAR FINDINGS */}
 
                 {isNightjar &&
                   section.id === "findings" && (
@@ -691,10 +812,12 @@ export default function ProjectDetail() {
                           <strong>07</strong>
                           <span>{t.events}</span>
                         </div>
+
                         <div>
                           <strong>05</strong>
                           <span>{t.categories}</span>
                         </div>
+
                         <div>
                           <strong>02</strong>
                           <span>{t.findings}</span>
@@ -702,12 +825,16 @@ export default function ProjectDetail() {
                       </div>
 
                       <div className="technical-project-finding">
-                        <small>MEDIUM / NJ-001</small>
+                        <small>
+                          MEDIUM / NJ-001
+                        </small>
+
                         <h3>
                           {language === "pt"
                             ? "Execução de processo"
                             : "Process execution"}
                         </h3>
+
                         <p>
                           {language === "pt"
                             ? "InvoiceViewer.exe foi registrado na linha 3. O nome do processo não comprova atividade maliciosa."
@@ -716,12 +843,16 @@ export default function ProjectDetail() {
                       </div>
 
                       <div className="technical-project-finding">
-                        <small>MEDIUM / NJ-002</small>
+                        <small>
+                          MEDIUM / NJ-002
+                        </small>
+
                         <h3>
                           {language === "pt"
                             ? "Acesso a arquivos e conexão de saída"
                             : "File access and outbound connection"}
                         </h3>
+
                         <p>
                           {language === "pt"
                             ? "Eventos nas linhas 4, 5 e 6 justificam análise adicional, mas não comprovam exfiltração."
@@ -731,6 +862,8 @@ export default function ProjectDetail() {
                     </>
                   )}
 
+                {/* PROJECT IMAGES */}
+
                 {section.id === "evidence" && (
                   <Images
                     project={project}
@@ -738,15 +871,23 @@ export default function ProjectDetail() {
                   />
                 )}
 
+                {/* TECHNOLOGIES */}
+
                 {section.id === "technologies" && (
                   <div className="technical-article-tags">
-                    {project.technologies.map((tech) => (
-                      <span key={tech}>{tech}</span>
-                    ))}
+                    {project.technologies.map(
+                      (tech) => (
+                        <span key={tech}>
+                          {tech}
+                        </span>
+                      )
+                    )}
                   </div>
                 )}
               </section>
             ))}
+
+            {/* NIGHTJAR NOTICE */}
 
             {isNightjar && (
               <p className="technical-project-notice">
@@ -754,8 +895,11 @@ export default function ProjectDetail() {
               </p>
             )}
 
+            {/* PROJECT LINKS */}
+
             {(project.github || project.article) && (
               <div className="technical-article-footer">
+
                 {project.github && (
                   <a
                     href={project.github}
@@ -767,13 +911,17 @@ export default function ProjectDetail() {
                 )}
 
                 {project.article && (
-                  <Link to={`/blog/${project.article}`}>
+                  <Link
+                    to={`/blog/${project.article}`}
+                  >
                     {t.article}
                   </Link>
                 )}
               </div>
             )}
           </div>
+
+          {/* TABLE OF CONTENTS */}
 
           <aside className="technical-article-sidebar">
             <nav aria-label={t.toc}>
@@ -791,6 +939,7 @@ export default function ProjectDetail() {
               ))}
             </nav>
           </aside>
+
         </div>
       </div>
     </article>
