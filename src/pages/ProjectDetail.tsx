@@ -1,947 +1,788 @@
-
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import "../styles/CTI001Page.css";
 
-import {
-  projects,
-  type Language,
-  type Project,
-} from "../data/projects";
+// Caminho compatível com Vite e GitHub Pages
+const ASSETS = `${import.meta.env.BASE_URL}research/cti-001`;
 
-import "../styles/technical-article.css";
+type Lang = "pt" | "en";
+type Localized = { pt: string; en: string };
 
-/* =========================================
-   TYPES
-========================================= */
+const l = (pt: string, en: string): Localized => ({ pt, en });
 
-type Section = {
+const sections = [
+  { id: "summary", number: "01", label: l("Resumo executivo", "Executive Summary"), category: l("VISÃO GERAL", "OVERVIEW") },
+  { id: "background", number: "02", label: l("Contextualização", "Background"), category: l("CONTEXTO", "CONTEXT") },
+  { id: "methodology", number: "03", label: l("Metodologia", "Methodology"), category: l("PROCESSO DE PESQUISA", "RESEARCH PROCESS") },
+  { id: "findings", number: "04", label: l("Principais resultados", "Key Findings"), category: l("RESULTADOS ANALÍTICOS", "ANALYTICAL RESULTS") },
+  { id: "financial", number: "05", label: l("Análise financeira", "Financial Analysis"), category: l("ANÁLISE DE DADOS", "DATA ANALYSIS") },
+  { id: "recovery", number: "06", label: l("Análise de não recuperação", "Non-Recovery Analysis"), category: l("RESULTADOS FINANCEIROS", "FINANCIAL OUTCOMES") },
+  { id: "assessment", number: "07", label: l("Avaliação de ameaças", "Threat Assessment"), category: l("AVALIAÇÃO DE INTELIGÊNCIA", "INTELLIGENCE ASSESSMENT") },
+  { id: "limitations", number: "08", label: l("Limitações", "Limitations"), category: l("RESTRIÇÕES DA PESQUISA", "RESEARCH CONSTRAINTS") },
+  { id: "recommendations", number: "09", label: l("Recomendações", "Recommendations"), category: l("CONSIDERAÇÕES DEFENSIVAS", "DEFENSIVE CONSIDERATIONS") },
+  { id: "references", number: "10", label: l("Referências", "References"), category: l("FONTES", "SOURCES") },
+];
+
+const financialRows: [Localized, string][] = [
+  [l("Valores contestados aceitos", "Accepted contested amounts"), "R$ 8,550,198,924.62"],
+  [l("Devoluções integrais e parciais", "Full and partial refunds"), "R$ 1,002,358,168.37"],
+  [l("Razão agregada calculada", "Calculated aggregate ratio"), "11.72%"],
+  [l("Período de observação", "Observation period"), "13"],
+];
+
+const recoveryRows: [Localized, string, string][] = [
+  [l("Saldo insuficiente", "Insufficient balance"), "R$ 4,271,217,699.30", "83.0%"],
+  [l("Outros motivos", "Other reasons"), "R$ 678,077,066.80", "13.2%"],
+  [l("Conta encerrada", "Closed account"), "R$ 198,484,080.14", "3.9%"],
+];
+
+function SectionHeading({
+  id,
+  lang,
+}: {
   id: string;
-  title: string;
-  paragraphs: string[];
-};
+  lang: Lang;
+}) {
+  const section = sections.find((s) => s.id === id)!;
 
-/* =========================================
-   IMAGE PATH RESOLVER
-   GitHub Pages / Vite
-========================================= */
-
-function resolveImagePath(src: string): string {
-  if (!src) return "";
-
-  const path = src.trim();
-
-  // Preserve external URLs and special sources.
-  if (
-    /^(https?:)?\/\//i.test(path) ||
-    /^(data:|blob:)/i.test(path)
-  ) {
-    return path;
-  }
-
-  const base = import.meta.env.BASE_URL;
-
-  // Preserve anchors and other non-file references.
-  if (path.startsWith("#")) {
-    return path;
-  }
-
-  // Separate query parameters and fragments.
-  const match = path.match(/^([^?#]*)(.*)$/);
-
-  if (!match) return path;
-
-  let pathname = match[1];
-  const suffix = match[2];
-
-  pathname = pathname
-    .replace(/^\/+/, "")
-    .replace(/^\.\/+/, "")
-    .replace(/^public\//, "");
-
-  const normalizedBase = base
-    .replace(/^\/+/, "")
-    .replace(/\/+$/, "");
-
-  if (
-    normalizedBase &&
-    pathname.startsWith(`${normalizedBase}/`)
-  ) {
-    pathname = pathname.slice(
-      normalizedBase.length + 1
-    );
-  }
-
-  return `${base}${pathname}${suffix}`;
+  return (
+    <div className="cti-section-heading" id={id}>
+      <div className="cti-section-kicker">
+        <span>{section.number}</span>
+        <span>{section.category[lang]}</span>
+      </div>
+      <h2>{section.label[lang]}</h2>
+    </div>
+  );
 }
 
-/* =========================================
-   TRANSLATIONS
-========================================= */
-
-const copy = {
-  pt: {
-    back: "← voltar para projetos",
-    missing: "projeto não encontrado.",
-    toc: "NESTA PÁGINA",
-    overview: "visão geral",
-    technologies: "tecnologias",
-    evidence: "evidências",
-    github: "código no github ↗",
-    article: "ler artigo relacionado →",
-    events: "eventos",
-    categories: "categorias",
-    findings: "achados",
-    notice:
-      "Este estudo usa eventos fictícios e não comprova comprometimento ou exfiltração.",
-    status: {
-      development: "em desenvolvimento",
-      completed: "concluído",
-      experimental: "experimental",
-    },
-  },
-
-  en: {
-    back: "← back to projects",
-    missing: "project not found.",
-    toc: "ON THIS PAGE",
-    overview: "overview",
-    technologies: "technologies",
-    evidence: "evidence",
-    github: "source on github ↗",
-    article: "read related article →",
-    events: "events",
-    categories: "categories",
-    findings: "findings",
-    notice:
-      "This study uses fictional events and does not establish compromise or exfiltration.",
-    status: {
-      development: "in development",
-      completed: "completed",
-      experimental: "experimental",
-    },
-  },
-};
-
-/* =========================================
-   NIGHTJAR
-========================================= */
-
-const nightjar: Record<Language, Section[]> = {
-  pt: [
-    {
-      id: "overview",
-      title: "01 / visão geral",
-      paragraphs: [
-        "NIGHTJAR é um projeto educacional de investigação forense digital. O Case File 001 — The Stolen Session explora a análise de eventos de segurança em um ambiente inteiramente simulado.",
-        "O objetivo é reconstruir uma sequência de acontecimentos a partir de registros de endpoint, correlacionar eventos e documentar hipóteses com clareza.",
-      ],
-    },
-    {
-      id: "scenario",
-      title: "02 / contexto da investigação",
-      paragraphs: [
-        "O cenário envolve a organização fictícia Aster Tecnologia e a abertura de um anexo suspeito. Os registros incluem a execução de InvoiceViewer.exe, acessos a arquivos e uma conexão de saída.",
-        "Esses eventos são indícios para investigação; não são, isoladamente, prova de uma invasão.",
-      ],
-    },
-    {
-      id: "methodology",
-      title: "03 / metodologia",
-      paragraphs: [
-        "O analisador, desenvolvido em Python e executado no Kali Linux, interpreta logs simulados, valida timestamps, organiza os eventos cronologicamente e identifica padrões definidos para o estudo.",
-        "O resultado é um relatório JSON com eventos processados, categorias, linhas inválidas e achados.",
-      ],
-    },
-    {
-      id: "findings",
-      title: "04 / resultados",
-      paragraphs: [
-        "Na execução documentada, foram processados sete eventos de cinco categorias, sem linhas inválidas. O analisador registrou dois achados de severidade média.",
-      ],
-    },
-    {
-      id: "evidence",
-      title: "05 / evidências e execução",
-      paragraphs: [
-        "A captura a seguir documenta a execução do caso simulado no Kali Linux.",
-      ],
-    },
-    {
-      id: "limitations",
-      title: "06 / limitações",
-      paragraphs: [
-        "O caso é fictício. Nenhum malware real foi executado, e o analisador não capturou tráfego de rede. Os resultados não comprovam roubo de credenciais ou exfiltração.",
-      ],
-    },
-    {
-      id: "conclusion",
-      title: "07 / considerações finais",
-      paragraphs: [
-        "O projeto explora correlação temporal, análise de logs e documentação de evidências, distinguindo observações, hipóteses e conclusões fundamentadas.",
-      ],
-    },
-  ],
-
-  en: [
-    {
-      id: "overview",
-      title: "01 / overview",
-      paragraphs: [
-        "NIGHTJAR is an educational digital forensics project. Case File 001 — The Stolen Session explores security event analysis in an entirely simulated environment.",
-        "The goal is to reconstruct a sequence of events from endpoint records, correlate activity and document hypotheses clearly.",
-      ],
-    },
-    {
-      id: "scenario",
-      title: "02 / investigation context",
-      paragraphs: [
-        "The scenario involves the fictional organization Aster Tecnologia and a suspicious attachment. Records include InvoiceViewer.exe execution, file access and an outbound connection.",
-        "These events are investigative leads; individually, they do not prove an intrusion.",
-      ],
-    },
-    {
-      id: "methodology",
-      title: "03 / methodology",
-      paragraphs: [
-        "The Python analyzer, executed on Kali Linux, parses simulated logs, validates timestamps, orders events chronologically and identifies predefined patterns.",
-        "It generates a JSON report with processed events, categories, invalid lines and findings.",
-      ],
-    },
-    {
-      id: "findings",
-      title: "04 / findings",
-      paragraphs: [
-        "The documented run processed seven events across five categories, with no invalid lines. Two medium-severity findings were recorded.",
-      ],
-    },
-    {
-      id: "evidence",
-      title: "05 / evidence and execution",
-      paragraphs: [
-        "The following screenshot documents the simulated case running on Kali Linux.",
-      ],
-    },
-    {
-      id: "limitations",
-      title: "06 / limitations",
-      paragraphs: [
-        "The case is fictional. No real malware was executed and the analyzer did not capture network traffic. The findings do not prove credential theft or exfiltration.",
-      ],
-    },
-    {
-      id: "conclusion",
-      title: "07 / final thoughts",
-      paragraphs: [
-        "The project explores temporal correlation, log analysis and evidence documentation, distinguishing observations, hypotheses and supported conclusions.",
-      ],
-    },
-  ],
-};
-
-/* =========================================
-   CERBERUS
-========================================= */
-
-const cerberus: Record<Language, Section[]> = {
-  pt: [
-    {
-      id: "overview",
-      title: "01 / visão geral",
-      paragraphs: [
-        "CERBERUS é uma ferramenta modular de OSINT, reconhecimento e análise de segurança desenvolvida em Python. O projeto busca transformar dados coletados sobre a exposição digital de um alvo em informações organizadas para investigação.",
-        "Inspirado no guardião de três cabeças da mitologia grega, o sistema divide sua análise em três frentes: OSINT, RECON e SECURITY.",
-      ],
-    },
-    {
-      id: "architecture",
-      title: "02 / arquitetura",
-      paragraphs: [
-        "A arquitetura separa as funcionalidades em três módulos principais. HEAD I concentra a coleta OSINT; HEAD II realiza reconhecimento de infraestrutura; HEAD III reúne verificações de segurança.",
-        "Essa divisão permite executar funcionalidades individualmente ou reunir os resultados em um fluxo de análise.",
-      ],
-    },
-    {
-      id: "osint",
-      title: "03 / coleta de informações",
-      paragraphs: [
-        "A camada OSINT inclui pesquisa de nomes de usuário em plataformas sociais, consultas a domínios, registros DNS, identificação de subdomínios e pesquisa de informações publicamente disponíveis.",
-        "O objetivo é organizar informações que ajudem a compreender a presença digital do alvo.",
-      ],
-    },
-    {
-      id: "recon",
-      title: "04 / reconhecimento",
-      paragraphs: [
-        "O módulo de reconhecimento reúne verificações de portas e serviços, certificados SSL/TLS, cabeçalhos HTTP e identificação de tecnologias utilizadas por aplicações web.",
-        "A descoberta de subdomínios também pode enriquecer os resultados com endereço IP, status HTTP, tecnologias e informações de ASN.",
-      ],
-    },
-    {
-      id: "security",
-      title: "05 / análise de segurança",
-      paragraphs: [
-        "O CERBERUS documenta verificações de cabeçalhos de segurança, caminhos administrativos, redirecionamentos, possíveis problemas em aplicações web e consultas de CVEs pela base NVD.",
-        "Essas verificações servem como indicadores para análise posterior. Um resultado automatizado não confirma, por si só, uma vulnerabilidade explorável.",
-      ],
-    },
-    {
-      id: "chain",
-      title: "06 / chain ritual",
-      paragraphs: [
-        "CHAIN RITUAL é o fluxo de automação que reúne as três frentes de análise e produz uma avaliação consolidada.",
-        "O sistema apresenta pontuações para OSINT, RECON e SECURITY, além de uma pontuação geral de risco e um veredito baseado nos achados.",
-      ],
-    },
-    {
-      id: "visualization",
-      title: "07 / inteligência e visualização",
-      paragraphs: [
-        "O módulo VISUALIZE organiza as descobertas em relatórios interpretativos, árvores de descoberta, linhas do tempo e grafos interativos exportados em HTML.",
-        "O GRIMOIRE gerencia relatórios salvos, enquanto o DASHBOARD apresenta um resumo das informações coletadas sobre os alvos analisados.",
-      ],
-    },
-    {
-      id: "limitations",
-      title: "08 / limitações e uso autorizado",
-      paragraphs: [
-        "O CERBERUS é destinado a estudos e avaliações de segurança autorizadas. As verificações ativas devem ser realizadas somente em sistemas próprios ou com permissão explícita.",
-        "A pontuação de risco é uma estimativa produzida pela ferramenta e não substitui validação manual, análise contextual ou uma auditoria profissional.",
-      ],
-    },
-  ],
-
-  en: [
-    {
-      id: "overview",
-      title: "01 / overview",
-      paragraphs: [
-        "CERBERUS is a modular Python-based OSINT, reconnaissance, and security analysis tool. The project aims to turn collected information about a target's digital exposure into structured investigative intelligence.",
-        "Inspired by the three-headed guardian of Greek mythology, the system divides its analysis into three areas: OSINT, RECON, and SECURITY.",
-      ],
-    },
-    {
-      id: "architecture",
-      title: "02 / architecture",
-      paragraphs: [
-        "The architecture separates functionality into three main modules. HEAD I focuses on OSINT collection, HEAD II handles infrastructure reconnaissance, and HEAD III performs security checks.",
-        "This structure allows individual modules to run independently or as part of a combined analysis pipeline.",
-      ],
-    },
-    {
-      id: "osint",
-      title: "03 / information gathering",
-      paragraphs: [
-        "The OSINT layer includes username searches across social platforms, domain queries, DNS records, subdomain discovery, and publicly available information gathering.",
-        "Its purpose is to organize information that helps describe a target's digital footprint.",
-      ],
-    },
-    {
-      id: "recon",
-      title: "04 / reconnaissance",
-      paragraphs: [
-        "The reconnaissance module covers ports and services, SSL/TLS certificates, HTTP headers, and web technology fingerprinting.",
-        "Subdomain discovery can also enrich results with IP addresses, HTTP status codes, technologies, and ASN information.",
-      ],
-    },
-    {
-      id: "security",
-      title: "05 / security analysis",
-      paragraphs: [
-        "CERBERUS documents checks for security headers, administrative paths, redirects, potential web application issues, and CVE lookups using the NVD database.",
-        "Automated findings are indicators for further investigation and do not independently establish an exploitable vulnerability.",
-      ],
-    },
-    {
-      id: "chain",
-      title: "06 / chain ritual",
-      paragraphs: [
-        "CHAIN RITUAL combines the three analysis areas into an automated pipeline and produces a consolidated assessment.",
-        "The system presents individual OSINT, RECON, and SECURITY scores, an overall risk score, and a verdict based on its findings.",
-      ],
-    },
-    {
-      id: "visualization",
-      title: "07 / intelligence and visualization",
-      paragraphs: [
-        "VISUALIZE organizes findings into interpreted reports, discovery trees, exposure timelines, and interactive HTML graphs.",
-        "GRIMOIRE manages saved reports, while DASHBOARD provides a summary of collected intelligence across analyzed targets.",
-      ],
-    },
-    {
-      id: "limitations",
-      title: "08 / limitations and authorized use",
-      paragraphs: [
-        "CERBERUS is intended for educational research and authorized security assessments. Active checks should only be performed against owned systems or systems with explicit permission.",
-        "Its risk score is a tool-generated estimate and does not replace manual validation, contextual analysis, or a professional security audit.",
-      ],
-    },
-  ],
-};
-
-/* =========================================
-   PIPOCA
-========================================= */
-
-const pipoca: Record<Language, Section[]> = {
-  pt: [
-    {
-      id: "overview",
-      title: "01 / visão geral",
-      paragraphs: [
-        "PIPOCA é um projeto experimental de robô expressivo construído com ESP32. Em vez de uma interface tradicional, ele utiliza um display OLED para representar estados e reagir ao ambiente físico.",
-        "O objetivo é estudar a integração entre sensores, animações, áudio e lógica de estados em um sistema embarcado de recursos limitados.",
-      ],
-    },
-    {
-      id: "hardware",
-      title: "02 / hardware",
-      paragraphs: [
-        "O protótipo utiliza um ESP32 DevKit, um display OLED SSD1306 de 128 × 64 pixels, um módulo MPU6050 para leitura de movimento e um buzzer passivo para reprodução de melodias.",
-        "Uma contribuição recente acrescentou suporte ao sensor DHT22, conectado ao GPIO 4 na configuração documentada, para leitura de temperatura e umidade. A pinagem deve ser conferida na montagem física.",
-      ],
-    },
-    {
-      id: "firmware",
-      title: "03 / arquitetura do firmware",
-      paragraphs: [
-        "O firmware é desenvolvido em C++ no ambiente Arduino para ESP32 e distribuído entre arquivos .ino. O arquivo principal inicializa os componentes e coordena o loop; os módulos de display e estados organizam a apresentação visual e as transições de comportamento.",
-        "A biblioteca FluxGarage RoboEyes controla as expressões no OLED. A separação das responsabilidades facilita a evolução do protótipo, embora as transições e prioridades de renderização ainda exijam testes integrados.",
-      ],
-    },
-    {
-      id: "motion",
-      title: "04 / detecção de movimento",
-      paragraphs: [
-        "O MPU6050 fornece leituras de aceleração que o firmware utiliza para reconhecer mudanças de movimento e selecionar reações do Pipoca.",
-        "Os limiares e intervalos podem ser ajustados no bloco de configurações do sketch. O comportamento depende da calibração e das condições reais de uso.",
-      ],
-    },
-    {
-      id: "behavior",
-      title: "05 / expressões e comportamento",
-      paragraphs: [
-        "O Pipoca apresenta expressões animadas e estados associados ao movimento e à inatividade. O projeto prevê reações a movimentos suaves, tédio após um período parado e uma animação de sono com Zzz.",
-        "A lógica de estados permite tratar o robô como uma interface expressiva: sensores produzem eventos, e esses eventos influenciam a apresentação visual e sonora.",
-      ],
-    },
-    {
-      id: "climate",
-      title: "06 / temperatura e umidade",
-      paragraphs: [
-        "A integração do DHT22 foi adicionada por uma contribuição ao repositório. A proposta é mostrar temperatura e umidade no OLED após aproximadamente 15 segundos sem movimento e retornar às expressões quando o dispositivo for movimentado.",
-        "A implementação atual precisa de validação em hardware, especialmente na interação entre a tela climática e a animação de sono. A presença do código no repositório não equivale a um teste concluído.",
-      ],
-    },
-    {
-      id: "challenges",
-      title: "07 / desafios técnicos",
-      paragraphs: [
-        "Um desafio importante é coordenar leituras de sensores, reprodução de áudio e animações sem comprometer a fluidez do OLED.",
-        "Também é necessário manter consistentes as dimensões dos olhos, o estado interno do robô e a prioridade de cada tela. A integração climática tornou essas decisões mais visíveis.",
-      ],
-    },
-    {
-      id: "limitations",
-      title: "08 / limitações e validação",
-      paragraphs: [
-        "O Pipoca permanece em desenvolvimento. Ainda é necessário confirmar a compilação com as versões das bibliotecas utilizadas, a pinagem da montagem e o comportamento completo no ESP32 físico.",
-        "Entre os testes prioritários estão a transição entre inatividade, clima e sono, a legibilidade dos textos na tela de 128 × 64 pixels e a atualização das leituras do DHT22.",
-      ],
-    },
-    {
-      id: "next-steps",
-      title: "09 / próximos passos",
-      paragraphs: [
-        "As próximas etapas incluem validar os estados em hardware, refinar as transições de animação, documentar as conexões e registrar fotografias ou capturas reais do protótipo.",
-        "A evolução do projeto também pode servir como estudo prático de arquitetura de firmware, temporização não bloqueante e interfaces embarcadas.",
-      ],
-    },
-  ],
-
-  en: [
-    {
-      id: "overview",
-      title: "01 / overview",
-      paragraphs: [
-        "PIPOCA is an experimental expressive robot built around an ESP32. Instead of a conventional interface, it uses an OLED display to represent internal states and respond to physical interaction.",
-        "The project explores the integration of sensors, animation, audio, and state-driven logic in a resource-constrained embedded system.",
-      ],
-    },
-    {
-      id: "hardware",
-      title: "02 / hardware",
-      paragraphs: [
-        "The prototype uses an ESP32 DevKit, a 128 × 64 SSD1306 OLED display, an MPU6050 motion sensor, and a passive buzzer for melodies.",
-        "A recent contribution introduced support for a DHT22 temperature and humidity sensor, documented on GPIO 4. Actual wiring should be checked against the physical build.",
-      ],
-    },
-    {
-      id: "firmware",
-      title: "03 / firmware architecture",
-      paragraphs: [
-        "The firmware is written in C++ using the Arduino environment for ESP32 and organized across .ino files. The main sketch initializes components and coordinates the loop, while display and state modules manage visual output and behavior transitions.",
-        "FluxGarage RoboEyes provides the animated OLED expressions. Separating these responsibilities supports further development, although transitions and rendering priorities still require integrated testing.",
-      ],
-    },
-    {
-      id: "motion",
-      title: "04 / motion detection",
-      paragraphs: [
-        "The MPU6050 provides acceleration readings used by the firmware to detect movement changes and select Pipoca's reactions.",
-        "Thresholds and timing intervals can be adjusted in the sketch configuration. Actual behavior depends on calibration and physical conditions.",
-      ],
-    },
-    {
-      id: "behavior",
-      title: "05 / expressions and behavior",
-      paragraphs: [
-        "Pipoca displays animated expressions and states linked to motion and inactivity. Planned behaviors include reactions to gentle movement, boredom after a period of inactivity, and a sleeping animation with Zzz.",
-        "Its state logic turns the robot into an expressive interface: sensor events influence visual and audio output.",
-      ],
-    },
-    {
-      id: "climate",
-      title: "06 / temperature and humidity",
-      paragraphs: [
-        "DHT22 integration was introduced through a repository contribution. The intended behavior is to display temperature and humidity after roughly 15 seconds without movement, then return to expressions when movement is detected.",
-        "The current implementation still needs hardware validation, particularly where the climate screen interacts with the sleep animation. Merged code should not be mistaken for a fully tested feature.",
-      ],
-    },
-    {
-      id: "challenges",
-      title: "07 / technical challenges",
-      paragraphs: [
-        "An important challenge is coordinating sensor reads, audio playback, and animation without compromising OLED responsiveness.",
-        "Eye dimensions, internal state, and display priorities must also remain consistent. Adding the climate screen makes these design decisions especially important.",
-      ],
-    },
-    {
-      id: "limitations",
-      title: "08 / limitations and validation",
-      paragraphs: [
-        "Pipoca remains in development. Compilation with specific library versions, physical wiring, and end-to-end behavior on the ESP32 still need to be verified.",
-        "Priority tests include inactivity-to-climate-to-sleep transitions, text legibility on the 128 × 64 display, and DHT22 update intervals.",
-      ],
-    },
-    {
-      id: "next-steps",
-      title: "09 / next steps",
-      paragraphs: [
-        "Next steps include validating states on hardware, refining animation transitions, documenting wiring, and capturing real photographs or screenshots of the prototype.",
-        "Further work can also serve as a practical study of firmware architecture, non-blocking timing, and embedded interfaces.",
-      ],
-    },
-  ],
-};
-
-/* =========================================
-   PROJECT IMAGES
-========================================= */
-
-function Images({
-  project,
-  language,
+function Figure({
+  number,
+  src,
+  alt,
+  caption,
+  lang,
 }: {
-  project: Project;
-  language: Language;
+  number: string;
+  src: string;
+  alt: Localized;
+  caption: Localized;
+  lang: Lang;
 }) {
   return (
-    <>
-      {project.images?.map((image) => (
-        <figure
-          className="technical-article-figure"
-          key={image.src}
-        >
-          <img
-            src={resolveImagePath(image.src)}
-            alt={image.alt[language]}
-            loading="lazy"
-            decoding="async"
-          />
-
-          {image.caption && (
-            <figcaption>
-              {image.caption[language]}
-            </figcaption>
-          )}
-        </figure>
-      ))}
-    </>
+    <figure className="cti-report-figure">
+      <div className="cti-figure-frame">
+        <img src={src} alt={alt[lang]} loading="lazy" />
+      </div>
+      <figcaption>
+        <span>
+          {lang === "pt" ? "FIGURA" : "FIGURE"} {number}
+        </span>
+        <p>{caption[lang]}</p>
+        <small>
+          {lang === "pt"
+            ? "FONTE: BANCO CENTRAL DO BRASIL / ANÁLISE LLOHS LABS"
+            : "SOURCE: BANCO CENTRAL DO BRASIL / LLOHS LABS ANALYSIS"}
+        </small>
+      </figcaption>
+    </figure>
   );
 }
 
-/* =========================================
-   PROJECT DETAIL
-========================================= */
-
-export default function ProjectDetail() {
-  const { slug } = useParams<{ slug: string }>();
+export default function CTI001Page() {
   const { i18n } = useTranslation();
 
-  const language: Language =
-    i18n.resolvedLanguage === "en" ? "en" : "pt";
+  const lang: Lang = i18n.resolvedLanguage
+    ?.toLowerCase()
+    .startsWith("en")
+    ? "en"
+    : "pt";
 
-  const t = copy[language];
+  const tr = (pt: string, en: string) =>
+    lang === "pt" ? pt : en;
 
-  const project = projects.find(
-    (item) => item.slug === slug
-  );
+  const [activeSection, setActiveSection] = useState("summary");
+  const [progress, setProgress] = useState(0);
 
-  if (!project) {
-    return (
-      <section className="project-detail-page">
-        <Link
-          to="/projects"
-          className="back-link"
-        >
-          {t.back}
-        </Link>
+  useEffect(() => {
+    const update = () => {
+      const scrollable =
+        document.documentElement.scrollHeight - window.innerHeight;
 
-        <p>{t.missing}</p>
-      </section>
-    );
-  }
+      setProgress(
+        scrollable > 0
+          ? Math.min(100, Math.max(0, (window.scrollY / scrollable) * 100))
+          : 0
+      );
 
-  const isNightjar =
-    project.slug === "nightjar";
+      let current = "summary";
 
-  const isCerberus =
-    project.slug === "cerberus-scanner" ||
-    project.slug === "cerberus-osint";
+      for (const section of sections) {
+        const element = document.getElementById(section.id);
 
-  const isPipoca =
-    project.slug === "pipoca";
+        if (element && element.getBoundingClientRect().top <= 180) {
+          current = section.id;
+        }
+      }
 
-  const sections: Section[] = isNightjar
-    ? nightjar[language]
-    : isCerberus
-      ? cerberus[language]
-      : isPipoca
-        ? pipoca[language]
-        : [
-            {
-              id: "overview",
-              title: `01 / ${t.overview}`,
-              paragraphs: [
-                project.description[language],
-                project.content[language],
-              ],
-            },
-            {
-              id: "technologies",
-              title: `02 / ${t.technologies}`,
-              paragraphs: [],
-            },
-            ...(project.images?.length
-              ? [
-                  {
-                    id: "evidence",
-                    title: `03 / ${t.evidence}`,
-                    paragraphs: [],
-                  },
-                ]
-              : []),
-          ];
+      setActiveSection(current);
+    };
 
-  const allSections: Section[] =
-    isNightjar || isCerberus || isPipoca
-      ? [
-          ...sections,
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
 
-          ...(isPipoca && project.images?.length
-            ? [
-                {
-                  id: "evidence",
-                  title: `10 / ${t.evidence}`,
-                  paragraphs: [
-                    language === "pt"
-                      ? "Registros visuais da montagem e da interface do protótipo."
-                      : "Visual documentation of the prototype and its interface.",
-                  ],
-                },
-              ]
-            : []),
-
-          {
-            id: "technologies",
-            title: isNightjar
-              ? `08 / ${t.technologies}`
-              : isCerberus
-                ? `09 / ${t.technologies}`
-                : `${
-                    isPipoca && project.images?.length
-                      ? "11"
-                      : "10"
-                  } / ${t.technologies}`,
-            paragraphs: [],
-          },
-        ]
-      : sections;
-
-  const title = isNightjar
-    ? "NIGHTJAR: The Stolen Session"
-    : isCerberus
-      ? "CERBERUS: The Three-Headed Recon"
-      : isPipoca
-        ? "PIPOCA: An Expressive ESP32 Robot"
-        : project.name;
-
-  const description = isNightjar
-    ? language === "pt"
-      ? "Investigação digital simulada, correlação de eventos e análise de evidências."
-      : "Simulated digital investigation, event correlation and evidence analysis."
-    : isCerberus
-      ? language === "pt"
-        ? "OSINT, reconhecimento de infraestrutura e análise de exposição digital."
-        : "OSINT, infrastructure reconnaissance and digital exposure analysis."
-      : isPipoca
-        ? language === "pt"
-          ? "Um robô expressivo que combina ESP32, sensores, animações e interação física."
-          : "An expressive robot combining ESP32, sensors, animation, and physical interaction."
-        : project.description[language];
-
-  const kicker = isNightjar
-    ? "DIGITAL FORENSICS / CASE FILE 001"
-    : isCerberus
-      ? "CYBERSECURITY / OSINT & RECON"
-      : isPipoca
-        ? "EMBEDDED SYSTEMS / INTERACTIVE HARDWARE"
-        : "PROJECT ARCHIVE";
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
 
   return (
-    <article className="project-detail-page technical-article-page">
-
-      {/* TOP NAVIGATION */}
-
-      <div className="technical-article-top">
-        <Link
-          to="/"
-          className="technical-article-brand"
-        >
-          llohs
-        </Link>
-
-        <Link
-          to="/projects"
-          className="technical-article-back"
-        >
-          {t.back}
-        </Link>
-      </div>
-
-      {/* BACKGROUND */}
-
+    <div className="cti-report">
       <div
-        className={`technical-article-background${
-          project.cover ? " has-cover" : ""
-        }`}
-        style={
-          project.cover
-            ? {
-                backgroundImage: `url(${JSON.stringify(
-                  resolveImagePath(project.cover)
-                )})`,
-              }
-            : undefined
-        }
-        aria-hidden="true"
+        className="cti-reading-progress"
+        style={{ width: `${progress}%` }}
       />
 
-      {/* MAIN CONTAINER */}
+      <div className="cti-report-shell">
+        <header className="cti-report-header">
+          <Link to="/research" className="cti-back-link">
+            <span aria-hidden="true">←</span>
+            {tr("Voltar para pesquisas", "Back to Research")}
+          </Link>
 
-      <div className="technical-article-container">
-
-        {/* HEADER */}
-
-        <header className="technical-article-header">
-          <span className="technical-article-kicker">
-            {kicker}
-          </span>
-
-          <h1>{title}</h1>
-
-          <div className="technical-article-meta">
-            <span>
-              {t.status[project.status]}
-            </span>
-
-            <span>·</span>
-
-            <span>
-              {project.technologies
-                .slice(0, 3)
-                .join(" / ")}
-            </span>
+          <div className="cti-breadcrumb">
+            <Link to="/">LLOHS</Link>
+            <span>/</span>
+            <Link to="/research">RESEARCH</Link>
+            <span>/</span>
+            <strong>CTI-001</strong>
           </div>
 
-          <p className="technical-article-description">
-            {description}
+          <div className="cti-report-type">
+            <span className="cti-red-square" />
+            {tr(
+              "INTELIGÊNCIA DE AMEAÇAS CIBERNÉTICAS / RELATÓRIO DE PESQUISA",
+              "CYBER THREAT INTELLIGENCE / RESEARCH REPORT"
+            )}
+          </div>
+
+          <h1>
+            {tr("A cadeia de fraudes", "The Brazilian Pix")}
+            <br />
+            <em>{tr("do Pix no Brasil", "Fraud Supply Chain")}</em>
+          </h1>
+
+          <p className="cti-report-description">
+            {tr(
+              "Da comunicação inicial da suspeita de fraude à recuperação de recursos: uma análise fundamentada em evidências sobre contestações financeiras, resultados de devolução e indicadores de não recuperação no ecossistema brasileiro de pagamentos instantâneos.",
+              "From the initial fraud report to the recovery of funds: an evidence-based examination of financial contestations, refund outcomes, and non-recovery indicators in Brazil's instant payment ecosystem."
+            )}
           </p>
+
+          <div className="cti-report-byline">
+            <div>
+              <span>{tr("AUTORIA", "AUTHOR")}</span>
+              <strong>LLOHS LABS</strong>
+            </div>
+
+            <div>
+              <span>{tr("PERÍODO ANALISADO", "RESEARCH PERIOD")}</span>
+              <strong>
+                {tr("SET 2025 — SET 2026", "SEP 2025 — SEP 2026")}
+              </strong>
+            </div>
+
+            <div>
+              <span>{tr("IDENTIFICADOR", "REPORT ID")}</span>
+              <strong>CTI-001</strong>
+            </div>
+
+            <div>
+              <span>{tr("STATUS", "STATUS")}</span>
+              <strong className="cti-preliminary">
+                {tr("PRELIMINAR", "PRELIMINARY")}
+              </strong>
+            </div>
+          </div>
         </header>
 
-        {/* ARTICLE LAYOUT */}
+        <div className="cti-report-layout">
+          <aside className="cti-report-sidebar">
+            <div className="cti-sidebar-inner">
+              <div className="cti-sidebar-heading">
+                <span>{tr("CONTEÚDO", "CONTENTS")}</span>
+                <span>{tr("10 SEÇÕES", "10 SECTIONS")}</span>
+              </div>
 
-        <div className="technical-article-layout">
-
-          {/* CONTENT */}
-
-          <div className="technical-article-content">
-            {allSections.map((section) => (
-              <section
-                key={section.id}
-                id={section.id}
-                className="technical-project-section"
-              >
-                <h2>{section.title}</h2>
-
-                {section.paragraphs.map(
-                  (paragraph, index) => (
-                    <p key={index}>
-                      {paragraph}
-                    </p>
-                  )
-                )}
-
-                {/* NIGHTJAR FINDINGS */}
-
-                {isNightjar &&
-                  section.id === "findings" && (
-                    <>
-                      <div className="technical-project-stats">
-                        <div>
-                          <strong>07</strong>
-                          <span>{t.events}</span>
-                        </div>
-
-                        <div>
-                          <strong>05</strong>
-                          <span>{t.categories}</span>
-                        </div>
-
-                        <div>
-                          <strong>02</strong>
-                          <span>{t.findings}</span>
-                        </div>
-                      </div>
-
-                      <div className="technical-project-finding">
-                        <small>
-                          MEDIUM / NJ-001
-                        </small>
-
-                        <h3>
-                          {language === "pt"
-                            ? "Execução de processo"
-                            : "Process execution"}
-                        </h3>
-
-                        <p>
-                          {language === "pt"
-                            ? "InvoiceViewer.exe foi registrado na linha 3. O nome do processo não comprova atividade maliciosa."
-                            : "InvoiceViewer.exe was recorded on line 3. The process name does not prove malicious activity."}
-                        </p>
-                      </div>
-
-                      <div className="technical-project-finding">
-                        <small>
-                          MEDIUM / NJ-002
-                        </small>
-
-                        <h3>
-                          {language === "pt"
-                            ? "Acesso a arquivos e conexão de saída"
-                            : "File access and outbound connection"}
-                        </h3>
-
-                        <p>
-                          {language === "pt"
-                            ? "Eventos nas linhas 4, 5 e 6 justificam análise adicional, mas não comprovam exfiltração."
-                            : "Events on lines 4, 5 and 6 warrant further investigation but do not prove exfiltration."}
-                        </p>
-                      </div>
-                    </>
-                  )}
-
-                {/* PROJECT IMAGES */}
-
-                {section.id === "evidence" && (
-                  <Images
-                    project={project}
-                    language={language}
-                  />
-                )}
-
-                {/* TECHNOLOGIES */}
-
-                {section.id === "technologies" && (
-                  <div className="technical-article-tags">
-                    {project.technologies.map(
-                      (tech) => (
-                        <span key={tech}>
-                          {tech}
-                        </span>
-                      )
-                    )}
-                  </div>
-                )}
-              </section>
-            ))}
-
-            {/* NIGHTJAR NOTICE */}
-
-            {isNightjar && (
-              <p className="technical-project-notice">
-                {t.notice}
-              </p>
-            )}
-
-            {/* PROJECT LINKS */}
-
-            {(project.github || project.article) && (
-              <div className="technical-article-footer">
-
-                {project.github && (
+              <nav aria-label={tr("Sumário", "Table of contents")}>
+                {sections.map((section) => (
                   <a
-                    href={project.github}
+                    key={section.id}
+                    href={`#${section.id}`}
+                    className={
+                      activeSection === section.id
+                        ? "cti-nav-active"
+                        : ""
+                    }
+                  >
+                    <span>{section.number}</span>
+                    {section.label[lang]}
+                  </a>
+                ))}
+              </nav>
+
+              <div className="cti-sidebar-bottom">
+                <span>{tr("STATUS DO DOCUMENTO", "DOCUMENT STATUS")}</span>
+                <strong>{tr("PESQUISA PÚBLICA", "PUBLIC RESEARCH")}</strong>
+                <small>
+                  {tr(
+                    "VERSÃO 0.1 / EM REVISÃO",
+                    "VERSION 0.1 / UNDER REVIEW"
+                  )}
+                </small>
+              </div>
+            </div>
+          </aside>
+
+          <article className="cti-report-content">
+            <section className="cti-content-section">
+              <SectionHeading id="summary" lang={lang} />
+
+              <p>
+                {tr(
+                  "O Pix tornou-se um componente central da infraestrutura financeira brasileira. Sua ampla adoção também torna a prevenção de fraudes, a contestação de transações e a recuperação de recursos áreas relevantes para a pesquisa em segurança.",
+                  "Brazil's Pix instant payment system has become a central component of the country's financial infrastructure. Its widespread adoption also makes fraud prevention, transaction contestation, and fund recovery important areas of security research."
+                )}
+              </p>
+
+              <p>
+                {tr(
+                  "Este relatório examina estatísticas públicas do Banco Central do Brasil relacionadas a suspeitas de fraude e ao Mecanismo Especial de Devolução (MED).",
+                  "This report examines publicly available statistics from Banco Central do Brasil associated with suspected fraud and the Special Refund Mechanism (MED)."
+                )}
+              </p>
+
+              <p>
+                {tr(
+                  "A investigação abrange 13 registros mensais consecutivos, de setembro de 2025 a setembro de 2026, com atenção especial às contestações aceitas, aos recursos devolvidos e aos motivos registrados para a não recuperação de valores.",
+                  "The investigation covers 13 consecutive monthly records, from September 2025 to September 2026, with particular attention to accepted contestations, returned funds, and reported reasons for non-recovery."
+                )}
+              </p>
+
+              <div className="cti-summary-highlight">
+                <span>{tr("OBSERVAÇÃO PRINCIPAL", "KEY OBSERVATION")}</span>
+                <p>
+                  {tr(
+                    "O conjunto de dados analisado registra aproximadamente R$ 8,55 bilhões em valores de contestações aceitas e R$ 1,00 bilhão em devoluções integrais e parciais.",
+                    "Approximately R$ 8.55 billion in accepted contested amounts and R$ 1.00 billion in full and partial refunds were recorded in the analyzed dataset."
+                  )}
+                </p>
+              </div>
+
+              <p>
+                {tr(
+                  "Esses números não equivalem ao total de ocorrências de fraude nem ao prejuízo total decorrente de fraudes no Brasil. Eles descrevem indicadores específicos presentes no conjunto de dados do MED.",
+                  "These figures are not equivalent to the total number of fraud incidents or total fraud-related losses in Brazil. They describe specific indicators within the available MED dataset."
+                )}
+              </p>
+            </section>
+
+            <section className="cti-content-section">
+              <SectionHeading id="background" lang={lang} />
+
+              <h3>{tr("2.1 — O ecossistema Pix", "2.1 — The Pix ecosystem")}</h3>
+
+              <p>
+                {tr(
+                  "O Pix é a infraestrutura brasileira de pagamentos instantâneos, operada sob o arcabouço estabelecido pelo Banco Central do Brasil. Permite transferências eletrônicas e pagamentos entre instituições participantes.",
+                  "Pix is Brazil's instant payment infrastructure, operated under the framework established by Banco Central do Brasil. It enables electronic transfers and payments between participating institutions."
+                )}
+              </p>
+
+              <p>
+                {tr(
+                  "Como as transações são processadas rapidamente, casos de suspeita de fraude levantam questões operacionais sobre comunicação de ocorrências, saldos disponíveis, rastreamento de transações e possibilidade de recuperação dos recursos.",
+                  "Because transactions are processed rapidly, suspected fraud cases raise operational questions about reporting, account balances, transaction tracing, and the possibility of recovering funds."
+                )}
+              </p>
+
+              <h3>
+                {tr(
+                  "2.2 — O Mecanismo Especial de Devolução",
+                  "2.2 — The Special Refund Mechanism"
+                )}
+              </h3>
+
+              <p>
+                {tr(
+                  "O MED estabelece um procedimento para o tratamento de casos elegíveis envolvendo suspeitas de fraude e determinadas falhas operacionais.",
+                  "The MED provides a framework for handling eligible cases involving suspected fraud and certain operational failures."
+                )}
+              </p>
+
+              <p>
+                {tr(
+                  "Nesta investigação, as estatísticas do MED são tratadas como indicadores administrativos e financeiros, e não como evidência direta de uma operação criminosa específica.",
+                  "For this investigation, MED statistics are treated as administrative and financial indicators rather than direct evidence of a specific criminal operation."
+                )}
+              </p>
+            </section>
+
+            <section className="cti-content-section">
+              <SectionHeading id="methodology" lang={lang} />
+
+              <p>
+                {tr(
+                  "A pesquisa utiliza informações publicamente acessíveis disponibilizadas pela infraestrutura de dados abertos do Banco Central do Brasil.",
+                  "The research uses publicly accessible information obtained from the Banco Central do Brasil open data infrastructure."
+                )}
+              </p>
+
+              <div className="cti-method-box">
+                <div>
+                  <span>{tr("PROVEDOR DOS DADOS", "DATA PROVIDER")}</span>
+                  <strong>Banco Central do Brasil</strong>
+                </div>
+                <div>
+                  <span>{tr("RECURSO DE DADOS", "DATA RESOURCE")}</span>
+                  <code>EstatisticasFraudesPix</code>
+                </div>
+                <div>
+                  <span>{tr("MÉTODO DE COLETA", "COLLECTION METHOD")}</span>
+                  <strong>Public OData API / Python</strong>
+                </div>
+                <div>
+                  <span>{tr("OBSERVAÇÕES", "OBSERVATIONS")}</span>
+                  <strong>{tr("13 registros mensais", "13 monthly records")}</strong>
+                </div>
+              </div>
+
+              <h3>
+                {tr("3.1 — Aquisição de dados", "3.1 — Data acquisition")}
+              </h3>
+
+              <p>
+                {tr(
+                  "O processo de coleta envolveu a inspeção dos metadados da API, a identificação do recurso relevante, a recuperação dos registros disponíveis e a preservação local da resposta original.",
+                  "The collection process involved inspecting API metadata, identifying the relevant resource, retrieving available records, and preserving the original response locally."
+                )}
+              </p>
+
+              <h3>
+                {tr("3.2 — Processamento dos dados", "3.2 — Data processing")}
+              </h3>
+
+              <p>
+                {tr(
+                  "Python e pandas foram utilizados para validação, agregação e cálculos financeiros. Matplotlib foi utilizado para gerar as figuras apresentadas neste relatório.",
+                  "Python and pandas were used for data validation, aggregation, and financial calculations. Matplotlib was used to generate the figures presented throughout this report."
+                )}
+              </p>
+
+              <h3>
+                {tr("3.3 — Qualidade dos dados", "3.3 — Data quality")}
+              </h3>
+
+              <p>
+                {tr(
+                  "Três registros apresentam pequenas divergências entre o total de contestações e a soma das contestações aceitas e rejeitadas.",
+                  "Three records contain minor discrepancies between the total number of contestations and the sum of accepted and rejected contestations."
+                )}
+              </p>
+
+              <div className="cti-table-scroll">
+                <table className="cti-data-table">
+                  <thead>
+                    <tr>
+                      <th>{tr("MÊS", "MONTH")}</th>
+                      <th>{tr("DIFERENÇA", "DIFFERENCE")}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{tr("Fevereiro de 2026", "February 2026")}</td>
+                      <td>-1</td>
+                    </tr>
+                    <tr>
+                      <td>{tr("Abril de 2026", "April 2026")}</td>
+                      <td>-4</td>
+                    </tr>
+                    <tr>
+                      <td>{tr("Maio de 2026", "May 2026")}</td>
+                      <td>-2</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <p>
+                {tr(
+                  "Os valores originais foram preservados sem modificações manuais. A causa dessas divergências ainda não foi estabelecida.",
+                  "Original values were retained without manual modification. The cause of these discrepancies has not been established."
+                )}
+              </p>
+            </section>
+
+            <section className="cti-content-section">
+              <SectionHeading id="findings" lang={lang} />
+
+              <div className="cti-finding-header">
+                <span>CTI-001-F01</span>
+                <span>
+                  {tr("RESULTADO PRELIMINAR", "PRELIMINARY FINDING")}
+                </span>
+              </div>
+
+              <h3>
+                {tr(
+                  "Saldo insuficiente predomina entre os motivos registrados de não devolução",
+                  "Insufficient balance dominates recorded non-refund reasons"
+                )}
+              </h3>
+
+              <p>
+                {tr(
+                  "O conjunto de dados registra aproximadamente R$ 4,27 bilhões em valores associados à não devolução por insuficiência de saldo.",
+                  "The dataset records approximately R$ 4.27 billion in amounts associated with non-refund due to insufficient balance."
+                )}
+              </p>
+
+              <p>
+                {tr(
+                  "Esse valor representa aproximadamente 83,0% da soma das três categorias examinadas: saldo insuficiente, conta encerrada e outros motivos.",
+                  "This accounts for approximately 83.0% of the combined amounts in three examined categories: insufficient balance, closed account, and other reasons."
+                )}
+              </p>
+
+              <div className="cti-analysis-note">
+                <strong>
+                  {tr("RESSALVA ANALÍTICA", "ANALYTICAL CAUTION")}
+                </strong>
+                <p>
+                  {tr(
+                    "A predominância de saldo insuficiente não permite determinar como os recursos foram movimentados, se algum titular de conta agiu de forma maliciosa ou quais métodos criminosos foram empregados.",
+                    "The predominance of insufficient balance does not establish how funds were moved, whether any specific account holder acted maliciously, or which criminal methods were involved."
+                  )}
+                </p>
+              </div>
+            </section>
+
+            <section className="cti-content-section">
+              <SectionHeading id="financial" lang={lang} />
+
+              <p>
+                {tr(
+                  "Os registros disponíveis mostram variações mensais expressivas tanto nos valores de contestações aceitas quanto nos montantes devolvidos.",
+                  "The available records show substantial monthly variation in both accepted contested amounts and the value of refunds."
+                )}
+              </p>
+
+              <Figure
+                number="01"
+                src={`${ASSETS}/med_contestacoes_mensais.png`}
+                alt={l(
+                  "Contestações mensais do Pix entre setembro de 2025 e setembro de 2026",
+                  "Monthly Pix contestations from September 2025 to September 2026"
+                )}
+                caption={l(
+                  "Volume mensal de contestações do Pix no conjunto de dados analisado.",
+                  "Monthly volume of Pix contestations in the analyzed dataset."
+                )}
+                lang={lang}
+              />
+
+              <h3>
+                {tr("5.1 — Agregados financeiros", "5.1 — Financial aggregates")}
+              </h3>
+
+              <div className="cti-table-scroll">
+                <table className="cti-data-table">
+                  <thead>
+                    <tr>
+                      <th>{tr("INDICADOR", "INDICATOR")}</th>
+                      <th>{tr("VALOR", "VALUE")}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {financialRows.map(([label, value]) => (
+                      <tr key={label.en}>
+                        <td>{label[lang]}</td>
+                        <td>
+                          {label.en === "Observation period"
+                            ? tr("13 registros mensais", "13 monthly records")
+                            : label.en === "Calculated aggregate ratio"
+                              ? tr("11,72%", "11.72%")
+                              : value}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <Figure
+                number="02"
+                src={`${ASSETS}/med_financial_analysis.png`}
+                alt={l(
+                  "Comparação entre valores contestados aceitos e valores devolvidos",
+                  "Accepted contested amounts compared with refund values"
+                )}
+                caption={l(
+                  "Comparação entre valores de contestações aceitas e a soma das devoluções integrais e parciais, em milhões de reais.",
+                  "Comparison of accepted contested amounts and combined full and partial refunds, expressed in millions of Brazilian reais."
+                )}
+                lang={lang}
+              />
+
+              <p>
+                {tr(
+                  "A razão agregada calculada entre os valores devolvidos e os valores das contestações aceitas é de 11,72%.",
+                  "The calculated aggregate ratio between returned values and accepted contested amounts is 11.72%."
+                )}
+              </p>
+
+              <p>
+                {tr(
+                  "Esse indicador foi calculado nesta pesquisa e não deve ser interpretado automaticamente como uma taxa oficial consolidada de recuperação do MED.",
+                  "This is a research-derived calculation. It should not automatically be interpreted as an official consolidated MED recovery rate."
+                )}
+              </p>
+            </section>
+
+            <section className="cti-content-section">
+              <SectionHeading id="recovery" lang={lang} />
+
+              <p>
+                {tr(
+                  "Três categorias registradas foram examinadas para compreender a distribuição dos valores associados às devoluções não realizadas.",
+                  "Three reported categories were examined to understand the distribution of values associated with unsuccessful refunds."
+                )}
+              </p>
+
+              <Figure
+                number="03"
+                src={`${ASSETS}/med_non_recovery.png`}
+                alt={l(
+                  "Valores de não devolução por motivo registrado",
+                  "Reported non-refund values by reason"
+                )}
+                caption={l(
+                  "Valores agregados associados a saldo insuficiente, contas encerradas e outros motivos de não devolução.",
+                  "Aggregated values associated with insufficient balance, closed accounts, and other non-refund reasons."
+                )}
+                lang={lang}
+              />
+
+              <div className="cti-table-scroll">
+                <table className="cti-data-table">
+                  <thead>
+                    <tr>
+                      <th>{tr("MOTIVO REGISTRADO", "REPORTED REASON")}</th>
+                      <th>{tr("VALOR", "VALUE")}</th>
+                      <th>{tr("PARTICIPAÇÃO", "SHARE")}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {recoveryRows.map(([reason, value, share]) => (
+                      <tr key={reason.en}>
+                        <td>{reason[lang]}</td>
+                        <td>{value}</td>
+                        <td>
+                          {lang === "pt"
+                            ? share.replace(".", ",")
+                            : share}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <p>
+                {tr(
+                  "A soma dessas três categorias corresponde a aproximadamente R$ 5,15 bilhões. Um campo separado registra cerca de R$ 2,40 bilhões em valores residuais não devolvidos.",
+                  "The sum of these three categories is approximately R$ 5.15 billion. A separate field reports approximately R$ 2.40 billion in residual non-refunded amounts."
+                )}
+              </p>
+
+              <p>
+                {tr(
+                  "O valor residual não foi somado às três categorias porque a relação contábil entre esses indicadores ainda não foi verificada.",
+                  "The residual field is not added to the three categories because their accounting relationship has not yet been verified."
+                )}
+              </p>
+            </section>
+
+            <section className="cti-content-section">
+              <SectionHeading id="assessment" lang={lang} />
+
+              <p>
+                {tr(
+                  "As estatísticas observadas demonstram a dimensão de indicadores específicos de contestação e devolução, mas não revelam, isoladamente, a estrutura do ecossistema criminoso associado às suspeitas de fraude.",
+                  "The observed statistics establish the scale of specific contestation and refund indicators, but do not independently reveal the structure of the criminal ecosystem behind suspected fraud."
+                )}
+              </p>
+
+              <p>
+                {tr(
+                  "A compreensão de uma cadeia de fraudes exigiria evidências adicionais capazes de relacionar métodos de contato inicial, engenharia social, infraestrutura de contas, fluxos transacionais e destinos dos recursos.",
+                  "Understanding a fraud supply chain would require additional evidence connecting initial contact methods, social engineering, account infrastructure, transaction flows, and fund destinations."
+                )}
+              </p>
+
+              <div className="cti-analysis-note">
+                <strong>
+                  {tr("STATUS DE ATRIBUIÇÃO", "ATTRIBUTION STATUS")}
+                </strong>
+                <p>
+                  {tr(
+                    "Este relatório não atribui atividades a agentes de ameaça, organizações criminosas ou indivíduos específicos. Não foi estabelecida atribuição em nível de infraestrutura.",
+                    "No threat actor, criminal organization, or individual is attributed in this report. No infrastructure-level attribution has been established."
+                  )}
+                </p>
+              </div>
+
+              <p>
+                {tr(
+                  "Pesquisas futuras de OSINT poderão examinar técnicas de fraude documentadas publicamente e respostas defensivas, mantendo esses resultados claramente separados das estatísticas agregadas aqui analisadas.",
+                  "Further OSINT research may examine publicly documented fraud techniques and defensive responses, with findings clearly separated from the aggregate statistics analyzed here."
+                )}
+              </p>
+            </section>
+
+            <section className="cti-content-section">
+              <SectionHeading id="limitations" lang={lang} />
+
+              <ul className="cti-report-list">
+                {[
+                  l(
+                    "As contestações do MED não representam todas as ocorrências de fraude envolvendo Pix.",
+                    "MED contestations do not represent all Pix fraud incidents."
+                  ),
+                  l(
+                    "Contestações aceitas não constituem uma medida completa de atividades criminosas comprovadas.",
+                    "Accepted contestations are not a complete measure of proven criminal activity."
+                  ),
+                  l(
+                    "Estatísticas agregadas não permitem identificar autores individuais.",
+                    "Aggregate statistics cannot identify individual perpetrators."
+                  ),
+                  l(
+                    "As definições dos dados e possíveis revisões exigem verificação contínua.",
+                    "Data definitions and potential revisions require continued verification."
+                  ),
+                  l(
+                    "A relação entre os valores residuais e as categorias de não devolução permanece sem verificação.",
+                    "The relationship between residual values and non-refund categories remains unverified."
+                  ),
+                  l(
+                    "Não foram estabelecidas explicações causais para os padrões financeiros observados.",
+                    "Causal explanations for the observed financial patterns have not been established."
+                  ),
+                ].map((item) => (
+                  <li key={item.en}>{item[lang]}</li>
+                ))}
+              </ul>
+            </section>
+
+            <section className="cti-content-section">
+              <SectionHeading id="recommendations" lang={lang} />
+
+              <p>
+                {tr(
+                  "As considerações a seguir são recomendações defensivas gerais. Não são apresentadas como intervenções cuja eficácia tenha sido demonstrada pelo conjunto de dados analisado.",
+                  "The following are general defensive considerations. They are not presented as interventions proven effective by this dataset."
+                )}
+              </p>
+
+              <ul className="cti-report-list">
+                {[
+                  l(
+                    "Incentivar a comunicação imediata de transações suspeitas pelos canais oficiais das instituições financeiras.",
+                    "Encourage prompt reporting of suspected fraudulent transactions through official financial institution channels."
+                  ),
+                  l(
+                    "Ampliar a conscientização pública sobre técnicas de falsificação de identidade e engenharia social.",
+                    "Improve public awareness of impersonation and social engineering techniques."
+                  ),
+                  l(
+                    "Apoiar o monitoramento consistente de indicadores de fraude e resultados de devolução.",
+                    "Support consistent monitoring of fraud indicators and refund outcomes."
+                  ),
+                  l(
+                    "Preservar evidências e manter documentação clara das ocorrências comunicadas.",
+                    "Preserve evidence and maintain clear documentation of reported incidents."
+                  ),
+                  l(
+                    "Evitar o compartilhamento de informações financeiras ou pessoais sensíveis em interações não solicitadas.",
+                    "Avoid sharing sensitive financial or personal information during unsolicited interactions."
+                  ),
+                ].map((item) => (
+                  <li key={item.en}>{item[lang]}</li>
+                ))}
+              </ul>
+            </section>
+
+            <section className="cti-content-section">
+              <SectionHeading id="references" lang={lang} />
+
+              <div className="cti-source">
+                <span>[01]</span>
+                <div>
+                  <strong>Banco Central do Brasil</strong>
+                  <p>
+                    {tr(
+                      "Pix — Portal de Dados Abertos",
+                      "Pix — Open Data Portal"
+                    )}
+                  </p>
+                  <a
+                    href="https://dadosabertos.bcb.gov.br/dataset/pix"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {t.github}
+                    dadosabertos.bcb.gov.br ↗
                   </a>
-                )}
-
-                {project.article && (
-                  <Link
-                    to={`/blog/${project.article}`}
-                  >
-                    {t.article}
-                  </Link>
-                )}
+                </div>
               </div>
-            )}
-          </div>
 
-          {/* TABLE OF CONTENTS */}
+              <div className="cti-source">
+                <span>[02]</span>
+                <div>
+                  <strong>Banco Central do Brasil</strong>
+                  <p>
+                    {tr(
+                      "Serviço OData do Pix",
+                      "Pix OData Service"
+                    )}
+                  </p>
+                  <a
+                    href="https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/odata/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    olinda.bcb.gov.br ↗
+                  </a>
+                </div>
+              </div>
 
-          <aside className="technical-article-sidebar">
-            <nav aria-label={t.toc}>
-              <span className="technical-article-toc-title">
-                {t.toc}
-              </span>
-
-              {allSections.map((section) => (
-                <a
-                  key={section.id}
-                  href={`#${section.id}`}
-                >
-                  {section.title}
-                </a>
-              ))}
-            </nav>
-          </aside>
-
+              <div className="cti-report-end">
+                <span>{tr("FIM DO RELATÓRIO", "END OF REPORT")}</span>
+                <strong>CTI-001</strong>
+                <p>
+                  {tr(
+                    "LLOHS LABS — PESQUISA TÉCNICA INDEPENDENTE",
+                    "LLOHS LABS — INDEPENDENT TECHNICAL RESEARCH"
+                  )}
+                </p>
+              </div>
+            </section>
+          </article>
         </div>
       </div>
-    </article>
+    </div>
   );
 }
