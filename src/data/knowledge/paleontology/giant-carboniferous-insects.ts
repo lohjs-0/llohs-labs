@@ -39,9 +39,6 @@ export const giantCarboniferousInsects: KnowledgePost = {
       en: "Meganeuropsis was among the largest known flying insects and lived during the Permian.",
     },
 
-    credit: "Adicionar autor e licença da imagem",
-  },
-
   sections: [
     {
       id: "introduction",
