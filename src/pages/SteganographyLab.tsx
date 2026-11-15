@@ -1,6 +1,7 @@
 
 import { useEffect, useState, type ChangeEvent } from "react";
 import "../styles/SteganographyLab.css";
+import LabBackButton from "../components/LabBackButton";
 
 type Mode = "embed" | "extract";
 
@@ -252,6 +253,7 @@ export default function SteganographyLab() {
   return (
     <div className="steg-page">
       <div className="steg-container">
+        <LabBackButton />
         <div className="steg-breadcrumb">
           <span>LLOHS LABS</span>
           <span>/</span>
