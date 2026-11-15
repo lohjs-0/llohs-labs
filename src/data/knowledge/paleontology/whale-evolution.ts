@@ -34,12 +34,15 @@ export const whaleEvolution: KnowledgePost = {
       en: "Scientific reconstruction of Ambulocetus, an ancient relative of whales.",
     },
 
+   
     caption: {
       pt: "Ambulocetus natans representa uma etapa importante da evolução dos cetáceos.",
       en: "Ambulocetus natans represents an important stage in cetacean evolution.",
     },
+  },
 
   sections: [
+
     {
       id: "introduction",
       heading: {
