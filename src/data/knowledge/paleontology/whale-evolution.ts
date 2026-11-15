@@ -39,9 +39,6 @@ export const whaleEvolution: KnowledgePost = {
       en: "Ambulocetus natans represents an important stage in cetacean evolution.",
     },
 
-    credit: "Adicionar autor e licença da imagem",
-  },
-
   sections: [
     {
       id: "introduction",
