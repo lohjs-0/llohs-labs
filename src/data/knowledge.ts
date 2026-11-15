@@ -46,6 +46,7 @@ import { howCompilersWork } from "./knowledge/programming/how-compilers-work";
 
 // CYBERSECURITY
 import { anatomyOfWindowsExecutable } from "./knowledge/cybersecurity/anatomy-of-a-windows-executable";
+import { steganographyHiddenInformation } from "./knowledge/cybersecurity/steganography-hidden-information";
 
 
 // EXPORT TYPES
@@ -66,6 +67,7 @@ export const knowledgePosts: KnowledgePost[] = [
 
   // CYBERSECURITY
 anatomyOfWindowsExecutable,
+steganographyHiddenInformation,
 
   
  // ELECTRONICS
