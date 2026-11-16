@@ -1,137 +1,132 @@
-
 ---
 title: arch linux
-description: about wanting to understand linux better, customize absolutely everything, and turn curiosity into problems i'll have to solve myself.
+description: i already had a perfectly working system, but apparently i needed another problem to deal with.
 date: 2026-11-15
 tags: [linux, arch linux, operating systems, customization]
 ---
 
-at some point, while looking at my perfectly functional debian setup, i thought: what if i made things a little more complicated?
+i use debian. i like it, it works well, and i really don't have much to complain about. windows is still around, but mostly because i'd rather play games without having to research compatibility every time i launch something.
 
-that's pretty much how my interest in arch linux started.
+so, naturally, i started thinking about using arch linux.
 
-not because i needed another operating system. debian was already there, working just fine, minding its own business. and windows? well, it's basically still on my computer because i'd like to play some games without turning that into yet another research project.
+doesn't make much sense, i know.
 
-but apparently having a working system wasn't enough.
+it's not like debian is stopping me from doing anything. actually, it already lets me mess around with pretty much everything i want. but i started getting curious about what it would be like to build a system more or less from scratch, choosing each component, configuring everything myself, and understanding what's going on behind the scenes.
 
-arch has always caught my attention because of the freedom to configure almost everything. you choose the components, build your environment, and decide how you want the system to work.
+also, i saw some really nice hyprland setups.
 
-in other words, the freedom to do whatever you want. including making terrible decisions.
+that definitely played a part.
 
-## it all started with a relatively innocent idea
+## hyprland is partly to blame
 
-i wanted to explore linux more deeply.
+i already liked customizing my desktop, but after seeing some arch setups running hyprland, things got worse.
 
-debian had already made me curious about how the system works, but i started wanting to understand some of the things that usually go unnoticed.
+tiled windows, keyboard shortcuts for everything, minimalist bars, transparent terminals, wallpapers matching the system colors...
 
-messing around with configuration files, learning about package management, understanding the boot process, and figuring out what actually happens behind a graphical interface.
+i know you don't necessarily need arch for any of that. but that's how i ended up looking into it.
 
-then i discovered hyprland.
+the idea of having an environment set up exactly the way i want is pretty appealing. i'll probably spend hours tweaking things nobody else would even notice.
 
-and suddenly, i also wanted a minimalist desktop, full of keyboard shortcuts, neatly organized windows, and a terminal i'd probably open fifty times a day.
+and then i'll open my browser and do exactly the same things i always do.
 
-because apparently learning linux wasn't enough. i also needed to turn my computer into something straight out of a hacker movie.
+but at least the terminal will look nice.
 
-and the worst part is that i genuinely find all of this interesting.
+## i just wanted to understand linux better
 
-## documentation became part of the experience
+this is the part i'm actually interested in.
 
-one of the things that interests me most about arch is how many decisions are left entirely up to the user.
+the more i mess around with linux, the more i realize how much is going on that i still don't fully understand.
 
-bootloaders, partitioning, services, permissions, packages, graphical environments...
+how does the system boot? what exactly happens when a service starts? why does a certain file need those permissions? what did that command just change?
 
-things that usually go unnoticed when all you want to do is turn on your computer and use it.
+sometimes i manage to fix something by following a tutorial, but i'm left feeling like i only made it work without really understanding why.
 
-debian had already made me pay more attention to some of these components, but arch sparked that desire to understand the configuration process in even greater detail.
+and that started bothering me.
 
-and there's something fascinating about realizing that an operating system isn't just one big mysterious thing. it's made up of several components that need to communicate and work together.
+i don't want to keep copying commands without knowing what they do. i want to be able to look at a configuration, understand why it's set up that way, and know where to start looking when something goes wrong.
 
-the problem is that when one of those components decides not to cooperate, the investigation begins.
+arch interests me because it makes you more involved in that process, especially during installation and setup.
 
-my thought process usually goes something like this:
+that doesn't mean i need to switch distributions to learn any of this. i can study all of it on debian too.
 
-> i think i got it.
+but apparently i enjoy making things harder for myself.
 
-> wait, no.
+## the arch wiki is a rabbit hole
 
-> why did that happen?
+one thing i've noticed while reading about arch is that you can start looking up something very specific and end up somewhere completely different.
 
-> *opens the arch wiki.*
+i'll look up something about package management, and before i know it, i'm reading about bootloaders, filesystems, or permissions.
 
-and there goes another forty minutes reading about something i didn't even know existed.
+then i come across a term i don't recognize, open another page, then another...
 
-the funny thing is that sometimes i start researching how to solve one specific problem and end up reading about something completely unrelated.
+and suddenly i've forgotten what i was originally looking for.
 
-i haven't solved the original problem, but now i know a little more about some obscure part of the system.
+the worst part is that i actually enjoy it.
 
-i consider that progress.
+there's still so much i don't know, and sometimes it's kind of ridiculous realizing how much goes into an operating system.
 
-## the terminal isn't magic
+you turn on your computer, open your programs, and everything seems relatively simple.
 
-one thing i've been trying to change about how i study technology is the habit of simply copying commands and hoping they work.
+until you start looking into how it all works.
 
-because running a command is easy.
+then things get complicated.
 
-understanding exactly what it does, which files it modifies, which permissions it requires, and what could happen if something goes wrong is a completely different story.
+## i don't just want to copy someone's rice from github
 
-and arch seems like a great environment for developing that habit.
+i'm not going to lie: i think those heavily customized setups look really good.
 
-debian also lets me explore all of this, of course. but arch's approach encourages you to take a more active role in setting up the system from the beginning.
+and i'll probably spend a ridiculous amount of time choosing fonts, colors, icons, and adjusting details that could've stayed exactly as they were.
 
-and that really interests me.
+but i'd rather not just grab someone's ready-made configuration, install everything, and pretend i understood what happened.
 
-there's not much point in having a beautiful terminal with transparency and an extremely elaborate configuration if i have absolutely no idea what's happening behind it.
+i want to put things together gradually.
 
-although, let's be fair, a pretty terminal definitely helps with motivation.
+understand what each configuration file does, why a certain package is needed, and how the different components work together.
 
-and i'm definitely not going to pretend i don't enjoy spending an unnecessary amount of time choosing fonts, colors, and spacing.
+even if that means spending an entire afternoon trying to get something relatively simple working.
 
-## the goal was never just a pretty desktop
+and i know i'll end up copying someone's configuration at some point. i'm not that optimistic.
 
-as much as i like the idea of customizing every little detail of my environment, my interest goes beyond appearances.
+the difference is that i at least want to understand what i'm copying.
 
-i want to better understand how the system boots, how processes are managed, how services work, and how different parts of linux connect.
+## and when something breaks?
 
-and i find it interesting how a simple attempt to change the appearance of a desktop can lead to topics like system architecture, memory management, permissions, and security.
+something's going to break. i'm pretty sure about that.
 
-you start by looking up how to change the top bar, and before you know it, you're reading about how systemd works.
+not necessarily because arch is unstable, but because i'll probably mess with something that didn't need messing with.
 
-a perfectly normal sequence of events, i'd say.
+i've already had my fair share of linux moments where something seemingly simple turned into a series of searches, failed attempts, and error messages.
 
-i also like the idea of building an environment that makes sense to me, without necessarily relying on every decision made by a distribution.
+it's not exactly fun while it's happening.
 
-not because there's anything wrong with using a system that's already configured.
+especially when all you wanted was to finish configuring something and go to sleep.
 
-quite the opposite. i like debian precisely because of the stability and practicality it offers.
+but once i figure out what went wrong, i usually feel like messing with something else.
 
-but sometimes curiosity wins over necessity.
+i never learn.
 
-and that's usually when the questionable decisions begin.
+## am i switching from debian to arch?
 
-## i still have plenty of things left to break
+i don't know.
 
-i'm not going to pretend i've mastered arch or that i understand everything about linux.
+i really like debian, and i don't have any urgent reason to leave it.
 
-there's still a lot to explore, concepts to study, and probably some very questionable mistakes waiting to happen.
+maybe i'll install arch just to experiment, take my time setting everything up, and keep using debian as my daily driver.
 
-i also don't know whether i'll ever make arch my main operating system.
+maybe i'll end up liking it so much that i decide to switch.
 
-maybe.
+or maybe i'll spend three days configuring everything, take a few screenshots, and go straight back to debian.
 
-or maybe i'll stick with debian and keep arch as an environment for experimenting, testing configurations, and discovering new things.
+all very realistic possibilities.
 
-or maybe i'll discover that i enjoy configuring operating systems more than actually using them.
+for now, i just want to keep learning, understand linux better, and see how far i can customize a system without turning every tiny change into a two-hour problem.
 
-which, now that i think about it, would explain a lot.
+although that last part is probably unavoidable.
 
-but that freedom to experiment is exactly what interests me. i don't just want to use an operating system; i want to understand why it works, how its components interact, and what happens when something stops working.
+in the end, i think it's funny that all of this started because i wanted to understand how my computer works.
 
-and if something breaks along the way, at least i'll have another topic to research.
+now i'm considering installing another distribution, configuring an entire compositor, and learning a bunch of things i didn't even know i needed to learn.
 
-in the end, all this curiosity will probably result in a heavily customized desktop, several configuration files, hours of research, and a system i'll use to open a browser, listen to music, and write code.
+and after all that work, i'll probably use my computer to write code, listen to music, and keep about forty browser tabs open.
 
-exactly what i was already doing on debian.
-
-meanwhile, windows remains reserved for gaming, completely unaware of my ongoing curiosity-driven crises about operating systems.
-
-**the difference is that now i can break everything myself.**
+**exactly what i already do on debian. just with more configuration files and worse judgment.**
