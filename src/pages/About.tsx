@@ -61,11 +61,9 @@ const content = {
 
       "o roberto é um chupim preto de quase um ano. ele simplesmente apareceu na casa do meu vô, e meu vô acabou me dando ele. foi assim que um passarinho chamado roberto entrou na minha vida. não teve muito planejamento, ele só apareceu e agora faz parte da família.",
 
-      "também tenho um pastor alemão de um ano e meio que é um completo bobão. você olha para ele e vê aquele cachorro enorme, com cara de quem deveria estar trabalhando na polícia, mas a personalidade é de alguém que provavelmente perderia uma discussão para uma borboleta.",
+      "e esse é o jake, meu pastor alemão de um ano e meio e um completo bobão. você olha para ele e vê aquele cachorro enorme, com cara de quem deveria estar trabalhando na polícia, mas a personalidade é de alguém que provavelmente perderia uma discussão para uma borboleta.",
 
-      "e ainda tem o jake, que também merece seu espaço por aqui.",
-
-      "cada um tem suas manias, suas personalidades e um talento especial para me fazer rir. gosto muito deles e não conseguiria falar sobre mim sem mencionar essas criaturas.",
+      "os dois têm suas manias, suas personalidades e um talento especial para me fazer rir. gosto muito deles e não conseguiria falar sobre mim sem mencionar essas criaturas.",
     ],
 
     drawingTitle: "um pouco do que desenho",
@@ -83,8 +81,7 @@ const content = {
     ],
 
     drawingCaption: "um dos meus desenhos ♡",
-    photoPlaceholder: "foto em breve",
-    drawingPlaceholder: "meu desenho vai aparecer aqui",
+    photoPlaceholder: "imagem indisponível",
 
     labTitle: "sobre o llohs labs",
 
@@ -182,11 +179,9 @@ const content = {
 
       "roberto is a shiny cowbird, a little black bird who's almost a year old. he randomly showed up at my grandpa's house, and my grandpa ended up giving him to me. that's how a bird named roberto became part of my life. no planning involved. he just showed up, and now he's family.",
 
-      "i also have a one-and-a-half-year-old german shepherd who's an absolute goofball. you look at him and see this big dog who looks like he should be working for the police, but his personality suggests he'd probably lose an argument with a butterfly.",
+      "and this is jake, my one-and-a-half-year-old german shepherd and an absolute goofball. you look at him and see this big dog who looks like he should be working for the police, but his personality suggests he'd probably lose an argument with a butterfly.",
 
-      "and there's also jake, who deserves a little space here too.",
-
-      "they all have their own quirks, personalities, and a special talent for making me laugh. i love them, and i couldn't really talk about myself without mentioning these creatures.",
+      "they both have their own quirks, personalities, and a special talent for making me laugh. i love them, and i couldn't really talk about myself without mentioning these creatures.",
     ],
 
     drawingTitle: "a little of what i draw",
@@ -204,8 +199,7 @@ const content = {
     ],
 
     drawingCaption: "one of my drawings ♡",
-    photoPlaceholder: "photo coming soon",
-    drawingPlaceholder: "my drawing will appear here",
+    photoPlaceholder: "image unavailable",
 
     labTitle: "about llohs labs",
 
@@ -252,11 +246,6 @@ const animalPhotos = [
     filename: "Screenshot_20261115_222200_Gallery.jpg",
     pt: "roberto",
     en: "roberto",
-  },
-  {
-    filename: "pastor-alemao.jpg",
-    pt: "meu pastor alemão",
-    en: "my german shepherd",
   },
   {
     filename: "Screenshot_20261115_222147_Gallery.jpg",
@@ -364,8 +353,7 @@ export default function About() {
             className="about-animals-gallery"
             style={{
               display: "grid",
-              gridTemplateColumns:
-                "repeat(auto-fit, minmax(140px, 1fr))",
+              gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
               gap: "16px",
               marginTop: "24px",
             }}
@@ -412,7 +400,7 @@ export default function About() {
             <Photo
               src={`${base}images/Screenshot_20261115_222120_Gallery.jpg`}
               alt={text.drawingCaption}
-              placeholder={text.drawingPlaceholder}
+              placeholder={text.photoPlaceholder}
               fit="contain"
               aspectRatio="4 / 5"
             />
