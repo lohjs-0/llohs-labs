@@ -415,7 +415,7 @@ export default function About() {
             }}
           >
             <Photo
-              src={`${base}drawings/meu-desenho.jpg`}
+              src={`${base}images/Screenshot_20261115_222120_Gallery.jpg`}
               alt={text.drawingCaption}
               placeholder={text.drawingPlaceholder}
               fit="contain"
