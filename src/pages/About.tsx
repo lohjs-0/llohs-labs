@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -64,7 +63,7 @@ const content = {
 
       "também tenho um pastor alemão de um ano e meio que é um completo bobão. você olha para ele e vê aquele cachorro enorme, com cara de quem deveria estar trabalhando na polícia, mas a personalidade é de alguém que provavelmente perderia uma discussão para uma borboleta.",
 
-      "e ainda tenho outro cachorro, que também merece seu espaço por aqui.",
+      "e ainda tem o jake, que também merece seu espaço por aqui.",
 
       "cada um tem suas manias, suas personalidades e um talento especial para me fazer rir. gosto muito deles e não conseguiria falar sobre mim sem mencionar essas criaturas.",
     ],
@@ -187,7 +186,7 @@ const content = {
 
       "i also have a one-and-a-half-year-old german shepherd who's an absolute goofball. you look at him and see this big dog who looks like he should be working for the police, but his personality suggests he'd probably lose an argument with a butterfly.",
 
-      "and there's my other dog, who deserves a little space here too.",
+      "and there's also jake, who deserves a little space here too.",
 
       "they all have their own quirks, personalities, and a special talent for making me laugh. i love them, and i couldn't really talk about myself without mentioning these creatures.",
     ],
@@ -254,7 +253,7 @@ const content = {
 
 const animalPhotos = [
   {
-    filename: "roberto.jpg",
+    filename: "Screenshot_20261115_222200_Gallery.jpg",
     pt: "roberto",
     en: "roberto",
   },
@@ -264,9 +263,9 @@ const animalPhotos = [
     en: "my german shepherd",
   },
   {
-    filename: "cachorro-2.jpg",
-    pt: "meu outro cachorro",
-    en: "my other dog",
+    filename: "Screenshot_20261115_222147_Gallery.jpg",
+    pt: "jake",
+    en: "jake",
   },
 ];
 
@@ -381,7 +380,7 @@ export default function About() {
                 style={{ margin: 0, minWidth: 0 }}
               >
                 <Photo
-                  src={`${base}animals/${photo.filename}`}
+                  src={`${base}imagens/${photo.filename}`}
                   alt={photo[language]}
                   placeholder={text.photoPlaceholder}
                 />
@@ -415,7 +414,7 @@ export default function About() {
             }}
           >
             <Photo
-              src={`${base}images/Screenshot_20261115_222120_Gallery.jpg`}
+              src={`${base}imagens/Screenshot_20261115_222120_Gallery.jpg`}
               alt={text.drawingCaption}
               placeholder={text.drawingPlaceholder}
               fit="contain"
