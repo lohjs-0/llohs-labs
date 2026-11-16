@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -28,8 +29,6 @@ const content = {
 
       "gosto de histórias complicadas, personagens moralmente questionáveis e teorias tão absurdas que acabam fazendo sentido depois de um tempo. já perdi horas tentando entender a cronologia de universos fictícios. não me arrependo.",
 
-      "e uma coisa meio específica sobre mim: tenho muita vontade de ganhar girassóis algum dia. não precisa ser um buquê enorme ou uma data especial. acho que o mais bonito seria alguém olhar para um girassol e lembrar de mim. parece uma coisa pequena, mas eu ia gostar de verdade.",
-
       "sou mais quieta no começo, observo bastante e penso demais. mas, se o assunto for alguma coisa que gosto, existe uma boa chance de eu falar mais do que o necessário.",
 
       "enfim, acho que isso resume uma parte de mim. a outra parte provavelmente está pesquisando alguma coisa aleatória agora.",
@@ -49,7 +48,6 @@ const content = {
       "livros, mangás, fantasia e ficção científica",
       "desenhar e ler ouvindo música",
       "filmes de terror, suspense e histórias pós-apocalípticas",
-      "girassóis e pequenos gestos de carinho",
       "animais e suas personalidades completamente diferentes",
       "teorias absurdas e pesquisas que começam às três da manhã",
     ],
@@ -146,8 +144,6 @@ const content = {
 
       "i like complicated stories, morally questionable characters, and theories so ridiculous they somehow start making sense after a while. i've spent hours trying to understand fictional universe timelines. no regrets.",
 
-      "and there's one oddly specific thing about me: i genuinely want someone to give me sunflowers someday. it doesn't have to be a huge bouquet or a special occasion. i just love the thought of someone seeing a sunflower and thinking of me. it might seem like a small thing, but it would mean a lot to me.",
-
       "i'm pretty quiet at first, i observe a lot, and i overthink things. but if we're talking about something i'm interested in, there's a good chance i'll talk more than necessary.",
 
       "anyway, i guess that sums up part of who i am. the other part is probably researching something completely random right now.",
@@ -167,7 +163,6 @@ const content = {
       "books, manga, fantasy, and science fiction",
       "drawing and reading while listening to music",
       "horror movies, thrillers, and post-apocalyptic stories",
-      "sunflowers and small gestures of affection",
       "animals and all their different personalities",
       "ridiculous theories and research rabbit holes that start at 3 a.m.",
     ],
