@@ -7,7 +7,6 @@ const links = [
   { key: "home", path: "/" },
   { key: "blog", path: "/blog" },
   { key: "projects", path: "/projects" },
-  { key: "research", path: "/research" },
   { key: "labs", path: "/labs" },
   { key: "knowledge", path: "/knowledge" },
   { key: "notes", path: "/notes" },
@@ -19,19 +18,14 @@ export default function Navbar() {
 
   return (
     <header className="navbar-container">
-      <nav
-        className="navbar"
-        aria-label="Main navigation"
-      >
+      <nav className="navbar" aria-label="Main navigation">
         {links.map(({ key, path }) => (
           <NavLink
             key={path}
             to={path}
             end={path === "/"}
             className={({ isActive }) =>
-              isActive
-                ? "nav-link active"
-                : "nav-link"
+              isActive ? "nav-link active" : "nav-link"
             }
           >
             {key === "knowledge"
@@ -40,11 +34,7 @@ export default function Navbar() {
                 : "conhecimento"
               : key === "labs"
                 ? "labs"
-                : key === "research"
-                  ? t("nav.research", {
-                      defaultValue: "research",
-                    })
-                  : t(`nav.${key}`)}
+                : t(`nav.${key}`)}
           </NavLink>
         ))}
       </nav>
