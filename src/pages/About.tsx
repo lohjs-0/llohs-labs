@@ -83,9 +83,7 @@ const content = {
     ],
 
     drawingCaption: "um dos meus desenhos ♡",
-
     photoPlaceholder: "foto em breve",
-
     drawingPlaceholder: "meu desenho vai aparecer aqui",
 
     labTitle: "sobre o llohs labs",
@@ -206,9 +204,7 @@ const content = {
     ],
 
     drawingCaption: "one of my drawings ♡",
-
     photoPlaceholder: "photo coming soon",
-
     drawingPlaceholder: "my drawing will appear here",
 
     labTitle: "about llohs labs",
@@ -380,7 +376,7 @@ export default function About() {
                 style={{ margin: 0, minWidth: 0 }}
               >
                 <Photo
-                  src={`${base}imagens/${photo.filename}`}
+                  src={`${base}images/${photo.filename}`}
                   alt={photo[language]}
                   placeholder={text.photoPlaceholder}
                 />
@@ -414,7 +410,7 @@ export default function About() {
             }}
           >
             <Photo
-              src={`${base}imagens/Screenshot_20261115_222120_Gallery.jpg`}
+              src={`${base}images/Screenshot_20261115_222120_Gallery.jpg`}
               alt={text.drawingCaption}
               placeholder={text.drawingPlaceholder}
               fit="contain"
