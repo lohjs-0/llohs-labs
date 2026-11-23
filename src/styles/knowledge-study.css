@@ -1,0 +1,228 @@
+
+/* =========================================
+   KNOWLEDGE STUDY
+========================================= */
+
+.knowledge-study {
+  display: grid;
+  gap: 1.4rem;
+  margin-top: 1.5rem;
+  min-width: 0;
+}
+
+/* =========================================
+   CODE BLOCKS
+========================================= */
+
+.knowledge-study pre {
+  white-space: pre;
+  overflow-x: auto;
+  max-width: 100%;
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+
+.knowledge-study-code,
+.knowledge-study-formula,
+.knowledge-study-lab,
+.knowledge-study-exercise,
+.knowledge-study-callout {
+  border: 1px solid #29313c;
+  border-radius: 8px;
+  background: #10151c;
+  padding: 1.15rem;
+  min-width: 0;
+}
+
+.knowledge-study-code {
+  padding: 0;
+}
+
+.knowledge-study-code-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid #29313c;
+  color: #a9b9cb;
+  font-family: monospace;
+  font-size: 0.8rem;
+}
+
+.knowledge-study-code pre {
+  padding: 1rem;
+  margin: 0;
+  color: #dce5ef;
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.knowledge-study button {
+  cursor: pointer;
+  border: 1px solid #3b5066;
+  background: transparent;
+  color: #a9c7e9;
+  border-radius: 5px;
+  padding: 0.4rem 0.75rem;
+  font: inherit;
+}
+
+.knowledge-study button:hover {
+  background: #1c2a38;
+}
+
+/* =========================================
+   MATHEMATICAL FORMULAS
+========================================= */
+
+.knowledge-study-equation {
+  padding: 0.5rem;
+  color: #d5e6fb;
+  white-space: pre-wrap !important;
+}
+
+/* =========================================
+   TABLES
+========================================= */
+
+.knowledge-study-table-wrap {
+  margin: 0;
+  min-width: 0;
+}
+
+.knowledge-study-table-scroll {
+  overflow-x: auto;
+}
+
+.knowledge-study table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.knowledge-study th,
+.knowledge-study td {
+  border: 1px solid #2b3541;
+  padding: 0.7rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.knowledge-study th {
+  background: #18212c;
+  color: #b8d2ed;
+}
+
+.knowledge-study figcaption {
+  font-size: 0.8rem;
+  color: #9daab9;
+  margin-top: 0.5rem;
+}
+
+/* =========================================
+   CALLOUTS
+========================================= */
+
+.knowledge-study-callout {
+  border-left: 3px solid #729bc5;
+}
+
+.knowledge-study-warning {
+  border-left-color: #d6a35d;
+}
+
+.knowledge-study-important {
+  border-left-color: #c98888;
+}
+
+.knowledge-study-tip {
+  border-left-color: #75a99a;
+}
+
+/* =========================================
+   HEADINGS
+========================================= */
+
+.knowledge-study h3 {
+  font-size: 1.1rem;
+  margin: 0 0 0.8rem;
+}
+
+.knowledge-study h4 {
+  font-size: 0.9rem;
+  margin: 1rem 0 0.4rem;
+}
+
+/* =========================================
+   LISTS
+========================================= */
+
+.knowledge-study li {
+  margin: 0.35rem 0;
+}
+
+/* =========================================
+   EXERCISES
+========================================= */
+
+.knowledge-study-exercise-label {
+  font-family: monospace;
+  color: #89a9c8;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+}
+
+.knowledge-study-answer {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border-left: 2px solid #729bc5;
+  background: #16202b;
+}
+
+/* =========================================
+   GLOSSARY
+========================================= */
+
+.knowledge-study-glossary {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.knowledge-study-glossary > div {
+  border-bottom: 1px solid #29313c;
+  padding-bottom: 0.7rem;
+}
+
+.knowledge-study-glossary dt {
+  font-weight: 700;
+  color: #bcd6ee;
+}
+
+.knowledge-study-glossary dd {
+  margin: 0.25rem 0 0;
+  color: #b9c3ce;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 600px) {
+  .knowledge-study-code pre {
+    font-size: 0.78rem;
+  }
+
+  .knowledge-study-code,
+  .knowledge-study-formula,
+  .knowledge-study-lab,
+  .knowledge-study-exercise,
+  .knowledge-study-callout {
+    padding: 0.85rem;
+  }
+
+  .knowledge-study-code {
+    padding: 0;
+  }
+}
