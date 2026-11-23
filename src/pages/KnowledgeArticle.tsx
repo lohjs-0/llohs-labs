@@ -8,9 +8,10 @@ import {
   type KnowledgeLanguage,
 } from "../data/knowledge";
 
-import type { KnowledgeImage } from "../data/knowledge.types";
+import type { KnowledgeImage, KnowledgeSection, KnowledgeLanguage as ArticleLanguage } from "../data/knowledge.types";
 
 import "../styles/knowledge.css";
+import "../styles/knowledge-study.css";
 
 /* =========================================
    TYPES
@@ -136,6 +137,61 @@ function ArticleImage({
         </figcaption>
       )}
     </figure>
+  );
+}
+
+
+/* Optional study material: older articles continue to work unchanged. */
+function StudyContent({ section, language }: { section: KnowledgeSection; language: ArticleLanguage }) {
+  const [revealed, setRevealed] = useState<Record<number, boolean>>({});
+  useEffect(() => setRevealed({}), [section, language]);
+  return (
+    <div className="knowledge-study">
+      {section.codes?.map((item, i) => (
+        <div className="knowledge-study-code" key={`code-${i}`}>
+          <div className="knowledge-study-code-heading"><span>{item.filename || item.language}</span><button type="button" onClick={() => navigator.clipboard?.writeText(item.code)}>{language === "pt" ? "copiar" : "copy"}</button></div>
+          <pre><code>{item.code}</code></pre>
+          {item.explanation && <p>{item.explanation[language]}</p>}
+        </div>
+      ))}
+      {section.formulas?.map((item, i) => (
+        <div className="knowledge-study-formula" key={`formula-${i}`}>
+          <pre className="knowledge-study-equation">{item.expression}</pre>
+          {item.explanation && <p>{item.explanation[language]}</p>}
+        </div>
+      ))}
+      {section.tables?.map((item, i) => (
+        <figure className="knowledge-study-table-wrap" key={`table-${i}`}>
+          <div className="knowledge-study-table-scroll"><table><thead><tr>{item.headers.map((header, j) => <th key={j}>{header[language]}</th>)}</tr></thead><tbody>{item.rows.map((row, j) => <tr key={j}>{row.map((cell, k) => <td key={k}>{cell[language]}</td>)}</tr>)}</tbody></table></div>
+          {item.caption && <figcaption>{item.caption[language]}</figcaption>}
+        </figure>
+      ))}
+      {section.callouts?.map((item, i) => (
+        <aside key={`callout-${i}`} className={`knowledge-study-callout knowledge-study-${item.type}`}>
+          <strong>{item.title?.[language] || ({info: language === "pt" ? "Nota" : "Note", warning: language === "pt" ? "Atenção" : "Warning", tip: language === "pt" ? "Dica" : "Tip", important: language === "pt" ? "Importante" : "Important"}[item.type])}</strong>
+          <p>{item.content[language]}</p>
+        </aside>
+      ))}
+      {section.labs?.map((item, i) => (
+        <div key={`lab-${i}`} className="knowledge-study-lab">
+          <h3>{item.title[language]}</h3><p><strong>{language === "pt" ? "Objetivo:" : "Objective:"}</strong> {item.objective[language]}</p>
+          <h4>{language === "pt" ? "Requisitos" : "Requirements"}</h4><ul>{item.requirements.map((requirement, j) => <li key={j}>{requirement[language]}</li>)}</ul>
+          <h4>{language === "pt" ? "Procedimento" : "Procedure"}</h4><ol>{item.steps.map((step, j) => <li key={j}>{step[language]}</li>)}</ol>
+          {item.expectedResult && <p><strong>{language === "pt" ? "Resultado esperado:" : "Expected result:"}</strong> {item.expectedResult[language]}</p>}
+        </div>
+      ))}
+      {section.exercises?.map((item, i) => (
+        <div key={`exercise-${i}`} className="knowledge-study-exercise">
+          <div className="knowledge-study-exercise-label">{language === "pt" ? "EXERCÍCIO" : "EXERCISE"} {i + 1}{item.difficulty ? ` · ${item.difficulty}` : ""}</div>
+          <p>{item.question[language]}</p>
+          <button type="button" aria-expanded={!!revealed[i]} onClick={() => setRevealed(current => ({ ...current, [i]: !current[i] }))}>{revealed[i] ? (language === "pt" ? "Ocultar resposta" : "Hide answer") : (language === "pt" ? "Mostrar resposta" : "Show answer")}</button>
+          {revealed[i] && <div className="knowledge-study-answer"><p>{item.answer[language]}</p></div>}
+        </div>
+      ))}
+      {section.glossary && section.glossary.length > 0 && (
+        <dl className="knowledge-study-glossary">{section.glossary.map((item, i) => <div key={i}><dt>{item.term}</dt><dd>{item.definition[language]}</dd></div>)}</dl>
+      )}
+    </div>
   );
 }
 
@@ -318,6 +374,8 @@ export default function KnowledgeArticle() {
                     </p>
                   )
                 )}
+
+                <StudyContent section={section} language={language} />
 
                 {/* SECTION IMAGE */}
 
