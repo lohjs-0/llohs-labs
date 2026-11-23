@@ -1,14 +1,25 @@
 
 import type { KnowledgePost } from "./knowledge.types";
 
+// =========================================
 // COMPUTER SCIENCE
+// =========================================
+
 import { howCpusExecuteInstructions } from "./knowledge/computing/how-cpus-execute-instructions";
 
+// =========================================
 // ELECTRONICS
+// =========================================
+
 import { understandingI2c } from "./knowledge/electronics/understanding-i2c";
 import { z80Computer } from "./knowledge/electronics/z80-computer";
+import { transistorsDigitalLogic } from "./knowledge/electronics/transistors-digital-logic";
+import { howRamStoresBits } from "./knowledge/electronics/how-ram-stores-bits";
 
+// =========================================
 // ASTRONOMY
+// =========================================
+
 import { whatHappensInsideAStar } from "./knowledge/astronomy/what-happens-inside-a-star";
 import { iapetus } from "./knowledge/astronomy/iapetus";
 import { venusDayLongerThanYear } from "./knowledge/astronomy/venus-day-longer-than-year";
@@ -18,7 +29,10 @@ import { neptuneDiamondRain } from "./knowledge/astronomy/neptune-diamond-rain";
 import { moonMovingAway } from "./knowledge/astronomy/moon-moving-away";
 import { magnetars } from "./knowledge/astronomy/magnetars";
 
+// =========================================
 // PALEONTOLOGY
+// =========================================
+
 import { opabinia } from "./knowledge/paleontology/opabinia";
 import { tullyMonster } from "./knowledge/paleontology/tully-monster";
 import { sharksOlderThanTrees } from "./knowledge/paleontology/sharks-older-than-trees";
@@ -28,28 +42,42 @@ import { whaleEvolution } from "./knowledge/paleontology/whale-evolution";
 import { giantCarboniferousInsects } from "./knowledge/paleontology/giant-carboniferous-insects";
 import { coelacanth } from "./knowledge/paleontology/coelacanth";
 
+// =========================================
 // BIOLOGY
+// =========================================
+
 import { antarcticIcefish } from "./knowledge/biology/antarctic-icefish";
 import { octopusThreeHearts } from "./knowledge/biology/octopus-three-hearts";
 import { axolotlRegeneration } from "./knowledge/biology/axolotl-regeneration";
 
+// =========================================
 // EARTH SCIENCE
+// =========================================
+
 import { bloodFalls } from "./knowledge/earth-science/blood-falls";
 import { naturalNuclearReactor } from "./knowledge/earth-science/natural-nuclear-reactor";
 import { snowballEarth } from "./knowledge/earth-science/snowball-earth";
 
-import { transistorsDigitalLogic } from "./knowledge/electronics/transistors-digital-logic";
-import { howRamStoresBits } from "./knowledge/electronics/how-ram-stores-bits";
-
+// =========================================
 // PROGRAMMING
+// =========================================
+
 import { howCompilersWork } from "./knowledge/programming/how-compilers-work";
 
+// =========================================
 // CYBERSECURITY
+// =========================================
+
 import { anatomyOfWindowsExecutable } from "./knowledge/cybersecurity/anatomy-of-a-windows-executable";
+
 import { steganographyHiddenInformation } from "./knowledge/cybersecurity/steganography-hidden-information";
 
+import { sideChannelAnalysisTempest } from "./knowledge/cybersecurity/side-channel-analysis-tempest";
 
+// =========================================
 // EXPORT TYPES
+// =========================================
+
 export type {
   KnowledgeLanguage,
   KnowledgeCategory,
@@ -60,22 +88,25 @@ export type {
   KnowledgePost,
 } from "./knowledge.types";
 
+// =========================================
 // ALL ARTICLES
+// =========================================
+
 export const knowledgePosts: KnowledgePost[] = [
+
   // COMPUTER SCIENCE
   howCpusExecuteInstructions,
 
   // CYBERSECURITY
-anatomyOfWindowsExecutable,
-steganographyHiddenInformation,
+  anatomyOfWindowsExecutable,
+  steganographyHiddenInformation,
+  sideChannelAnalysisTempest,
 
-  
- // ELECTRONICS
-understandingI2c,
-z80Computer,
-transistorsDigitalLogic,
-howRamStoresBits,
-
+  // ELECTRONICS
+  understandingI2c,
+  z80Computer,
+  transistorsDigitalLogic,
+  howRamStoresBits,
 
   // ASTRONOMY
   whatHappensInsideAStar,
@@ -98,7 +129,7 @@ howRamStoresBits,
   coelacanth,
 
   // PROGRAMMING
-howCompilersWork,
+  howCompilersWork,
 
   // BIOLOGY
   antarcticIcefish,
